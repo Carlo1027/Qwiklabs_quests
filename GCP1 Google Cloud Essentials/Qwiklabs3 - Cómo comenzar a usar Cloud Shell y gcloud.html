@@ -1,0 +1,728 @@
+<!DOCTYPE html>
+<html lang='es'>
+<head>
+<meta content='[]' name='active-experiments'>
+<meta content='{&quot;userId&quot;:2485272}' name='help-api-product-data'>
+<meta name="csrf-param" content="authenticity_token" />
+<meta name="csrf-token" content="hO4/CXEkYp3Q1/hSvvnnLbv0amojiy9ZwBIPsJHhpCVw29/qsuGrNORpBC6RXcZMLEsh7nptpoErUtJzrQm9fQ==" />
+<title>Cómo comenzar a usar Cloud Shell y gcloud | Qwiklabs</title>
+<meta content='width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=0' name='viewport'>
+<meta content='En este lab práctico, aprenderá a conectarse a recursos de procesamiento alojados en Google Cloud Platform mediante la Web. Asimismo, aprenderá a utilizar Cloud Shell y el comando de gcloud del SDK de Cloud. Si desea obtener un avance sobre el tema, mire este video breve: &amp;lt;A HREF=&quot;https://youtu.be/ZD1zvEyfpLI&quot;&amp;gt;Get Started with Cloud Shell, GCP Essentials&amp;lt;/A&amp;gt;.' name='description'>
+<meta content='Qwiklabs' name='author'>
+<meta content='1rRsY0INj8RvwB5EF5pwdxt2A2P9aDgAlsICaJ0d5w0' name='google-site-verification'>
+<meta content='Cómo comenzar a usar Cloud Shell y gcloud | Qwiklabs' property='og:title'>
+<meta content='website' property='og:type'>
+<meta content='/favicon-144.png' property='og:image'>
+<meta content='Qwiklabs' property='og:site_name'>
+<meta content='En este lab práctico, aprenderá a conectarse a recursos de procesamiento alojados en Google Cloud Platform mediante la Web. Asimismo, aprenderá a utilizar Cloud Shell y el comando de gcloud del SDK de Cloud. Si desea obtener un avance sobre el tema, mire este video breve: &amp;lt;A HREF=&quot;https://youtu.be/ZD1zvEyfpLI&quot;&amp;gt;Get Started with Cloud Shell, GCP Essentials&amp;lt;/A&amp;gt;.' property='og:description'>
+<meta content='/qwiklabs_logo_900x887.png' property='og:logo' size='900x887'>
+<meta content='/qwiklabs_logo_994x187.png' property='og:logo' size='994x187'>
+<meta content='#3681E4' property='msapplication-TileColor'>
+<meta content='/favicon-144.png' property='msapplication-TileImage'>
+<link href='/favicon-32.png' rel='shortcut icon'>
+<link color='#3681E4' href='/favicon-svg.svg' rel='mask-icon'>
+<link href='/favicon-180.png' rel='apple-touch-icon-precomposed'>
+<link rel="stylesheet" media="screen" href="https://fonts.googleapis.com/css?family=Oswald:400|Roboto+Mono:400,700|Roboto:300,400,500,700|Google+Sans:300,400,500,700|Google+Sans+Display:400|Material+Icons|Google+Material+Icons" />
+
+<link rel="stylesheet" media="screen" href="https://cdn.qwiklabs.com/assets/application_old/locales/es-7c4d85e3db7c28c14f71b18551da7ddc227e8f9b85777ece770fcbd96d9ef753.css" />
+<!--[if lt IE 9]>
+<script src='http://html5shim.googlecode.com/svn/trunk/html5.js' type='text/javascript'></script>
+<![endif]-->
+<!--[endif]>  <![endif]-->
+<script>
+//<![CDATA[
+window.gon={};gon.current_user={"firstname":"Carlo Andr\u00e9","lastname":"Castro Galindo","fullname":"Carlo Andr\u00e9 Castro Galindo","company":"Coursera","email":"carlocastrogalindo@gmail.com","origin":"googlecoursera-run, lti-coursera","subscriptions":1,"id":"eb3f0602d940d94d2eaeef36f2aa2e77","qlCreatedAt":"2020-02-28 17:36:48 UTC","optIn":false};gon.segment="j4Im8pqIko0Lxq4wVVZWMPMM0EroHUvb";gon.deployment="run";
+//]]>
+</script>
+<script type='application/ld+json'>
+{
+  "@context": "http://schema.org",
+  "@type": "WebSite",
+  "url": "https://www.qwiklabs.com/",
+  "potentialAction": {
+    "@type": "SearchAction",
+    "target": "https://www.qwiklabs.com/catalog?keywords={search_term_string}",
+    "query-input": "required name=search_term_string"
+  }
+}
+</script>
+<script id='ze-snippet' src='https://static.zdassets.com/ekr/snippet.js?key=511e4158-0aec-4e3c-b2e6-4daa1769f51e'></script>
+
+
+
+<link rel="stylesheet" media="all" href="https://cdn.qwiklabs.com/assets/application-4c3d1e8bc7757ea71809ef44e35c5d8018fb66ce6a4a777389558445ba2ce8a2.css" />
+<script>
+  EVENT_SOURCE_BASE_URL = "https://run.qwiklabs.com/nchan-sub?id=";
+</script>
+<script src="https://cdn.qwiklabs.com/polyfills/webcomponents-loader.js"></script>
+<script src="https://cdn.qwiklabs.com/assets/hallofmirrors/hallofmirrors__es_419-53722a8c29aa90d0fbab9b3c73008da3dadf74f9c7e6e4d2cb1df2c62c3fb110.js"></script>
+<script src="https://www.youtube.com/iframe_api"></script>
+<script src="https://cdn.qwiklabs.com/assets/vendor-45d462772c30000424907184f70c7157e95fb6227698d1671c5051818a6f60d8.js"></script>
+<script src="https://cdn.qwiklabs.com/assets/application-7c67c1d428839917a0992758b33da63184c69efa420e5939804ea34d54147a97.js"></script>
+</head>
+<body class='focuses focuses-show lab-show l-full no-nav'>
+<div class='header-container light-theme'>
+<div class='header'>
+<a class='mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect header__button header__button--nav header__nav-panel-button js-nav-toggle'>
+<i class='material-icons'>menu</i>
+</a>
+<div class='header__title'>
+<a class="mdl-button mdl-js-button mdl-button--icon mdl-js-ripple-effect header__button header__button--nav" href="https://www.qwiklabs.com/quests/23?locale=es"><ql-icon>arrow_back</ql-icon></a>
+
+<h1 class='headline-5'>
+Cómo comenzar a usar Cloud Shell y gcloud
+</h1>
+</div>
+<div class='header__actions'>
+<a class='mdl-button mdl-js-button mdl-button--icon mdl-js-ripple-effect header__button header__button--action header__button--search js-header-search-bar-button'>
+<i class='material-icons'>search</i>
+</a>
+<a class="mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect" id="toggle-lab-control-panel" href="javascript:;"><i class='material-icons'>description</i>
+</a><div class='mdl-tooltip js-tooltip' data-mdl-for='toggle-lab-control-panel'>
+Activar o desactivar panel del lab
+</div>
+<a class="mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect js-favorite-button favorite-button" id="CatalogItem-563-favorite-button" data-type="CatalogItem" data-id="563" data-name="Cómo comenzar a usar Cloud Shell y gcloud" href="/favorite.json?item_id=563&amp;item_type=CatalogItem&amp;locale=es"><i class='material-icons'>favorite_border</i>
+</a><div class='mdl-tooltip js-tooltip' for='CatalogItem-563-favorite-button'>
+Agregar a favoritos
+</div>
+
+
+<ql-help context="lab" productdata="{&quot;userId&quot;:2485272}" data-analytics-action="opened_help" data-analytics-label="lab"></ql-help>
+<a class='header-my-account-button mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect js-my-account-button'>
+<img class="avatar " alt="avatar image" src="https://secure.gravatar.com/avatar/be719396bbcc1e8bcb204a54e1920c54.png?s=80&amp;d=mm" />
+</a>
+<div class='header-my-account-menu js-my-account-menu'>
+<div class='card elevation-2 no-padding'>
+<div class='my-account-menu__top'>
+<img class="avatar " alt="avatar image" src="https://secure.gravatar.com/avatar/be719396bbcc1e8bcb204a54e1920c54.png?s=80&amp;d=mm" />
+<div class='my-account-menu__info'>
+<h4 class='subtitle-headline-1'>
+Carlo André Castro Galindo
+</h4>
+<p class='body-2 text--gray'>
+<span>carlocastrogalindo@gmail.com</span>
+</p>
+<a class="button" href="/my_account/profile?locale=es">Mi cuenta</a>
+</div>
+</div>
+<div class='my-account-menu__bottom'>
+<a class="text--green subtitle-headline-2" href="/my_account/credits?locale=es">Suscripción mensual
+</a><a data-analytics-action="clicked_sign_out" class="button button--hairline" rel="nofollow" data-method="delete" href="/users/sign_out?locale=es">Salir</a>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+<div class='header__search-bar js-header-search-bar'>
+<form id="catalog-search-mobile" onsubmit="ql.catalogSearchFilter(); return false;" action="/searches/elasticsearch" accept-charset="UTF-8" method="post"><input name="utf8" type="hidden" value="&#x2713;" /><input type="hidden" name="authenticity_token" value="qa9ibFfYP1x1R61r+juATdk9xhfkLFCiMpR39ow+nTZdmoKPlB329UH5URfVn6EsToKNk73K2XrZ1Ko1sNaEbg==" />
+<input type="text" name="keywords" id="keywords" placeholder="Buscar" maxlength="255" aria-label="catalog search bar" />
+</form>
+
+<a class='mdl-button mdl-js-button mdl-button--icon mdl-js-ripple-effect header__button'>
+<i class='material-icons'>close</i>
+</a>
+</div>
+</div>
+
+<nav class='nav-bar'>
+<a class="nav-bar__item js-navigation-button" href="/?locale=es"><ql-icon class='nav-bar__item__icon'>
+home
+</ql-icon>
+<span class='nav-bar__item__label'>
+Página principal
+</span>
+</a>
+<a class="nav-bar__item js-navigation-button  active" aria-current="page" href="/catalog?locale=es"><ql-icon class='nav-bar__item__icon'>
+school
+</ql-icon>
+<span class='nav-bar__item__label'>
+Catálogo
+</span>
+</a>
+<a class="nav-bar__item js-navigation-button" href="/my_learning?locale=es"><ql-icon class='nav-bar__item__icon'>
+event_note
+</ql-icon>
+<span class='nav-bar__item__label'>
+Mi aprendizaje
+</span>
+</a>
+</nav>
+
+<nav class='nav-panel js-nav-panel'>
+<div class='nav-panel__logo'>
+<div class='logo logo--blue'></div>
+</div>
+<a title="Página principal" tabindex="-1" class="nav-panel__item js-navigation-button" href="/?locale=es"><ql-icon class='nav-panel__item__icon'>
+home
+</ql-icon>
+<div class='nav-panel__item__label'>
+Página principal
+</div>
+</a>
+<a title="Catálogo" tabindex="-1" class="nav-panel__item js-navigation-button active" aria-current="page" href="/catalog?locale=es"><ql-icon class='nav-panel__item__icon'>
+school
+</ql-icon>
+<div class='nav-panel__item__label'>
+Catálogo
+</div>
+</a>
+<a title="Mi aprendizaje" tabindex="-1" class="nav-panel__item js-navigation-button" href="/my_learning?locale=es"><ql-icon class='nav-panel__item__icon'>
+event_note
+</ql-icon>
+<div class='nav-panel__item__label'>
+Mi aprendizaje
+</div>
+</a>
+<div class='nav-panel__spacer'></div>
+<a title="Profile" tabindex="-1" class="nav-panel__item js-navigation-button" href="/my_account/profile?locale=es"><ql-icon class='nav-panel__item__icon'>
+account_circle
+</ql-icon>
+<div class='nav-panel__item__label'>
+Profile
+</div>
+</a>
+<a title="Credits &amp; Subscriptions" tabindex="-1" class="nav-panel__item js-navigation-button" href="/my_account/credits?locale=es"><ql-icon class='nav-panel__item__icon'>
+money
+</ql-icon>
+<div class='nav-panel__item__label'>
+Credits &amp; Subscriptions
+</div>
+</a>
+<a title="Security" tabindex="-1" class="nav-panel__item js-navigation-button" href="/my_account/security?locale=es"><ql-icon class='nav-panel__item__icon'>
+security
+</ql-icon>
+<div class='nav-panel__item__label'>
+Security
+</div>
+</a>
+<div class='nav-panel__spacer'></div>
+<a class="nav-panel__item" tabindex="-1" href="#"><ql-help>
+<div class='nav-panel__help-item'>
+<ql-icon class='nav-panel__item__icon'>help</ql-icon>
+<div class='nav-panel__item__label'>Help</div>
+</div>
+</ql-help>
+</a><div class='nav-panel__small-links'>
+<a tabindex="-1" href="/privacy_policy?locale=es">Privacidad</a>
+<a tabindex="-1" href="/terms_of_service?locale=es">Condiciones</a>
+</div>
+</nav>
+<div class='nav-panel__overlay js-nav-toggle'></div>
+
+<main class='js-main'>
+<span class='hidden' id='flash-sibling-before'></span>
+
+<div class='l-main-wrapper' id='main-wrapper'>
+
+
+
+
+
+
+
+<div class='js-lab-state' data-analytics-payload='{&quot;label&quot;:&quot;Cómo comenzar a usar Cloud Shell y gcloud&quot;,&quot;lab_name&quot;:&quot;Cómo comenzar a usar Cloud Shell y gcloud&quot;,&quot;classroom_name&quot;:null,&quot;deployment&quot;:&quot;run&quot;}' data-focus-id='563' data-lab-billing-limit='0.0' data-lab-duration='2700' data-parent='catalog' data-payment-required></div>
+<ql-lab-control-panel class='js-lab-control-panel l-lab-control-panel' connectionDetails='[]' connectionFiles='[]' labControlButton='{&quot;disabled&quot;:false,&quot;pending&quot;:false,&quot;running&quot;:false}' labTimer='{&quot;ticking&quot;:false,&quot;secondsRemaining&quot;:2700}' studentResources='[]'></ql-lab-control-panel>
+<div class='l-lab-main-body'>
+<div class='js-lab-content lab-content'>
+<div class='alert alert--fake js-alert'>
+<p class='alert__message js-alert-message'></p>
+<a class='alert__close js-alert-close'>
+<i class='fa fa-times'></i>
+</a>
+<iframe class='l-ie-iframe-fix'></iframe>
+</div>
+<div class='lab-content__markdown-wrapper'>
+<div class='lab-preamble'>
+<h1 class='lab-preamble__title'>
+Cómo comenzar a usar Cloud Shell y gcloud
+</h1>
+<div class='lab-preamble__details subtitle-headline-1'>
+<span>45 minutos</span>
+<span>1 crédito</span>
+<div class='lab__rating'>
+<a href="/focuses/563/reviews?locale=es&amp;parent=catalog"><div class='rateit' data-rateit-readonly='true' data-rateit-value='4.3404'></div>
+
+</a><a data-target='#lab-review-modal' data-toggle='modal'>
+Calificar lab
+</a>
+</div>
+</div>
+</div>
+
+<div class='lab-content__inner-wrapper'>
+<div class='js-markdown-instructions lab-content__markdown markdown-lab-instructions' id='markdown-lab-instructions'>
+
+
+
+<h2 id="step1">GSP002</h2>
+<p><img alt="Labs de autoaprendizaje de Google Cloud" src="https://cdn.qwiklabs.com/GMOHykaqmlTHiqEeQXTySaMXYPHeIvaqa2qHEzw6Occ%3D"></p>
+
+<h2 id="step2">Descripción general</h2>
+<p>Google Cloud Shell le proporciona acceso de línea de comandos de <code>gcloud</code> a recursos de procesamiento alojados en Google Cloud Platform. Cloud Shell es una máquina virtual basada en Debian que cuenta con un directorio principal persistente de 5 GB, lo que facilita la administración de los proyectos y recursos de GCP. El <code>gcloud</code> del SDK de Cloud y otras herramientas que necesita vienen preinstalados en Cloud Shell, lo que le permite ponerse en marcha rápidamente.</p>
+<p>En este lab práctico, aprenderá a conectarse a los recursos de procesamiento alojados en Google Cloud Platform a través de Cloud Shell, con la línea de comandos de <code>gcloud</code>.</p>
+<p>Se incentiva a los estudiantes a que ellos mismos escriban los comandos, ya que eso refuerza los conceptos básicos. Muchos labs incluyen un bloque de código que contiene los comandos necesarios. Durante el lab, puede copiar y pegar fácilmente los comandos del bloque de código en los lugares apropiados.</p>
+<h3>Actividades</h3>
+<ul>
+<li>Practicar el uso de los comandos de <code>gcloud</code>
+</li>
+<li>Conectarse a los servicios de procesamiento alojados en Google Cloud Platform</li>
+</ul>
+<h3>Requisitos previos</h3>
+<ul>
+<li>
+<p>Se recomienda estar familiarizado con editores de texto estándares de Linux, como <code>vim</code>, <code>emacs</code> o <code>nano</code>.</p>
+</li>
+</ul>
+<h2 id="step3">Configuración</h2>
+<h4>Antes de hacer clic en el botón Comenzar lab</h4>
+<p>Lea estas instrucciones. Los labs tienen un tiempo límite; no puede ponerlos en pausa. El cronómetro, que comienza a funcionar cuando hace clic en Comenzar lab, indica por cuánto tiempo estarán los recursos en la nube a su disposición.</p>
+<p>Este lab práctico de Qwiklabs le permitirá llevar a cabo las actividades correspondientes en un entorno de nube real, no en uno de simulación o demostración. Para ello, recibe nuevas credenciales temporales que utilizará para acceder a Google Cloud Platform durante el transcurso del lab.</p>
+<h4>Lo que necesita</h4>
+<p>Para completar este lab, necesitará lo siguiente:</p>
+<ul>
+<li>Acceso a un navegador de Internet estándar. Se recomienda el navegador Chrome</li>
+<li>Tiempo para completar el lab</li>
+</ul>
+<p><strong><em>Nota</em></strong>: Si ya tiene un proyecto o una cuenta personal de GCP, no los use para este lab.</p>
+
+<h4>Cómo iniciar su lab y acceder a Console</h4>
+<ol>
+<li>
+<p>Haga clic en el botón <strong>Comenzar lab</strong>. Si debe pagar por el lab, se abrirá una ventana emergente para que seleccione su forma de pago.
+En la parte izquierda, verá un panel con las credenciales temporales que debe usar para este lab.</p>
+<p><img alt="Abrir Google Console" src="https://cdn.qwiklabs.com/%2FtHp4GI5VSDyTtdqi3qDFtevuY014F88%2BFow%2FadnRgE%3D"></p>
+</li>
+<li>
+<p>Copie el nombre de usuario y, luego, haga clic en <strong>Abrir Google Console</strong>.
+El lab inicia los recursos y abre otra pestaña que muestra la página <strong>Seleccione una cuenta</strong>.</p>
+<p><strong><em>Sugerencia</em></strong>: Abra las pestañas en ventanas separadas, una junto a la otra.</p>
+</li>
+<li>
+<p>En la página Seleccione una cuenta, haga clic en <strong>Usar otra cuenta</strong>.</p>
+<p><img alt="Elegir una cuenta" src="https://cdn.qwiklabs.com/eQ6xPnPn13GjiJP3RWlHWwiMjhooHxTNvzfg1AL2WPw%3D"></p>
+</li>
+<li>
+<p>Se abrirá la página de acceso. Pegue el nombre de usuario que copió del panel Detalles de conexión. Luego, copie y pegue la contraseña.</p>
+<p><strong><em>Importante</em></strong>: Debe usar las credenciales del panel Detalles de conexión. No use sus credenciales de Qwiklabs. Si tiene una cuenta propia de GCP, no la use para este lab (evite incurrir en cargos).</p>
+</li>
+<li>
+<p>Avance por las siguientes páginas haciendo clic en ellas:</p>
+<ul>
+<li>Acepte los Términos y Condiciones.</li>
+<li>No agregue opciones de recuperación o autenticación de dos factores (esta es una cuenta temporal).</li>
+<li>No se registre para obtener pruebas gratuitas.</li>
+</ul>
+</li>
+</ol>
+<p>Después de un momento, se abrirá GCP Console en esta pestaña.</p>
+<aside>
+<b>Nota:</b> Para ver el menú con una lista de productos y servicios de GCP, haga clic en <b>Menú de navegación</b>, en la esquina superior izquierda, junto a "Google Cloud Platform".
+<img alt="Menú de Cloud Console" src="https://cdn.qwiklabs.com/9vT7xPlxoNP%2FPsK0J8j0ZPFB4HnnpaIJVCDByaBrSHg%3D">
+</aside>
+
+<h2 id="step4">Inicie Cloud Shell</h2>
+<p>Abra una sesión de Cloud Shell. Para ello, haga clic en el ícono ubicado en la esquina superior derecha de GCP Console:</p>
+<p><img alt="console_topbar_icon_cloudshell.png" src="https://cdn.qwiklabs.com/vdY5e%2Fan9ZGXw5a%2FZMb1agpXhRGozsOadHURcR8thAQ%3D"></p>
+<p>Luego, haga clic en Iniciar Cloud Shell:</p>
+<p><img alt="start_cloud_shell.png" src="https://cdn.qwiklabs.com/lr3PBRjWIrJ%2BMQnE8kCkOnRQQVgJnWSg4UWk16f0s%2FA%3D"></p>
+<p>Después de activar Cloud Shell, puede usar la línea de comandos a fin de invocar el comando de <code>gcloud</code> del SDK de Cloud o cualquier otra herramienta disponible en la instancia de la máquina virtual. Más adelante en el lab, usará su directorio <code>$HOME</code>, que se utiliza en el almacenamiento en disco persistente, para almacenar archivos en los proyectos y hacer que persistan de una sesión de Cloud Shell a otra. Su directorio <code>$HOME</code> es privado, por lo que otros usuarios no pueden acceder a él.</p>
+<h2 id="step5">Información sobre las regiones y zonas</h2>
+<p>Algunos recursos de Compute Engine se encuentran en regiones o zonas. Una región es una ubicación geográfica específica donde puede ejecutar sus recursos. Cada región tiene una o más zonas. Por ejemplo, la región “us-central1” corresponde a una región en el centro de Estados Unidos que tiene las zonas <code>us-central1-a</code>, <code>us-central1-b</code>, <code>us-central1-c</code> y <code>us-central1-f</code>.</p>
+<p><img alt="regions_and_zones.png" src="https://cdn.qwiklabs.com/BErmNT8ZIzd5yqxO0lEJj8lAlKT3jKC%2BtI%2Byj3OSKDA%3D"></p>
+<p>Los recursos ubicados en una zona se denominan recursos zonales. Las instancias de máquinas virtuales y los discos persistentes se alojan en una zona. Un disco persistente y una instancia de máquina virtual deben ubicarse en la misma zona para poder vincularlos. De forma similar, para asignar una dirección IP estática a una instancia, ambas deben ubicarse en la misma región.</p>
+<aside>
+Para obtener más información sobre las regiones y zonas y ver una lista de todas ellas, consulte esta <a href="https://cloud.google.com/compute/docs/regions-zones/">documentación</a>.
+
+</aside>
+<p>Las regiones y zonas predeterminadas se establecen con los siguientes valores:</p>
+<p><code>google-compute-default-zone</code>
+<code>google-compute-default-region</code></p>
+<p>Para consultar la configuración de sus regiones y zonas predeterminadas, ejecute el siguiente comando de <code>gcloud</code>, en el que deberá reemplazar &lt;your_project_id&gt; por el ID de su proyecto, que puede ver en la página principal de Console o en la pestaña de Qwiklabs desde la que inició el lab:</p>
+<pre><code>gcloud compute project-info describe --project &lt;your_project_ID&gt;&#x000A;</code></pre>
+<p>Usará la zona (<code>google-compute-default-zone</code>) que obtenga del resultado más adelante en el lab.</p>
+<p>Busque los valores de metadatos de la zona y región predeterminadas en la respuesta. Si la respuesta no contiene las claves y los valores <code>google-compute-default-region</code> y <code>google-compute-default-zone</code>, significa que no se estableció ninguna zona o región predeterminada.</p>
+<h2 id="step6">Cómo inicializar el SDK de Cloud</h2>
+<p>La CLI <code>gcloud</code> forma parte del SDK de Google Cloud. A fin de utilizarla, deberá descargar y, luego, instalar el SDK en su propio sistema. A continuación, deberá ejecutar <code>gcloud init</code> para inicializarlo.</p>
+<p>La CLI <code>gcloud</code> está disponible automáticamente en Cloud Shell. Dado que utilizará Cloud Shell en este lab, no necesita instalar <code>gcloud</code> de forma manual.</p>
+<h2 id="step7">Configure variables de entorno</h2>
+<p>Las variables de entorno son variables que definen su entorno. Le permiten definir sus propias variables y ahorrar tiempo cuando escribe secuencias de comandos que contienen API o archivos ejecutables.</p>
+<p>Cree algunas variables de entorno:</p>
+<pre><code>export PROJECT_ID=&lt;your_project_ID&gt;&#x000A;</code></pre>
+<p>Establezca su variable de entorno ZONE (utilice el valor para la zona que obtuvo mediante el comando anterior):</p>
+<pre><code>export ZONE=&lt;your_zone&gt;&#x000A;</code></pre>
+<p>Verifique que sus variables se hayan establecido correctamente:</p>
+<pre><code>echo $PROJECT_ID&#x000A;echo $ZONE&#x000A;</code></pre>
+<h2 id="step8">Cree una máquina virtual con gcloud</h2>
+<p>Cree una nueva instancia de máquina virtual mediante <code>gcloud</code>. En el próximo comando, usará lo siguiente:</p>
+<ul>
+<li>
+<code>gcloud compute</code>, que le permite administrar con facilidad sus recursos de Google Compute Engine en un formato más amigable que si utiliza la API de Compute Engine</li>
+<li>
+<code>instances create</code> para crear una nueva instancia</li>
+</ul>
+<p>Ejecute el siguiente comando a fin de crear su VM:</p>
+<pre><code>gcloud compute instances create gcelab2 --machine-type n1-standard-2 --zone $ZONE&#x000A;</code></pre>
+<ul>
+<li>El nombre de la VM es “gcelab2”.</li>
+<li>Usará la marca <code>--machine-type</code> para especificar el tipo de máquina como “n1-standard-2”.</li>
+<li>Usará la marca <code>--zone</code> para especificar que se cree en la zona que definió con su variable de entorno.</li>
+</ul>
+<p>(Resultado)</p>
+<p><img alt="gcloud_vm.png" src="https://cdn.qwiklabs.com/K%2FhXlIfrP4aHv%2FMvTKhHkx7ClOkBp4pXVsv6i7hYT4Y%3D"></p>
+<p>Si omite la marca <code>--zone</code>, <code>gcloud</code> puede inferir la zona que desea según sus propiedades predeterminadas. Si en el comando create no especifica otra configuración necesaria sobre la instancia, como el <code>tipo de máquina</code> y la <code>imagen</code>, se establecerán los valores predeterminados.</p>
+<h4>Pruebe la tarea completada</h4>
+<p>Haga clic en <strong>Revisar mi progreso</strong> para verificar la tarea realizada. Si creó correctamente una máquina virtual con gcloud, verá una puntuación de evaluación.</p>
+<ql-activity-tracking step="1">
+    Crear una máquina virtual con gcloud
+</ql-activity-tracking><p>Puede consultar los valores predeterminados si solicita que se muestre la ayuda del comando <code>create</code>, como se indica a continuación:</p>
+<pre><code>gcloud compute instances create --help&#x000A;</code></pre>
+<h2 id="step9">Cómo usar los comandos de gcloud</h2>
+<p>Para consultar los lineamientos de uso simples que ofrece <code>gcloud</code>, agregue la marca <code>-h</code> (que representa “help”; es decir, “ayuda”) al final de cualquier invocación de <code>gcloud</code>.</p>
+<p>Ejecute el siguiente comando en Cloud Shell:</p>
+<pre><code class="language-bash prettyprint">gcloud -h&#x000A;</code></pre>
+<p>Agregue la marca <code>--help</code> o ejecute el comando <code>gcloud help</code> a fin de obtener ayuda más detallada. En Cloud Shell, ejecute lo siguiente:</p>
+<pre><code class="language-bash prettyprint">gcloud config --help&#x000A;</code></pre>
+<p>Presione la tecla <strong>Intro</strong> o la <strong>barra espaciadora</strong> para desplazarse por el contenido de ayuda.</p>
+<p>Escriba <code>q</code> para salir del contenido.</p>
+<p>Ahora, ejecute el siguiente comando:</p>
+<pre><code class="language-bash prettyprint">gcloud help config&#x000A;</code></pre>
+<p>Puede ver que los comandos <code>gcloud config --help</code> y <code>gcloud help config</code> son equivalentes. Ambos proporcionan ayuda completa y detallada.</p>
+<p>Las <a href="https://cloud.google.com/sdk/gcloud/reference/" target="_blank">marcas globales de <code>gcloud</code></a> determinan el comportamiento de los comandos en un nivel por invocación. Las marcas anulan cualquier valor configurado en las propiedades de SDK.</p>
+<p>Visualice la lista de configuraciones en su entorno:</p>
+<pre><code class="language-bash prettyprint">gcloud config list&#x000A;</code></pre>
+<p>Llame al siguiente comando para ver cómo están configuradas otras propiedades:</p>
+<pre><code class="language-bash prettyprint">gcloud config list --all&#x000A;</code></pre>
+<p>Obtenga una lista de sus <code>componentes</code>:</p>
+<pre><code>gcloud components list&#x000A;</code></pre>
+<p>Aquí verá qué componentes están listos para que los utilice en este lab. A continuación, instalará un nuevo componente.</p>
+<h2 id="step10">Autocompletado</h2>
+<p><code>gcloud interactive</code> incluye sugerencias automáticas para comandos y marcas, y muestra fragmentos de ayuda intercalados en la sección más baja a medida que se escribe el comando.</p>
+<p>La información estática, como los nombres de comandos y subcomandos, y los nombres de marcas y valores de marcas enumerados, se autocompletan mediante el uso de menús desplegables.</p>
+
+<p>Instale los componentes Beta:</p>
+<pre><code>gcloud components install beta&#x000A;</code></pre>
+
+<p>Ingrese al modo <code>gcloud interactive</code>:</p>
+<pre><code>gcloud beta interactive&#x000A;</code></pre>
+<p>Cuando utilice el modo interactivo, presione la tecla de <strong>tabulación</strong> para completar la ruta de archivo y los argumentos de recursos. Si aparece un menú desplegable, use la tecla de <strong>tabulación</strong> para desplazarse por la lista y la <strong>barra espaciadora</strong> para seleccionar su opción.</p>
+<p>Pruébelo. Comience a escribir el siguiente comando y utilice el autocompletado para finalizarlo:</p>
+<pre><code>gcloud compute instances describe &lt;your_vm&gt;&#x000A;</code></pre>
+<p>En la parte inferior de Cloud Shell, puede ver la combinación de teclas para activar o desactivar esta función. Pruebe activarla o desactivarla con F2:</p>
+<p>F2:help:STATE Activa o desactiva la sección de ayuda activa, ACTIVADA cuando está habilitada, DESACTIVADA cuando está inhabilitada.</p>
+<h2 id="step11">Establezca una conexión SSH a su instancia de VM</h2>
+<p><code>gcloud compute</code> facilita la conexión a las instancias. El comando <code>gcloud compute ssh</code> proporciona un wrapper para SSH, que se encarga de la autenticación y de mapear el nombre de la instancia a la dirección IP.</p>
+<p>Utilice <code>gcloud compute ssh</code> para establecer una conexión SSH a su VM:</p>
+<pre><code>gcloud compute ssh gcelab2 --zone $ZONE&#x000A;</code></pre>
+<p>(Resultado)</p>
+<pre><code>WARNING: The public SSH key file for gcloud does not exist.&#x000A;WARNING: The private SSH key file for gcloud does not exist.&#x000A;WARNING: You do not have an SSH key for gcloud.&#x000A;WARNING: [/usr/bin/ssh-keygen] will be executed to generate a key.&#x000A;This tool needs to create the directory&#x000A;[/home/gcpstaging306_student/.ssh] before being able to generate SSH Keys.&#x000A;</code></pre>
+<p>Escriba “Y” para continuar:</p>
+<pre><code>Do you want to continue? (Y/n)&#x000A;</code></pre>
+<p>Presione la tecla <strong>Intro</strong> para avanzar por la sección de la frase de contraseña y dejarla vacía.</p>
+<pre><code>Generating public/private rsa key pair.&#x000A;Enter passphrase (empty for no passphrase)&#x000A;</code></pre>
+<p>Dado que aquí no necesita hacer nada, cancele la conexión SSH. Para hacerlo, escriba “exit” y salga de la shell remota:</p>
+<pre><code>exit&#x000A;</code></pre>
+<p>Debería estar de vuelta en el símbolo del sistema de su proyecto.</p>
+<h2 id="step12">Utilice el directorio principal</h2>
+<p>Ahora, pruebe su directorio principal. El contenido de su directorio principal de Cloud Shell se encuentra en los proyectos de todas las sesiones de Cloud Shell, incluso después de que se finalice y reinicie la máquina virtual.</p>
+<p>Cambie su directorio de trabajo actual:</p>
+<pre><code class="language-bash prettyprint">cd $HOME&#x000A;</code></pre>
+<p>Use el editor de texto <code>vi</code> para abrir su archivo de configuración <code>.bashrc</code>.</p>
+<pre><code class="language-bash prettyprint">vi ./.bashrc&#x000A;</code></pre>
+<p>El editor abrirá y mostrará el contenido del archivo. Presione la tecla <code>ESC</code> y, luego, escriba <code>:wq</code> para salir del editor.</p>
+<h2 id="step13">Ponga a prueba sus conocimientos</h2>
+<p>A continuación, encontrará una pregunta de opción múltiple para reforzar sus conocimientos sobre los conceptos de este lab. Intente responderlas correctamente.</p>
+<p><ql-multiple-select-probe answerindices="[0, 1, 3]" optiontitles='[
+"GCP Console",
+"Command-line interface",
+"GStreamer",
+"Client libraries",
+"GLib"
+]' shuffle="" stem="Three basic ways to interact with the GCP services and resources:">
+</ql-multiple-select-probe></p>
+<h2 id="step14">¡Felicitaciones!</h2>
+<p>Aprendió a iniciar Cloud Shell y a ejecutar algunos comandos de <code>gcloud</code> de muestra.</p>
+<p><img alt="GCP_Essentials_125x135_new.png" src="https://cdn.qwiklabs.com/ykt8NTzPWC6%2BW8mAljshFqjsAPrZ8bElG7SLw4kSrtU%3D"> <img alt="SDK-01_125.png" src="https://cdn.qwiklabs.com/zTElq%2B6%2F9Fl9puC3rQKGKZfxrng9WeK0wGuVxwakC4U%3D"></p>
+<h3>Finalice su Quest</h3>
+<p>Este lab de autoaprendizaje forma parte de las Quests <a href="https://google.qwiklabs.com/quests/23">GCP Essentials</a> y <a href="https://google.qwiklabs.com/quests/92">Using the Cloud SDK Command Line</a> de Qwiklabs. Una Quest es una serie de labs relacionados que forman una ruta de aprendizaje. Si completa esta Quest, obtendrá la insignia que se muestra arriba como reconocimiento de su logro. Puede hacer públicas sus insignias y agregar vínculos a ellas en su currículum en línea o en sus cuentas de redes sociales. Inscríbase en una Quest y obtenga un crédito inmediato de finalización luego de haber realizado este lab.  <a href="https://google.qwiklabs.com/catalog">Consulte otras Quests de Qwiklabs disponibles</a>.</p>
+<h3>Realice su próximo lab</h3>
+<p>Continúe su Quest con <a href="https://google.qwiklabs.com/catalog_lab/339">Cómo aprovisionar servicios con GCP Marketplace</a> o revise estas sugerencias:</p>
+<ul>
+<li>
+<p><a href="https://google.qwiklabs.com/catalog_lab/559">Cómo crear un disco persistente</a></p>
+</li>
+<li>
+<p><a href="https://google.qwiklabs.com/catalog_lab/2047">Cómo configurar redes mediante gcloud</a></p>
+</li>
+</ul>
+<h3>Próximos pasos/Más información</h3>
+<ul>
+<li>
+<a href="https://cloud.google.com/shell/docs/">Documentación</a> y <a href="https://www.youtube.com/watch?v=hBMcAKzGt3w">video instructivo</a> de Cloud Shell</li>
+<li>
+<a href="https://cloud.google.com/sdk/gcloud/">Documentación</a> y <a href="https://www.youtube.com/watch?v=oTIK9OvQBxQ&amp;list=PLIivdWyY5sqIij_cgINUHZDMnGjVx3rxi&amp;index=15">video instructivo</a> de <code>gcloud</code>
+</li>
+</ul>
+<h3>Google Cloud Training &amp; Certification</h3>
+<p>Aproveche al máximo las tecnologías de Google Cloud. <a href="https://cloud.google.com/training/courses">Nuestras clases</a> incluyen habilidades técnicas y recomendaciones para ayudarlo a ponerse en marcha rápidamente y a seguir aprendiendo. Para que pueda realizar nuestros cursos cuando más le convenga, ofrecemos distintos tipos de capacitación de nivel básico a avanzado: según demanda, presenciales y virtuales. Las <a href="https://cloud.google.com/certification/">certificaciones</a> lo ayudan a validar y demostrar sus habilidades y experiencia en las tecnologías de Google Cloud.</p>
+
+<h5>Última actualización del manual: 16 de octubre de 2019</h5>
+<h5>Prueba más reciente del lab: 1 de agosto de 2019</h5>
+<p>Copyright 2020 Google LLC. All rights reserved. Google y el logotipo de Google son marcas de Google LLC. Los demás nombres de productos y empresas pueden ser marcas de las respectivas empresas a las que estén asociados.</p>
+
+
+
+</div>
+<div class='js-lab-content-outline lab-content__outline'>
+<a href='#step1'>GSP002</a><a href='#step2'>Descripción general</a><a href='#step3'>Configuración</a><a href='#step4'>Inicie Cloud Shell</a><a href='#step5'>Información sobre las regiones y zonas</a><a href='#step6'>Cómo inicializar el SDK de Cloud</a><a href='#step7'>Configure variables de entorno</a><a href='#step8'>Cree una máquina virtual con gcloud</a><a href='#step9'>Cómo usar los comandos de gcloud</a><a href='#step10'>Autocompletado</a><a href='#step11'>Establezca una conexión SSH a su instancia de VM</a><a href='#step12'>Utilice el directorio principal</a><a href='#step13'>Ponga a prueba sus conocimientos</a><a href='#step14'>¡Felicitaciones!</a>
+</div>
+</div>
+
+</div>
+
+<div class='lab-content__markdown-wrapper'>
+<div class='lab-content__markdown'>
+<div class='lab-content__recommendation'>
+<!-- # TODO: Change classes so that this doesn't stack vertically -->
+<section class='upcoming-cards'>
+<h2 class='headline-3'>Continuar Quest</h2>
+<div class='content-card-grid'>
+<div class='card-content-wrapper js-content-card' data-id='759' data-level='Introductory' data-name='Compute Engine: Qwik Start - Windows' data-type='Lab'>
+<a class="card card--content elevation-0 content-lab" href="/focuses/560?locale=es&amp;parent=catalog"><div class='card__image'>
+<div class='card__image__inner' style='background-image: url(https://cdn.qwiklabs.com/assets/fractal3-aaa9ba81223b511f2592cade38ffee5a74965dee87a9280e1ce3a7a96fdc91f1.jpg)'></div>
+</div>
+<div class='card__body'>
+<div class='overline card--content__type'>
+Lab práctico
+</div>
+<h3 class='card--content__title'>
+Compute Engine: Qwik Start - Windows
+</h3>
+<p class='card--content__description body-1'>
+Google Compute Engine permite crear y ejecutar máquinas virtuales en la infraestructura de Google.  En este lab, creará una instancia de Windows Server en Google Compute Engine y accederá a ella mediante RDP. Para obtener un avance sobre este tema, mire el video breve Launch a Windows Server Instance, GCP Essentials.
+</p>
+</div>
+<div class='card__footer'>
+<div class='card__footer__left'>
+<span>Introductory</span>
+</div>
+<div class='card__footer__right'>
+<div class='rateit' data-rateit-readonly='true' data-rateit-value='4.3937'></div>
+</div>
+</div>
+</a></div>
+
+</div>
+</section>
+
+</div>
+</div>
+</div>
+
+</div>
+</div>
+<div class='lab-assessment__tab js-lab-assessment-tab'>
+<h5 class='small-label'>
+Puntuación
+</h5>
+<h3 class='js-lab-assessment-total-score'>
+&mdash;/100
+</h3>
+<iframe class='l-ie-iframe-fix'></iframe>
+</div>
+<div class='lab-assessment__panel js-lab-assessment-panel'>
+<!-- / If lab_instance has is started and assessment is generated, use -->
+<!-- / lab_instance.assessment, otherwise use lab.assessment_manual -->
+<div class='lab-assessment__step'>
+<p class='lab-assessment__step__title'>
+Create a virtual machine with gcloud
+</p>
+<p class='button button--assessment js-show-run-step-button' step_no='1'>
+Ejecutar paso
+</p>
+<p class='lab-assessment__step__score'>
+<span class='js-assessment-step-score-1'>
+</span>
+/ 100
+</p>
+</div>
+
+<iframe class='l-ie-iframe-fix'></iframe>
+</div>
+<div class='lab-introduction js-lab-introduction is-hidden'>
+<div class='lab-introduction__inner'>
+<h1 class='headline-1'>Le damos la bienvenida a su primer lab.</h1>
+<ql-icon-button class='js-skip-button'>close</ql-icon-button>
+<div class='lab-introduction__video'>
+<iframe allow='autoplay; encrypted-media' allowfullscreen frameborder='0' id='lab-introduction' src='https://www.youtube.com/embed/TGUtGKD-B-Q?enablejsapi=1&amp;rel=0&amp;showinfo=0'></iframe>
+</div>
+<a class='js-skip-button button button--outline'>Omitir este video</a>
+</div>
+</div>
+
+
+
+</div>
+</main>
+<div class='modal fade' id='lab-details-modal'>
+<div class='modal-container'>
+<div class='mdl-shadow--24dp modal-content'>
+<div class='modal-body'>
+<p class='l-mbm'>
+En este lab práctico, aprenderá a conectarse a recursos de procesamiento alojados en Google Cloud Platform mediante la Web. Asimismo, aprenderá a utilizar Cloud Shell y el comando de gcloud del SDK de Cloud. Si desea obtener un avance sobre el tema, mire este video breve: <a href="https://youtu.be/ZD1zvEyfpLI">Get Started with Cloud Shell, GCP Essentials</a>.
+</p>
+<p>
+Este lab se incluye en las siguientes Quests:
+<a href="/quests/23?locale=es">GCP Essentials</a>, <a href="/quests/92?locale=es">Using the Cloud SDK Command Line</a>, <a href="/quests/95?locale=es">Using the Cloud SDK Command Line</a>.
+Si completa este lab, recibirá crédito por él cuando se inscriba en una de estas Quests.
+</p>
+<p class='small-label l-mbs'>
+<strong>
+Duración:
+</strong>
+0 min de configuración
+&middot;
+Acceso por 45 min
+&middot;
+45 min para completar
+</p>
+<p class='small-label l-mbs'>
+<span><strong>Niveles: </strong>introductory</span>
+</p>
+<p class='small-label'>
+<strong>
+Vínculo permanente:
+</strong>
+<a href="https://www.qwiklabs.com/catalog_lab/320">https://www.qwiklabs.com/catalog_lab/320</a>
+</p>
+</div>
+<div class='modal-actions'>
+<a class='mdl-button mdl-button--primary mdl-js-button mdl-js-ripple-effect' data-dismiss='modal'>
+Got It
+</a>
+</div>
+
+
+</div>
+</div>
+<iframe class='l-ie-iframe-fix'></iframe>
+</div>
+<div class='modal fade' id='lab-review-modal'>
+<div class='modal-container'>
+<div class='mdl-shadow--24dp modal-content'>
+<form class="simple_form js-lab-review-form" id="edit_lab_review_5290113" action="/lab_reviews/5290113?locale=es" accept-charset="UTF-8" data-remote="true" method="post"><input name="utf8" type="hidden" value="&#x2713;" /><input type="hidden" name="_method" value="patch" /><div class='modal-body'>
+<p class='label'>
+¿Qué tan satisfecho está con este lab?*
+</p>
+<div class='rateit js-rateit' data-rateit-max='5' data-rateit-min='0' data-rateit-resetable='false' data-rateit-step='1' data-rateit-value='5'></div>
+<div class='l-mtm'>
+
+<div class="control-group hidden lab_review_user_id"><div class="controls"><input class="hidden" type="hidden" value="2485272" name="lab_review[user_id]" id="lab_review_user_id" /></div></div>
+<div class="control-group hidden lab_review_classroom_id"><div class="controls"><input class="hidden" type="hidden" name="lab_review[classroom_id]" id="lab_review_classroom_id" /></div></div>
+<div class="control-group hidden lab_review_lab_id"><div class="controls"><input class="hidden" type="hidden" value="320" name="lab_review[lab_id]" id="lab_review_lab_id" /></div></div>
+<div class="control-group hidden lab_review_focus_id"><div class="controls"><input class="hidden" type="hidden" name="lab_review[focus_id]" id="lab_review_focus_id" /></div></div>
+<div class="control-group hidden lab_review_rating"><div class="controls"><input class="hidden js-rating-input" type="hidden" value="2" name="lab_review[rating]" id="lab_review_rating" /></div></div>
+<div class="control-group text optional lab_review_comment"><label class="text optional control-label" for="lab_review_comment">Comentario</label><div class="controls"><textarea class="text optional" name="lab_review[comment]" id="lab_review_comment">
+</textarea></div></div>
+</div>
+</div>
+<div class='modal-actions'>
+<a class='mdl-button mdl-button--primary mdl-js-button mdl-js-ripple-effect' data-dismiss='modal'>
+Cancel
+</a>
+<input type="submit" name="commit" value="Enviar" disabled="disabled" class="btn mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--primary" id="submit" data-disabled="false" data-disable-with="Enviar" />
+</div>
+</form>
+
+</div>
+</div>
+<iframe class='l-ie-iframe-fix'></iframe>
+</div>
+<div class='modal fade' id='lab-access-modal'>
+<div class='modal-container'>
+<div class='mdl-shadow--24dp modal-content'>
+<a class='lab-access-modal-close' data-analytics-action='dismissed_lab_payment_modal' data-dismiss='modal'>
+<i class='material-icons'>close</i>
+</a>
+<form class="js-lab-access-form" action="/lab_onetime_coupons/activate?locale=es&amp;parent=catalog" accept-charset="UTF-8" data-remote="true" method="post"><input name="utf8" type="hidden" value="&#x2713;" />
+<div class='modal-body'>
+<div class='lab-access-modal'>
+<input type="hidden" name="id" id="id" value="563" />
+<input type="hidden" name="user_id" id="user_id" value="2485272" />
+<input type="hidden" name="launch_with_credits" id="launch_with_credits" value="0" class="js-launch-with-credits-input" />
+<input type="hidden" name="launch_with_subs" id="launch_with_subs" value="0" class="js-launch-with-subscription-input" />
+<div class='lab-access-modal__method'>
+<p>
+Este lab cuesta
+1 crédito.
+</p>
+<p>
+Tiene un paquete con suscripción válida. ¿Desea cargar este lab a su suscripción?
+</p>
+<a class='button js-launch-with-subscription-button js-lab-access-modal-button' data-analytics-action='clicked_launch_with_subscription_button'>
+Usar suscripción
+</a>
+</div>
+<div class='lab-access-modal__method'>
+<p>
+Ingrese el código de acceso del lab:
+</p>
+<div class='lab-access-modal__code js-access-code'>
+<input type="text" name="uuid_1" id="uuid_1" value="" maxlength="4" placeholder="1234" />
+<input type="text" name="uuid_2" id="uuid_2" value="" maxlength="4" placeholder="1234" />
+<input type="text" name="uuid_3" id="uuid_3" value="" maxlength="4" placeholder="1234" />
+<input type="text" name="uuid_4" id="uuid_4" value="" maxlength="4" placeholder="1234" />
+</div>
+<a class='button js-launch-with-access-code-button js-lab-access-modal-button' data-analytics-action='clicked_launch_with_access_code_button'>
+Iniciar con el código de acceso
+</a>
+</div>
+</div>
+</div>
+</form>
+
+
+
+</div>
+</div>
+<iframe class='l-ie-iframe-fix'></iframe>
+</div>
+
+<script>
+  $( function() {
+    ql.initMaterialInputs();
+    initChosen();
+    initSearch();
+    initTabs();
+    ql.list.init();
+    ql.favoriting.init();
+    ql.header.myAccount.init();
+    initTooltips();
+    ql.autocomplete.init();
+    ql.modals.init();
+    ql.toggleButtons.init();
+    ql.analytics.init();
+    initLabContent( );
+  ql.labOutline.links.init();
+  ql.labOutline.layout.init();
+  initLabReviewModal();
+  initLabAccessModal();
+  ql.labAssessment.init();
+  ql.labIntroduction.init( true );
+  ql.labData.init();
+  initLabTranslations( {"are_you_sure":"¿Se completó el proceso? Si finaliza el lab, perderá todo su trabajo. Es posible que no pueda reiniciar el lab si existe un límite de cuota. ¿Está seguro de que desea finalizar el lab?","in_progress":"*En curso*","ending":"*Finalizando*","starting":"*Iniciando. Espere*","end_concurrent_labs":"Lo sentimos; solo puede ejecutar un lab a la vez. Para iniciar este lab, confirme que desea finalizar todos sus labs activos.","copied":"Copiado","no_resource":"Se produjo un error durante la recuperación del recurso.","no_support":"No hay asistencia disponible","mac_press":"Presione ⌘ + C para copiar","thanks_review":"Gracias por calificar este lab.","windows_press":"Presione Ctrl + C para copiar","days":"días"} );
+  ql.labRun.init();
+  ql.initHeader();
+  ql.navigation.init();
+  ql.navPanel.init();
+  ql.navigation.init();
+  
+  });
+</script>
+<style>
+  .mdl-layout__container {
+    position: static
+  }
+</style>
+</body>
+</html>

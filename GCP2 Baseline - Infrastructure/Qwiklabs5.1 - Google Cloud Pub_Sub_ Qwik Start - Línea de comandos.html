@@ -1,0 +1,703 @@
+<!DOCTYPE html>
+<html lang='es'>
+<head>
+<meta content='[]' name='active-experiments'>
+<meta content='{&quot;userId&quot;:2485272}' name='help-api-product-data'>
+<meta name="csrf-param" content="authenticity_token" />
+<meta name="csrf-token" content="ISyFRzXqWbW7Yy+36arW0vLfxWWx0E08yLKVPMetB0PVGWWk9i+QHI/d08vGDvezZWCO4eg2xOQj8kj/+0UeGw==" />
+<title>Google Cloud Pub/Sub: Qwik Start - Línea de comandos | Qwiklabs</title>
+<meta content='width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=0' name='viewport'>
+<meta content='En este lab práctico, aprenderá a publicar y consumir mensajes con un suscriptor de extracción mediante la línea de comandos de Google Cloud. Para comenzar, mire este breve video: &amp;lt;A HREF=&quot;https://youtu.be/oKU2wbTXMTY&quot;&amp;gt;Simplify Event Driven Processing with Cloud Pub/Sub&amp;lt;/A&amp;gt;.' name='description'>
+<meta content='Qwiklabs' name='author'>
+<meta content='1rRsY0INj8RvwB5EF5pwdxt2A2P9aDgAlsICaJ0d5w0' name='google-site-verification'>
+<meta content='Google Cloud Pub/Sub: Qwik Start - Línea de comandos | Qwiklabs' property='og:title'>
+<meta content='website' property='og:type'>
+<meta content='/favicon-144.png' property='og:image'>
+<meta content='Qwiklabs' property='og:site_name'>
+<meta content='En este lab práctico, aprenderá a publicar y consumir mensajes con un suscriptor de extracción mediante la línea de comandos de Google Cloud. Para comenzar, mire este breve video: &amp;lt;A HREF=&quot;https://youtu.be/oKU2wbTXMTY&quot;&amp;gt;Simplify Event Driven Processing with Cloud Pub/Sub&amp;lt;/A&amp;gt;.' property='og:description'>
+<meta content='/qwiklabs_logo_900x887.png' property='og:logo' size='900x887'>
+<meta content='/qwiklabs_logo_994x187.png' property='og:logo' size='994x187'>
+<meta content='#3681E4' property='msapplication-TileColor'>
+<meta content='/favicon-144.png' property='msapplication-TileImage'>
+<link href='/favicon-32.png' rel='shortcut icon'>
+<link color='#3681E4' href='/favicon-svg.svg' rel='mask-icon'>
+<link href='/favicon-180.png' rel='apple-touch-icon-precomposed'>
+<link rel="stylesheet" media="screen" href="https://fonts.googleapis.com/css?family=Oswald:400|Roboto+Mono:400,700|Roboto:300,400,500,700|Google+Sans:300,400,500,700|Google+Sans+Display:400|Material+Icons|Google+Material+Icons" />
+
+<link rel="stylesheet" media="screen" href="https://cdn.qwiklabs.com/assets/application_old/locales/es-7c4d85e3db7c28c14f71b18551da7ddc227e8f9b85777ece770fcbd96d9ef753.css" />
+<!--[if lt IE 9]>
+<script src='http://html5shim.googlecode.com/svn/trunk/html5.js' type='text/javascript'></script>
+<![endif]-->
+<!--[endif]>  <![endif]-->
+<script>
+//<![CDATA[
+window.gon={};gon.current_user={"firstname":"Carlo Andr\u00e9","lastname":"Castro Galindo","fullname":"Carlo Andr\u00e9 Castro Galindo","company":"Coursera","email":"carlocastrogalindo@gmail.com","origin":"googlecoursera-run, lti-coursera","subscriptions":1,"id":"eb3f0602d940d94d2eaeef36f2aa2e77","qlCreatedAt":"2020-02-28 17:36:48 UTC","optIn":false};gon.segment="j4Im8pqIko0Lxq4wVVZWMPMM0EroHUvb";gon.deployment="run";
+//]]>
+</script>
+<script type='application/ld+json'>
+{
+  "@context": "http://schema.org",
+  "@type": "WebSite",
+  "url": "https://www.qwiklabs.com/",
+  "potentialAction": {
+    "@type": "SearchAction",
+    "target": "https://www.qwiklabs.com/catalog?keywords={search_term_string}",
+    "query-input": "required name=search_term_string"
+  }
+}
+</script>
+<script id='ze-snippet' src='https://static.zdassets.com/ekr/snippet.js?key=511e4158-0aec-4e3c-b2e6-4daa1769f51e'></script>
+
+
+
+<link rel="stylesheet" media="all" href="https://cdn.qwiklabs.com/assets/application-4c3d1e8bc7757ea71809ef44e35c5d8018fb66ce6a4a777389558445ba2ce8a2.css" />
+<script>
+  EVENT_SOURCE_BASE_URL = "https://run.qwiklabs.com/nchan-sub?id=";
+</script>
+<script src="https://cdn.qwiklabs.com/polyfills/webcomponents-loader.js"></script>
+<script src="https://cdn.qwiklabs.com/assets/hallofmirrors/hallofmirrors__es_419-53722a8c29aa90d0fbab9b3c73008da3dadf74f9c7e6e4d2cb1df2c62c3fb110.js"></script>
+<script src="https://www.youtube.com/iframe_api"></script>
+<script src="https://cdn.qwiklabs.com/assets/vendor-45d462772c30000424907184f70c7157e95fb6227698d1671c5051818a6f60d8.js"></script>
+<script src="https://cdn.qwiklabs.com/assets/application-7c67c1d428839917a0992758b33da63184c69efa420e5939804ea34d54147a97.js"></script>
+</head>
+<body class='focuses focuses-show lab-show l-full no-nav'>
+<div class='header-container light-theme'>
+<div class='header'>
+<a class='mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect header__button header__button--nav header__nav-panel-button js-nav-toggle'>
+<i class='material-icons'>menu</i>
+</a>
+<div class='header__title'>
+<a class="mdl-button mdl-js-button mdl-button--icon mdl-js-ripple-effect header__button header__button--nav" href="https://www.qwiklabs.com/quests/33?locale=es"><ql-icon>arrow_back</ql-icon></a>
+
+<h1 class='headline-5'>
+Google Cloud Pub/Sub: Qwik Start - Línea de comandos
+</h1>
+</div>
+<div class='header__actions'>
+<a class='mdl-button mdl-js-button mdl-button--icon mdl-js-ripple-effect header__button header__button--action header__button--search js-header-search-bar-button'>
+<i class='material-icons'>search</i>
+</a>
+<a class="mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect" id="toggle-lab-control-panel" href="javascript:;"><i class='material-icons'>description</i>
+</a><div class='mdl-tooltip js-tooltip' data-mdl-for='toggle-lab-control-panel'>
+Activar o desactivar panel del lab
+</div>
+<a class="mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect js-favorite-button favorite-button" id="CatalogItem-925-favorite-button" data-type="CatalogItem" data-id="925" data-name="Google Cloud Pub/Sub: Qwik Start - Línea de comandos" href="/favorite.json?item_id=925&amp;item_type=CatalogItem&amp;locale=es"><i class='material-icons'>favorite_border</i>
+</a><div class='mdl-tooltip js-tooltip' for='CatalogItem-925-favorite-button'>
+Agregar a favoritos
+</div>
+
+
+<ql-help context="lab" productdata="{&quot;userId&quot;:2485272}" data-analytics-action="opened_help" data-analytics-label="lab"></ql-help>
+<a class='header-my-account-button mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect js-my-account-button'>
+<img class="avatar " alt="avatar image" src="https://secure.gravatar.com/avatar/be719396bbcc1e8bcb204a54e1920c54.png?s=80&amp;d=mm" />
+</a>
+<div class='header-my-account-menu js-my-account-menu'>
+<div class='card elevation-2 no-padding'>
+<div class='my-account-menu__top'>
+<img class="avatar " alt="avatar image" src="https://secure.gravatar.com/avatar/be719396bbcc1e8bcb204a54e1920c54.png?s=80&amp;d=mm" />
+<div class='my-account-menu__info'>
+<h4 class='subtitle-headline-1'>
+Carlo André Castro Galindo
+</h4>
+<p class='body-2 text--gray'>
+<span>carlocastrogalindo@gmail.com</span>
+</p>
+<a class="button" href="/my_account/profile?locale=es">Mi cuenta</a>
+</div>
+</div>
+<div class='my-account-menu__bottom'>
+<a class="text--green subtitle-headline-2" href="/my_account/credits?locale=es">Suscripción mensual
+</a><a data-analytics-action="clicked_sign_out" class="button button--hairline" rel="nofollow" data-method="delete" href="/users/sign_out?locale=es">Salir</a>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+<div class='header__search-bar js-header-search-bar'>
+<form id="catalog-search-mobile" onsubmit="ql.catalogSearchFilter(); return false;" action="/searches/elasticsearch" accept-charset="UTF-8" method="post"><input name="utf8" type="hidden" value="&#x2713;" /><input type="hidden" name="authenticity_token" value="QP5gP+WVQ6KFq5fT5OGswX9FpqRdxfyQ6AHvRISy1JK0y4DcJlCKC7EVa6/LRY2g6PrtIAQjdUgDQTKHuFrNyg==" />
+<input type="text" name="keywords" id="keywords" placeholder="Buscar" maxlength="255" aria-label="catalog search bar" />
+</form>
+
+<a class='mdl-button mdl-js-button mdl-button--icon mdl-js-ripple-effect header__button'>
+<i class='material-icons'>close</i>
+</a>
+</div>
+</div>
+
+<nav class='nav-bar'>
+<a class="nav-bar__item js-navigation-button" href="/?locale=es"><ql-icon class='nav-bar__item__icon'>
+home
+</ql-icon>
+<span class='nav-bar__item__label'>
+Página principal
+</span>
+</a>
+<a class="nav-bar__item js-navigation-button  active" aria-current="page" href="/catalog?locale=es"><ql-icon class='nav-bar__item__icon'>
+school
+</ql-icon>
+<span class='nav-bar__item__label'>
+Catálogo
+</span>
+</a>
+<a class="nav-bar__item js-navigation-button" href="/my_learning?locale=es"><ql-icon class='nav-bar__item__icon'>
+event_note
+</ql-icon>
+<span class='nav-bar__item__label'>
+Mi aprendizaje
+</span>
+</a>
+</nav>
+
+<nav class='nav-panel js-nav-panel'>
+<div class='nav-panel__logo'>
+<div class='logo logo--blue'></div>
+</div>
+<a title="Página principal" tabindex="-1" class="nav-panel__item js-navigation-button" href="/?locale=es"><ql-icon class='nav-panel__item__icon'>
+home
+</ql-icon>
+<div class='nav-panel__item__label'>
+Página principal
+</div>
+</a>
+<a title="Catálogo" tabindex="-1" class="nav-panel__item js-navigation-button active" aria-current="page" href="/catalog?locale=es"><ql-icon class='nav-panel__item__icon'>
+school
+</ql-icon>
+<div class='nav-panel__item__label'>
+Catálogo
+</div>
+</a>
+<a title="Mi aprendizaje" tabindex="-1" class="nav-panel__item js-navigation-button" href="/my_learning?locale=es"><ql-icon class='nav-panel__item__icon'>
+event_note
+</ql-icon>
+<div class='nav-panel__item__label'>
+Mi aprendizaje
+</div>
+</a>
+<div class='nav-panel__spacer'></div>
+<a title="Profile" tabindex="-1" class="nav-panel__item js-navigation-button" href="/my_account/profile?locale=es"><ql-icon class='nav-panel__item__icon'>
+account_circle
+</ql-icon>
+<div class='nav-panel__item__label'>
+Profile
+</div>
+</a>
+<a title="Credits &amp; Subscriptions" tabindex="-1" class="nav-panel__item js-navigation-button" href="/my_account/credits?locale=es"><ql-icon class='nav-panel__item__icon'>
+money
+</ql-icon>
+<div class='nav-panel__item__label'>
+Credits &amp; Subscriptions
+</div>
+</a>
+<a title="Security" tabindex="-1" class="nav-panel__item js-navigation-button" href="/my_account/security?locale=es"><ql-icon class='nav-panel__item__icon'>
+security
+</ql-icon>
+<div class='nav-panel__item__label'>
+Security
+</div>
+</a>
+<div class='nav-panel__spacer'></div>
+<a class="nav-panel__item" tabindex="-1" href="#"><ql-help>
+<div class='nav-panel__help-item'>
+<ql-icon class='nav-panel__item__icon'>help</ql-icon>
+<div class='nav-panel__item__label'>Help</div>
+</div>
+</ql-help>
+</a><div class='nav-panel__small-links'>
+<a tabindex="-1" href="/privacy_policy?locale=es">Privacidad</a>
+<a tabindex="-1" href="/terms_of_service?locale=es">Condiciones</a>
+</div>
+</nav>
+<div class='nav-panel__overlay js-nav-toggle'></div>
+
+<main class='js-main'>
+<span class='hidden' id='flash-sibling-before'></span>
+
+<div class='l-main-wrapper' id='main-wrapper'>
+
+
+
+
+
+
+
+<div class='js-lab-state' data-analytics-payload='{&quot;label&quot;:&quot;Google Cloud Pub/Sub: Qwik Start - Línea de comandos&quot;,&quot;lab_name&quot;:&quot;Google Cloud Pub/Sub: Qwik Start - Línea de comandos&quot;,&quot;classroom_name&quot;:null,&quot;deployment&quot;:&quot;run&quot;}' data-focus-id='925' data-lab-billing-limit='0.0' data-lab-duration='2400' data-parent='catalog'></div>
+<ql-lab-control-panel class='js-lab-control-panel l-lab-control-panel' connectionDetails='[]' connectionFiles='[]' labControlButton='{&quot;disabled&quot;:false,&quot;pending&quot;:false,&quot;running&quot;:false}' labTimer='{&quot;ticking&quot;:false,&quot;secondsRemaining&quot;:2400}' studentResources='[]'></ql-lab-control-panel>
+<div class='l-lab-main-body'>
+<div class='js-lab-content lab-content'>
+<div class='alert alert--fake js-alert'>
+<p class='alert__message js-alert-message'></p>
+<a class='alert__close js-alert-close'>
+<i class='fa fa-times'></i>
+</a>
+<iframe class='l-ie-iframe-fix'></iframe>
+</div>
+<div class='lab-content__markdown-wrapper'>
+<div class='lab-preamble'>
+<h1 class='lab-preamble__title'>
+Google Cloud Pub/Sub: Qwik Start - Línea de comandos
+</h1>
+<div class='lab-preamble__details subtitle-headline-1'>
+<span>40 minutos</span>
+<span>Gratis</span>
+<div class='lab__rating'>
+<a href="/focuses/925/reviews?locale=es&amp;parent=catalog"><div class='rateit' data-rateit-readonly='true' data-rateit-value='4.3569'></div>
+
+</a><a data-target='#lab-review-modal' data-toggle='modal'>
+Calificar lab
+</a>
+</div>
+</div>
+</div>
+
+<div class='lab-content__inner-wrapper'>
+<div class='js-markdown-instructions lab-content__markdown markdown-lab-instructions' id='markdown-lab-instructions'>
+
+
+
+<h2 id="step1">GSP095</h2>
+<p><img alt="Labs de autoaprendizaje de Google Cloud" src="https://cdn.qwiklabs.com/GMOHykaqmlTHiqEeQXTySaMXYPHeIvaqa2qHEzw6Occ%3D"></p>
+
+<h2 id="step2">Resumen</h2>
+<p>Google Cloud Pub/Sub es un servicio de mensajería para intercambiar datos de eventos entre aplicaciones y servicios. La separación de emisores y receptores permite una comunicación segura y de alta disponibilidad entre las aplicaciones escritas de forma independiente. Google Cloud Pub/Sub ofrece una mensajería duradera y de baja latencia, que los desarrolladores suelen usar para implementar flujos de trabajo asíncronos, distribuir notificaciones de eventos y transmitir datos desde varios procesos o dispositivos.</p>
+<h3>Actividades</h3>
+<p>En este lab, hará lo siguiente:</p>
+<ul>
+<li>
+<p>Aprenderá los conceptos básicos de Pub/Sub.</p>
+</li>
+<li>
+<p>Creará, borrará y mostrará una lista de temas de Pub/Sub.</p>
+</li>
+<li>
+<p>Creará, borrará y mostrará una lista de suscripciones de Pub/Sub.</p>
+</li>
+<li>
+<p>Publicará mensajes en un tema.</p>
+</li>
+<li>
+<p>Usará un suscriptor de extracción para mostrar mensajes individuales de temas.</p>
+</li>
+<li>
+<p>Usará un suscriptor de extracción con una marca para mostrar varios mensajes.</p>
+</li>
+</ul>
+<h3>Requisitos previos</h3>
+<p>Este es un lab de nivel <strong>introductorio</strong>. Eso quiere decir que se da por hecho que tiene poca o ninguna experiencia con Pub/Sub. Se le enseñarán los conceptos básicos de la configuración y el uso de este servicio de GCP.</p>
+<p>Antes de realizar este lab, tenga en cuenta su nivel de competencia en Pub/Sub. A continuación, le mostramos una lista de labs más avanzados que le permitirán aplicar sus conocimientos de Pub/Sub a diferentes casos prácticos y servicios de nube:</p>
+<ul>
+<li><a href="https://google.qwiklabs.com/catalog_lab/934">Dataflow: Qwik Start - Plantillas</a></li>
+<li><a href="https://google.qwiklabs.com/catalog_lab/694">Cómo crear una canalización de análisis de IoT en Google Cloud Platform</a></li>
+<li>
+<a href="https://google.qwiklabs.com/catalog_lab/1109">Cómo escanear contenido generado por el usuario con Cloud Video Intelligence y las API de Cloud Vision</a>
+Si desea comenzar con Pub/Sub en Google Cloud Console, asegúrese de realizar el siguiente lab:</li>
+<li><a href="https://google.qwiklabs.com/catalog_lab/912">Google Cloud Pub/Sub: Qwik Start - Console</a></li>
+</ul>
+<p>Cuando esté listo, desplácese hacia abajo y siga los pasos que se muestran a continuación para configurar su entorno de lab.</p>
+<h2 id="step3">Configuración y requisitos</h2>
+<h3>Configuración de Qwiklabs</h3>
+<h4>Antes de hacer clic en el botón Comenzar lab</h4>
+<p>Lea estas instrucciones. Los labs tienen un tiempo límite; no puede ponerlos en pausa. El cronómetro, que comienza a funcionar cuando hace clic en Comenzar lab, indica por cuánto tiempo estarán los recursos en la nube a su disposición.</p>
+<p>Este lab práctico de Qwiklabs le permitirá llevar a cabo las actividades correspondientes en un entorno de nube real, no en uno de simulación o demostración. Para ello, recibe nuevas credenciales temporales que utilizará para acceder a Google Cloud Platform durante el transcurso del lab.</p>
+<h4>Lo que necesita</h4>
+<p>Para completar este lab, necesitará lo siguiente:</p>
+<ul>
+<li>Acceso a un navegador de Internet estándar. Se recomienda el navegador Chrome</li>
+<li>Tiempo para completar el lab</li>
+</ul>
+<p><strong><em>Nota</em></strong>: Si ya tiene un proyecto o una cuenta personal de GCP, no los use para este lab.</p>
+
+<p>Ahora que comenzó su lab, accederá a la consola de Google Cloud Shell y, luego, iniciará la herramienta de línea de comandos.</p>
+<h4>Cómo iniciar su lab y acceder a Console</h4>
+<ol>
+<li>
+<p>Haga clic en el botón <strong>Comenzar lab</strong>. Si debe pagar por el lab, se abrirá una ventana emergente para que seleccione su forma de pago.
+En la parte izquierda, verá un panel con las credenciales temporales que debe usar para este lab.</p>
+<p><img alt="Abrir Google Console" src="https://cdn.qwiklabs.com/%2FtHp4GI5VSDyTtdqi3qDFtevuY014F88%2BFow%2FadnRgE%3D"></p>
+</li>
+<li>
+<p>Copie el nombre de usuario y, luego, haga clic en <strong>Abrir Google Console</strong>.
+El lab inicia los recursos y abre otra pestaña que muestra la página <strong>Seleccione una cuenta</strong>.</p>
+<p><strong><em>Sugerencia</em></strong>: Abra las pestañas en ventanas separadas, una junto a la otra.</p>
+</li>
+<li>
+<p>En la página Seleccione una cuenta, haga clic en <strong>Usar otra cuenta</strong>.</p>
+<p><img alt="Elegir una cuenta" src="https://cdn.qwiklabs.com/eQ6xPnPn13GjiJP3RWlHWwiMjhooHxTNvzfg1AL2WPw%3D"></p>
+</li>
+<li>
+<p>Se abrirá la página de acceso. Pegue el nombre de usuario que copió del panel Detalles de conexión. Luego, copie y pegue la contraseña.</p>
+<p><strong><em>Importante</em></strong>: Debe usar las credenciales del panel Detalles de conexión. No use sus credenciales de Qwiklabs. Si tiene una cuenta propia de GCP, no la use para este lab (evite incurrir en cargos).</p>
+</li>
+<li>
+<p>Avance por las siguientes páginas haciendo clic en ellas:</p>
+<ul>
+<li>Acepte los Términos y Condiciones.</li>
+<li>No agregue opciones de recuperación o autenticación de dos factores (esta es una cuenta temporal).</li>
+<li>No se registre para obtener pruebas gratuitas.</li>
+</ul>
+</li>
+</ol>
+<p>Después de un momento, se abrirá GCP Console en esta pestaña.</p>
+<aside>
+<b>Nota:</b> Para ver el menú con una lista de productos y servicios de GCP, haga clic en <b>Menú de navegación</b>, en la esquina superior izquierda, junto a "Google Cloud Platform".
+<img alt="Menú de Cloud Console" src="https://cdn.qwiklabs.com/9vT7xPlxoNP%2FPsK0J8j0ZPFB4HnnpaIJVCDByaBrSHg%3D">
+</aside>
+
+<h3>Google Cloud Shell</h3>
+<h3>Active Google Cloud Shell</h3>
+<p>Google Cloud Shell es una máquina virtual que cuenta con herramientas de desarrollo. Ofrece un directorio principal persistente de 5 GB y se ejecuta en Google Cloud.
+	Google Cloud Shell proporciona acceso de línea de comandos a sus recursos de GCP.</p>
+<ol>
+<li>
+<p>En GCP Console, en la barra de herramientas superior derecha, haga clic en el botón <strong>Abrir Cloud Shell</strong>.</p>
+<p><img alt="Ícono de Cloud Shell" src="https://cdn.qwiklabs.com/vdY5e%2Fan9ZGXw5a%2FZMb1agpXhRGozsOadHURcR8thAQ%3D"></p>
+</li>
+<li>
+<p>Haga clic en <strong>Continue</strong> (Continuar):</p>
+<p><img alt="cloudshell_continue" src="https://cdn.qwiklabs.com/lr3PBRjWIrJ%2BMQnE8kCkOnRQQVgJnWSg4UWk16f0s%2FA%3D"></p>
+</li>
+</ol>
+<p>Toma unos minutos aprovisionar y conectarse con el entorno. Cuando está conectado, ya está autenticado y el proyecto está configurado en su <strong> PROJECT_ID </strong>. Por ejemplo:</p>
+<p><img alt="Terminal de Cloud Shell" src="https://cdn.qwiklabs.com/hmMK0W41Txk%2B20bQyuDP9g60vCdBajIS%2B52iI2f4bYk%3D"></p>
+<p><strong>gcloud</strong> es la herramienta de línea de comandos para Google Cloud Platform. Viene preinstalada en Cloud Shell y es compatible con la función “tab-completion”.</p>
+<p>Puede mostrar el nombre de la cuenta activa con este comando:</p>
+<pre><code>gcloud auth list&#x000A;</code></pre>
+<p>Resultado:</p>
+<pre><code class="language-output prettyprint">Credentialed accounts:&#x000A;- &lt;myaccount&gt;@&lt;mydomain&gt;.com (active)&#x000A;	</code></pre>
+<p>Resultado de ejemplo:</p>
+<pre><code class="language-Output prettyprint">Credentialed accounts:&#x000A;- google1623327_student@qwiklabs.net&#x000A;	</code></pre>
+<p>Puede mostrar el ID del proyecto con este comando:</p>
+<pre><code>gcloud config list project&#x000A;	</code></pre>
+<p>Resultado:</p>
+<pre><code class="language-output prettyprint">[core]&#x000A;project = &lt;project_ID&gt;&#x000A;	</code></pre>
+<p>Resultado de ejemplo:</p>
+<pre><code class="language-Output prettyprint">[core]&#x000A;project = qwiklabs-gcp-44776a13dea667a6&#x000A;	</code></pre>
+<aside>
+	  La documentación completa de <strong>gcloud</strong> está disponible en <a href="https://cloud.google.com/sdk/gcloud">Descripción general de gcloud en Google Cloud</a>.
+
+	</aside>
+
+<h2 id="step4">Pub/Sub: Conceptos básicos</h2>
+<p>Como se mencionó anteriormente, Google Cloud Pub/Sub es un servicio de mensajería global asíncrono. Hay tres términos que aparecen a menudo en Pub/Sub: <code>temas</code>, <code>publicar</code> y <code>suscribirse</code>.</p>
+<p>Un <code>tema</code> es una string compartida que permite a las aplicaciones conectarse entre sí mediante un subproceso común.</p>
+<p>Los publicadores envían (o <code>publican</code>) un mensaje a un tema de Cloud Pub/Sub.
+Luego, los subscriptores se "<code>suscribirán</code>" a ese subproceso, desde el que podrán extraer mensajes del tema o configurar webhooks para suscripciones push. Cada suscriptor debe confirmar cada mensaje dentro de un período configurable.</p>
+<p>En resumen, un publicador crea y envía mensajes a un tema, y un suscriptor crea una suscripción a un tema para recibir mensajes de él.</p>
+<h2 id="step5">Temas de Pub/Sub</h2>
+<p>Pub/Sub viene preinstalado en Google Cloud Shell, por lo que no es necesario realizar instalaciones o configuraciones para comenzar a usar este servicio.</p>
+<p>Lo primero que debemos hacer es crear un tema. Ejecute el siguiente comando para crear un tema que se llame <code>myTopic</code>:</p>
+<pre><code>gcloud pubsub topics create myTopic&#x000A;</code></pre>
+<h3>Pruebe la tarea completada</h3>
+<p>Haga clic en <strong>Revisar mi progreso</strong> para verificar la tarea realizada. Si la completó correctamente, se le otorgará un puntaje de evaluación.</p>
+<ql-activity-tracking step="1">
+    Cree un tema de Pub/Sub.
+</ql-activity-tracking>
+<p>Por si acaso, creemos otros dos temas, uno llamado <code>Test1</code> y otro llamado <code>Test2</code>:</p>
+<pre><code>gcloud pubsub topics create Test1&#x000A;</code></pre>
+<pre><code>gcloud pubsub topics create Test2&#x000A;</code></pre>
+<p>Ahora, veamos los tres temas que acabamos de crear. Ejecute el siguiente comando:</p>
+<pre><code>gcloud pubsub topics list&#x000A;</code></pre>
+<p>El resultado debería ser similar al siguiente:</p>
+<pre><code>name: projects/qwiklabs-gcp-3450558d2b043890/topics/myTopic&#x000A;---&#x000A;name: projects/qwiklabs-gcp-3450558d2b043890/topics/Test2&#x000A;---&#x000A;name: projects/qwiklabs-gcp-3450558d2b043890/topics/Test1&#x000A;</code></pre>
+<p>Es hora de limpiar. Borremos <code>Test1</code> y <code>Test2</code> mediante los siguientes comandos:</p>
+<pre><code>gcloud pubsub topics delete Test1&#x000A;</code></pre>
+<pre><code>gcloud pubsub topics delete Test2&#x000A;</code></pre>
+<p>Ejecute el comando <code>gcloud pubsub topics list</code> una vez más. Debería obtener el siguiente resultado:</p>
+<pre><code>---&#x000A;name: projects/qwiklabs-gcp-3450558d2b043890/topics/myTopic&#x000A;</code></pre>
+<h2 id="step6">Suscripciones Pub/Sub</h2>
+<p>Ahora que ya sabemos cómo crear, ver y borrar temas, trabajemos con las suscripciones.</p>
+<p>Ejecute el siguiente comando para crear una suscripción que se llame <code>mySubscription</code> en el tema <code>myTopic</code>:</p>
+<pre><code>gcloud  pubsub subscriptions create --topic myTopic mySubscription&#x000A;</code></pre>
+<h3>Pruebe la tarea completada</h3>
+<p>Haga clic en <strong>Revisar mi progreso</strong> para verificar la tarea realizada. Si la completó correctamente, se le otorgará un puntaje de evaluación.</p>
+<ql-activity-tracking step="2">
+    Cree una suscripción de Pub/Sub.
+</ql-activity-tracking>
+<p>Agreguemos otras dos suscripciones a <code>myTopic</code>. Ejecute los siguientes comandos para crear las suscripciones <code>Test1</code> y <code>Test2</code>:</p>
+<pre><code>gcloud  pubsub subscriptions create --topic myTopic Test1&#x000A;</code></pre>
+<pre><code>gcloud  pubsub subscriptions create --topic myTopic Test2&#x000A;</code></pre>
+<p>Asegurémonos de que se crearon nuestras suscripciones. Ejecute el siguiente comando para mostrar las suscripciones a myTopic:</p>
+<pre><code>gcloud pubsub topics list-subscriptions myTopic&#x000A;</code></pre>
+<p>El resultado debería ser similar al siguiente:</p>
+<pre><code>---&#x000A;  projects/qwiklabs-gcp-3450558d2b043890/subscriptions/Test2&#x000A;---&#x000A;  projects/qwiklabs-gcp-3450558d2b043890/subscriptions/Test1&#x000A;---&#x000A;  projects/qwiklabs-gcp-3450558d2b043890/subscriptions/mySubscription&#x000A;</code></pre>
+<h2 id="step7">Ponga a prueba sus conocimientos</h2>
+<p>A continuación, se presentan algunas preguntas de opción múltiple para reforzar sus conocimientos de los conceptos de este lab. Trate de responderlas.</p>
+<p><ql-true-false-probe answer="true" stem="To receive messages published to a topic, you must create a subscription to that topic.">
+</ql-true-false-probe></p>
+<p>Ahora, borremos las suscripciones <code>Test1</code> y <code>Test2</code>. Ejecute los siguientes comandos:</p>
+<pre><code>gcloud pubsub subscriptions delete Test1&#x000A;</code></pre>
+<pre><code>gcloud pubsub subscriptions delete Test2&#x000A;</code></pre>
+<p>Verifiquemos si se borraron las suscripciones <code>Test1</code> y <code>Test2</code>. Ejecute el comando <code>gcloud pubsub topics list-subscriptions myTopic</code> una vez más. Debería obtener el siguiente resultado:</p>
+<pre><code>---&#x000A;  projects/qwiklabs-gcp-3450558d2b043890/subscriptions/mySubscription&#x000A;</code></pre>
+<h2 id="step8">Cómo publicar y extraer un solo mensaje con Pub/Sub</h2>
+<p>Ahora que ya sabemos cómo crear, ver y borrar suscripciones, veamos cómo publicar un mensaje en un tema de Pub/Sub.</p>
+<p>Ejecute el siguiente comando para publicar el mensaje <code>"hello"</code> en el tema que creamos anteriormente (<code>myTopic</code>):</p>
+<pre><code>gcloud pubsub topics publish myTopic --message "Hello"&#x000A;</code></pre>
+<p>Publiquemos algunos mensajes más en <code>myTopic</code>. Para ello, ejecute los siguientes comandos (reemplace <code>&lt;YOUR NAME&gt;</code> con su nombre y <code>&lt;FOOD&gt;</code> con una comida que le guste):</p>
+<pre><code>gcloud pubsub topics publish myTopic --message "Publisher's name is &lt;YOUR NAME&gt;"&#x000A;</code></pre>
+<pre><code>gcloud pubsub topics publish myTopic --message "Publisher likes to eat &lt;FOOD&gt;"&#x000A;</code></pre>
+<pre><code>gcloud pubsub topics publish myTopic --message "Publisher thinks Pub/Sub is awesome"&#x000A;</code></pre>
+<p>Ahora, usaremos el comando <code>pull</code> para obtener los mensajes desde nuestro tema. El comando pull está basado en la suscripción; es decir que debería funcionar porque configuramos una suscripción llamada <code>mySubscription</code> en el tema <code>myTopic</code> previamente.</p>
+<p>Use el siguiente comando para extraer los mensajes que acabamos de publicar desde el tema de Pub/Sub:</p>
+<pre><code>gcloud pubsub subscriptions pull mySubscription --auto-ack&#x000A;&#x000A;</code></pre>
+<p>El resultado debería ser similar al siguiente:</p>
+<p><img alt="food.png" src="https://cdn.qwiklabs.com/59Crmi1YmFDkTUDc1DPQCFiS4inFJjWs8iYQj8xBREM%3D"></p>
+<p>¿Qué sucede aquí? Publicamos 4 mensajes en nuestro tema, pero solo se mostró 1 en la salida.</p>
+<p>En este punto es importante tener en cuenta un par de funciones del comando <code>pull</code> que a menudo confunden a los desarrolladores:</p>
+<ul>
+<li><strong>Si se usa el comando pull sin marcas, solo se mostrará un mensaje en la salida, incluso si está suscrito a un tema que tiene más mensajes.</strong></li>
+<li><strong>Una vez que se muestra un mensaje individual en la salida desde un comando pull basado en la suscripción, no podrá acceder a ese mensaje nuevamente con ese comando.</strong></li>
+</ul>
+<p>Para comprender mejor a qué se refiere el segundo punto, pruebe ejecutar el último comando tres veces más. Verá que se mostrarán los mensajes que publicó antes. Ahora, ejecútelo una cuarta vez y verá el siguiente resultado (ya que no había más para mostrar):</p>
+<pre><code>gcpstaging20394_student@cloudshell:~ (qwiklabs-gcp-3450558d2b043890)$ gcloud pubsub subscriptions pull mySubscription --auto-ack&#x000A;Listed 0 items.&#x000A;</code></pre>
+<p>En la siguiente y última sección, aprenderá cómo extraer varios mensajes desde un tema con una marca o <code>flag</code>.</p>
+<h2 id="step9">Cómo extraer todos los mensajes desde las suscripciones con Pub/Sub</h2>
+<p>Puesto que ya extrajimos todos los mensajes desde nuestro tema en el último ejemplo, ahora publiquemos algunos mensajes más en <code>myTopic</code>. Ejecute los siguientes comandos:</p>
+<pre><code>gcloud pubsub topics publish myTopic --message "Publisher is starting to get the hang of Pub/Sub"&#x000A;</code></pre>
+<pre><code>gcloud pubsub topics publish myTopic --message "Publisher wonders if all messages will be pulled"&#x000A;</code></pre>
+<pre><code>gcloud pubsub topics publish myTopic --message "Publisher will have to test to find out"&#x000A;</code></pre>
+<p>Ahora que ya se publicaron mensajes en nuestro tema, agreguemos una marca o <code>flag</code> a nuestro comando para mostrar los tres mensajes mediante la ejecución de una sola línea de comandos. Es posible que no lo haya notado, pero estuvimos usando una marca en los ejemplos anteriores: <code>--auto-ack</code>, que es parte del comando <code>pull</code>. Es una marca que muestra nuestros mensajes en el formato de cuadro que vemos en los mensajes extraídos.</p>
+<p><code>limit</code> es otra marca que configura un límite superior para la cantidad de mensajes que queremos extraer. Ejecute el comando pull con la marca <code>limit</code>:</p>
+<pre><code>gcloud pubsub subscriptions pull mySubscription --auto-ack --limit=3&#x000A;</code></pre>
+<p>El resultado debería ser similar al siguiente:</p>
+<p><img alt="cli_PS.png" src="https://cdn.qwiklabs.com/RqPezOvS%2F0IYEIkWliflxdg5XtRApdqMRlcPhMXel%2Bk%3D"></p>
+<p>Excelente. Aprendimos cómo agregar marcas a un comando de Pub/Sub para mostrar un grupo más grande de mensajes. Está en buen camino para convertirse en un experto en Pub/Sub.</p>
+<h2 id="step10">Felicitaciones</h2>
+<p>En este lab, aprendió los conceptos básicos de los temas y las suscripciones de Pub/Sub, además del comando pull y las marcas.</p>
+<p><img alt="5edc9b3763bbb596.png" src="https://cdn.qwiklabs.com/6EiXINl%2FCnCMQyRdF%2Fs34InkRozTg%2FhSEqCQ4CD4nf4%3D"></p>
+<h3>Finalice su Quest</h3>
+<p>Continúe su Quest con <a href="https://google.qwiklabs.com/quests/33">Baseline: Infrastructure</a>. Una Quest es una serie de labs relacionados que forman una ruta de aprendizaje. Si completa esta Quest, obtendrá la insignia que se muestra arriba como reconocimiento de su logro. Puede hacer públicas sus insignias y agregar vínculos a ellas en su currículum en línea o en sus cuentas de redes sociales.  <a href="https://google.qwiklabs.com/quests/33">Inscríbase en esta Quest</a> y obtenga un crédito inmediato de finalización si realizó este lab.  <a href="http://google.qwiklabs.com/catalog">Consulte otras Quests de Qwiklabs disponibles</a>.</p>
+<h3>Realice su siguiente lab</h3>
+<p>Este lab forma parte de una serie llamada Qwik Starts. Estos labs están diseñados para ofrecerle una visión general de las numerosas funciones disponibles en Google Cloud. Busque "Qwik Starts" en el <a href="https://google.qwiklabs.com/catalog">catálogo de labs</a> para elegir el siguiente lab en el que desee participar.</p>
+<h3>Pasos siguientes/Más información</h3>
+<ul>
+<li>Revise nuestras <a href="https://google.qwiklabs.com/catalog">Quests</a> para ver una serie de labs a fin de concentrarse en un área. Por ejemplo, Networking in the Google Cloud.</li>
+<li>También puede aprender sobre algo completamente distinto con <a href="https://google.qwiklabs.com/focuses/4459">Proxy de servicios web de Google Maps para aplicaciones para dispositivos móviles</a>.</li>
+</ul>
+<h3>Google Cloud Training &amp; Certification</h3>
+<p>Aproveche al máximo las tecnologías de Google Cloud. <a href="https://cloud.google.com/training/courses">Nuestras clases</a> incluyen habilidades técnicas y recomendaciones para ayudarlo a ponerse en marcha rápidamente y a seguir aprendiendo. Para que pueda realizar nuestros cursos cuando más le convenga, ofrecemos distintos tipos de capacitación de nivel básico a avanzado: según demanda, presenciales y virtuales. Las <a href="https://cloud.google.com/certification/">certificaciones</a> lo ayudan a validar y demostrar sus habilidades y experiencia en las tecnologías de Google Cloud.</p>
+
+<h5>Última actualización del manual: 3 de septiembre de 2018</h5>
+<h5>Prueba más reciente del lab: 3 de septiembre de 2018</h5>
+<p>Copyright 2020 Google LLC. All rights reserved. Google y el logotipo de Google son marcas de Google LLC. Los demás nombres de productos y empresas pueden ser marcas de las respectivas empresas a las que estén asociados.</p>
+
+
+
+</div>
+<div class='js-lab-content-outline lab-content__outline'>
+<a href='#step1'>GSP095</a><a href='#step2'>Resumen</a><a href='#step3'>Configuración y requisitos</a><a href='#step4'>Pub/Sub: Conceptos básicos</a><a href='#step5'>Temas de Pub/Sub</a><a href='#step6'>Suscripciones Pub/Sub</a><a href='#step7'>Ponga a prueba sus conocimientos</a><a href='#step8'>Cómo publicar y extraer un solo mensaje con Pub/Sub</a><a href='#step9'>Cómo extraer todos los mensajes desde las suscripciones con Pub/Sub</a><a href='#step10'>Felicitaciones</a>
+</div>
+</div>
+
+</div>
+
+<div class='lab-content__markdown-wrapper'>
+<div class='lab-content__markdown'>
+<div class='lab-content__recommendation'>
+<!-- # TODO: Change classes so that this doesn't stack vertically -->
+<section class='upcoming-cards'>
+<h2 class='headline-3'>Continuar Quest</h2>
+<div class='content-card-grid'>
+<div class='card-content-wrapper js-content-card' data-id='700' data-level='Introductory' data-name='Cloud Storage: Qwik Start - CLI/SDK' data-type='Lab'>
+<a class="card card--content elevation-0 content-lab" href="/focuses/569?locale=es&amp;parent=catalog"><div class='card__image'>
+<div class='card__image__inner' style='background-image: url(https://cdn.qwiklabs.com/assets/fractal0-8ca42d5686105a4c14126a9aa4e917b00cbebee8ad55d56a66712c5dbafa0b52.jpg)'></div>
+</div>
+<div class='card__body'>
+<div class='overline card--content__type'>
+Lab práctico
+</div>
+<h3 class='card--content__title'>
+Cloud Storage: Qwik Start - CLI/SDK
+</h3>
+<p class='card--content__description body-1'>
+En este lab práctico, aprenderá a ejecutar tareas básicas en Cloud Storage mediante la herramienta de línea de comandos gsutil. Para comenzar, mire este video breve: Google Cloud Storage: Massive Scalability Plus More.
+</p>
+</div>
+<div class='card__footer'>
+<div class='card__footer__left'>
+<span>Introductory</span>
+</div>
+<div class='card__footer__right'>
+<div class='rateit' data-rateit-readonly='true' data-rateit-value='4.4481'></div>
+</div>
+</div>
+</a></div>
+
+</div>
+</section>
+
+</div>
+</div>
+</div>
+
+</div>
+</div>
+<div class='lab-assessment__tab js-lab-assessment-tab'>
+<h5 class='small-label'>
+Puntuación
+</h5>
+<h3 class='js-lab-assessment-total-score'>
+&mdash;/10
+</h3>
+<iframe class='l-ie-iframe-fix'></iframe>
+</div>
+<div class='lab-assessment__panel js-lab-assessment-panel'>
+<!-- / If lab_instance has is started and assessment is generated, use -->
+<!-- / lab_instance.assessment, otherwise use lab.assessment_manual -->
+<div class='lab-assessment__step'>
+<p class='lab-assessment__step__title'>
+Create a Pub/Sub topic
+</p>
+<p class='button button--assessment js-show-run-step-button' step_no='1'>
+Ejecutar paso
+</p>
+<p class='lab-assessment__step__score'>
+<span class='js-assessment-step-score-1'>
+</span>
+/ 5
+</p>
+</div>
+
+<div class='lab-assessment__step'>
+<p class='lab-assessment__step__title'>
+Create Pub/Sub Subscription
+</p>
+<p class='button button--assessment js-show-run-step-button' step_no='2'>
+Ejecutar paso
+</p>
+<p class='lab-assessment__step__score'>
+<span class='js-assessment-step-score-2'>
+</span>
+/ 5
+</p>
+</div>
+
+<iframe class='l-ie-iframe-fix'></iframe>
+</div>
+<div class='lab-introduction js-lab-introduction is-hidden'>
+<div class='lab-introduction__inner'>
+<h1 class='headline-1'>Le damos la bienvenida a su primer lab.</h1>
+<ql-icon-button class='js-skip-button'>close</ql-icon-button>
+<div class='lab-introduction__video'>
+<iframe allow='autoplay; encrypted-media' allowfullscreen frameborder='0' id='lab-introduction' src='https://www.youtube.com/embed/TGUtGKD-B-Q?enablejsapi=1&amp;rel=0&amp;showinfo=0'></iframe>
+</div>
+<a class='js-skip-button button button--outline'>Omitir este video</a>
+</div>
+</div>
+
+
+
+</div>
+</main>
+<div class='modal fade' id='lab-details-modal'>
+<div class='modal-container'>
+<div class='mdl-shadow--24dp modal-content'>
+<div class='modal-body'>
+<p class='l-mbm'>
+En este lab práctico, aprenderá a publicar y consumir mensajes con un suscriptor de extracción mediante la línea de comandos de Google Cloud. Para comenzar, mire este breve video: <a href="https://youtu.be/oKU2wbTXMTY">Simplify Event Driven Processing with Cloud Pub/Sub</a>.
+</p>
+<p>
+Este lab se incluye en la Quest
+<a href="/quests/33?locale=es">Baseline: Infrastructure</a>.
+Si completa este lab, recibirá el crédito correspondiente cuando se inscriba en esta Quest.
+</p>
+<p class='small-label l-mbs'>
+<strong>
+Duración:
+</strong>
+0 min de configuración
+&middot;
+Acceso por 40 min
+&middot;
+30 min para completar
+</p>
+<p class='small-label l-mbs'>
+<span><strong>Niveles: </strong>introductory</span>
+</p>
+<p class='small-label'>
+<strong>
+Vínculo permanente:
+</strong>
+<a href="https://www.qwiklabs.com/catalog_lab/711">https://www.qwiklabs.com/catalog_lab/711</a>
+</p>
+</div>
+<div class='modal-actions'>
+<a class='mdl-button mdl-button--primary mdl-js-button mdl-js-ripple-effect' data-dismiss='modal'>
+Got It
+</a>
+</div>
+
+
+</div>
+</div>
+<iframe class='l-ie-iframe-fix'></iframe>
+</div>
+<div class='modal fade' id='lab-review-modal'>
+<div class='modal-container'>
+<div class='mdl-shadow--24dp modal-content'>
+<form class="simple_form js-lab-review-form" id="edit_lab_review_5337884" action="/lab_reviews/5337884?locale=es" accept-charset="UTF-8" data-remote="true" method="post"><input name="utf8" type="hidden" value="&#x2713;" /><input type="hidden" name="_method" value="patch" /><div class='modal-body'>
+<p class='label'>
+¿Qué tan satisfecho está con este lab?*
+</p>
+<div class='rateit js-rateit' data-rateit-max='5' data-rateit-min='0' data-rateit-resetable='false' data-rateit-step='1' data-rateit-value='5'></div>
+<div class='l-mtm'>
+
+<div class="control-group hidden lab_review_user_id"><div class="controls"><input class="hidden" type="hidden" value="2485272" name="lab_review[user_id]" id="lab_review_user_id" /></div></div>
+<div class="control-group hidden lab_review_classroom_id"><div class="controls"><input class="hidden" type="hidden" name="lab_review[classroom_id]" id="lab_review_classroom_id" /></div></div>
+<div class="control-group hidden lab_review_lab_id"><div class="controls"><input class="hidden" type="hidden" value="711" name="lab_review[lab_id]" id="lab_review_lab_id" /></div></div>
+<div class="control-group hidden lab_review_focus_id"><div class="controls"><input class="hidden" type="hidden" name="lab_review[focus_id]" id="lab_review_focus_id" /></div></div>
+<div class="control-group hidden lab_review_rating"><div class="controls"><input class="hidden js-rating-input" type="hidden" value="2" name="lab_review[rating]" id="lab_review_rating" /></div></div>
+<div class="control-group text optional lab_review_comment"><label class="text optional control-label" for="lab_review_comment">Comentario</label><div class="controls"><textarea class="text optional" name="lab_review[comment]" id="lab_review_comment">
+</textarea></div></div>
+</div>
+</div>
+<div class='modal-actions'>
+<a class='mdl-button mdl-button--primary mdl-js-button mdl-js-ripple-effect' data-dismiss='modal'>
+Cancel
+</a>
+<input type="submit" name="commit" value="Enviar" disabled="disabled" class="btn mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--primary" id="submit" data-disabled="false" data-disable-with="Enviar" />
+</div>
+</form>
+
+</div>
+</div>
+<iframe class='l-ie-iframe-fix'></iframe>
+</div>
+
+<script>
+  $( function() {
+    ql.initMaterialInputs();
+    initChosen();
+    initSearch();
+    initTabs();
+    ql.list.init();
+    ql.favoriting.init();
+    ql.header.myAccount.init();
+    initTooltips();
+    ql.autocomplete.init();
+    ql.modals.init();
+    ql.toggleButtons.init();
+    ql.analytics.init();
+    initLabContent( );
+  ql.labOutline.links.init();
+  ql.labOutline.layout.init();
+  initLabReviewModal();
+  ql.labAssessment.init();
+  ql.labIntroduction.init( true );
+  ql.labData.init();
+  initLabTranslations( {"are_you_sure":"¿Se completó el proceso? Si finaliza el lab, perderá todo su trabajo. Es posible que no pueda reiniciar el lab si existe un límite de cuota. ¿Está seguro de que desea finalizar el lab?","in_progress":"*En curso*","ending":"*Finalizando*","starting":"*Iniciando. Espere*","end_concurrent_labs":"Lo sentimos; solo puede ejecutar un lab a la vez. Para iniciar este lab, confirme que desea finalizar todos sus labs activos.","copied":"Copiado","no_resource":"Se produjo un error durante la recuperación del recurso.","no_support":"No hay asistencia disponible","mac_press":"Presione ⌘ + C para copiar","thanks_review":"Gracias por calificar este lab.","windows_press":"Presione Ctrl + C para copiar","days":"días"} );
+  ql.labRun.init();
+  ql.initHeader();
+  ql.navigation.init();
+  ql.navPanel.init();
+  ql.navigation.init();
+  
+  });
+</script>
+<style>
+  .mdl-layout__container {
+    position: static
+  }
+</style>
+</body>
+</html>

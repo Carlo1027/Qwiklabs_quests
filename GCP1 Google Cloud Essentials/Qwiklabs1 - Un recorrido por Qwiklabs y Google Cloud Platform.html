@@ -1,0 +1,759 @@
+<!DOCTYPE html>
+<html lang='es'>
+<head>
+<meta content='[]' name='active-experiments'>
+<meta content='{&quot;userId&quot;:2485272}' name='help-api-product-data'>
+<meta name="csrf-param" content="authenticity_token" />
+<meta name="csrf-token" content="xU4k7+voaUVLVHd1lPwyg5ptq+V4GOG0RhBwgcvH37Ixe8QMKC2g7H/qiwm7WBPiDdLgYSH+aGytUK1C9y/G6g==" />
+<title>Un recorrido por Qwiklabs y Google Cloud Platform | Qwiklabs</title>
+<meta content='width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=0' name='viewport'>
+<meta content='En este primer lab práctico, accederá a Qwiklabs y a Google Cloud Platform Console, y usará características básicas de GCP: proyectos, recursos, usuarios de IAM, funciones, permisos, API y Cloud Shell.' name='description'>
+<meta content='Qwiklabs' name='author'>
+<meta content='1rRsY0INj8RvwB5EF5pwdxt2A2P9aDgAlsICaJ0d5w0' name='google-site-verification'>
+<meta content='Un recorrido por Qwiklabs y Google Cloud Platform | Qwiklabs' property='og:title'>
+<meta content='website' property='og:type'>
+<meta content='/favicon-144.png' property='og:image'>
+<meta content='Qwiklabs' property='og:site_name'>
+<meta content='En este primer lab práctico, accederá a Qwiklabs y a Google Cloud Platform Console, y usará características básicas de GCP: proyectos, recursos, usuarios de IAM, funciones, permisos, API y Cloud Shell.' property='og:description'>
+<meta content='/qwiklabs_logo_900x887.png' property='og:logo' size='900x887'>
+<meta content='/qwiklabs_logo_994x187.png' property='og:logo' size='994x187'>
+<meta content='#3681E4' property='msapplication-TileColor'>
+<meta content='/favicon-144.png' property='msapplication-TileImage'>
+<link href='/favicon-32.png' rel='shortcut icon'>
+<link color='#3681E4' href='/favicon-svg.svg' rel='mask-icon'>
+<link href='/favicon-180.png' rel='apple-touch-icon-precomposed'>
+<link rel="stylesheet" media="screen" href="https://fonts.googleapis.com/css?family=Oswald:400|Roboto+Mono:400,700|Roboto:300,400,500,700|Google+Sans:300,400,500,700|Google+Sans+Display:400|Material+Icons|Google+Material+Icons" />
+
+<link rel="stylesheet" media="screen" href="https://cdn.qwiklabs.com/assets/application_old/locales/es-7c4d85e3db7c28c14f71b18551da7ddc227e8f9b85777ece770fcbd96d9ef753.css" />
+<!--[if lt IE 9]>
+<script src='http://html5shim.googlecode.com/svn/trunk/html5.js' type='text/javascript'></script>
+<![endif]-->
+<!--[endif]>  <![endif]-->
+<script>
+//<![CDATA[
+window.gon={};gon.current_user={"firstname":"Carlo Andr\u00e9","lastname":"Castro Galindo","fullname":"Carlo Andr\u00e9 Castro Galindo","company":"Coursera","email":"carlocastrogalindo@gmail.com","origin":"googlecoursera-run, lti-coursera","subscriptions":1,"id":"eb3f0602d940d94d2eaeef36f2aa2e77","qlCreatedAt":"2020-02-28 17:36:48 UTC","optIn":false};gon.segment="j4Im8pqIko0Lxq4wVVZWMPMM0EroHUvb";gon.deployment="run";
+//]]>
+</script>
+<script type='application/ld+json'>
+{
+  "@context": "http://schema.org",
+  "@type": "WebSite",
+  "url": "https://www.qwiklabs.com/",
+  "potentialAction": {
+    "@type": "SearchAction",
+    "target": "https://www.qwiklabs.com/catalog?keywords={search_term_string}",
+    "query-input": "required name=search_term_string"
+  }
+}
+</script>
+<script id='ze-snippet' src='https://static.zdassets.com/ekr/snippet.js?key=511e4158-0aec-4e3c-b2e6-4daa1769f51e'></script>
+
+
+
+<link rel="stylesheet" media="all" href="https://cdn.qwiklabs.com/assets/application-4c3d1e8bc7757ea71809ef44e35c5d8018fb66ce6a4a777389558445ba2ce8a2.css" />
+<script>
+  EVENT_SOURCE_BASE_URL = "https://run.qwiklabs.com/nchan-sub?id=";
+</script>
+<script src="https://cdn.qwiklabs.com/polyfills/webcomponents-loader.js"></script>
+<script src="https://cdn.qwiklabs.com/assets/hallofmirrors/hallofmirrors__es_419-53722a8c29aa90d0fbab9b3c73008da3dadf74f9c7e6e4d2cb1df2c62c3fb110.js"></script>
+<script src="https://www.youtube.com/iframe_api"></script>
+<script src="https://cdn.qwiklabs.com/assets/vendor-45d462772c30000424907184f70c7157e95fb6227698d1671c5051818a6f60d8.js"></script>
+<script src="https://cdn.qwiklabs.com/assets/application-7c67c1d428839917a0992758b33da63184c69efa420e5939804ea34d54147a97.js"></script>
+</head>
+<body class='focuses focuses-show lab-show l-full no-nav'>
+<div class='header-container light-theme'>
+<div class='header'>
+<a class='mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect header__button header__button--nav header__nav-panel-button js-nav-toggle'>
+<i class='material-icons'>menu</i>
+</a>
+<div class='header__title'>
+<a class="mdl-button mdl-js-button mdl-button--icon mdl-js-ripple-effect header__button header__button--nav" href="https://www.qwiklabs.com/quests/23?locale=es"><ql-icon>arrow_back</ql-icon></a>
+
+<h1 class='headline-5'>
+Un recorrido por Qwiklabs y Google Cloud Platform
+</h1>
+</div>
+<div class='header__actions'>
+<a class='mdl-button mdl-js-button mdl-button--icon mdl-js-ripple-effect header__button header__button--action header__button--search js-header-search-bar-button'>
+<i class='material-icons'>search</i>
+</a>
+<a class="mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect" id="toggle-lab-control-panel" href="javascript:;"><i class='material-icons'>description</i>
+</a><div class='mdl-tooltip js-tooltip' data-mdl-for='toggle-lab-control-panel'>
+Activar o desactivar panel del lab
+</div>
+<a class="mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect js-favorite-button favorite-button" id="CatalogItem-2794-favorite-button" data-type="CatalogItem" data-id="2794" data-name="Un recorrido por Qwiklabs y Google Cloud Platform" href="/favorite.json?item_id=2794&amp;item_type=CatalogItem&amp;locale=es"><i class='material-icons'>favorite_border</i>
+</a><div class='mdl-tooltip js-tooltip' for='CatalogItem-2794-favorite-button'>
+Agregar a favoritos
+</div>
+
+
+<ql-help context="lab" productdata="{&quot;userId&quot;:2485272}" data-analytics-action="opened_help" data-analytics-label="lab"></ql-help>
+<a class='header-my-account-button mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect js-my-account-button'>
+<img class="avatar " alt="avatar image" src="https://secure.gravatar.com/avatar/be719396bbcc1e8bcb204a54e1920c54.png?s=80&amp;d=mm" />
+</a>
+<div class='header-my-account-menu js-my-account-menu'>
+<div class='card elevation-2 no-padding'>
+<div class='my-account-menu__top'>
+<img class="avatar " alt="avatar image" src="https://secure.gravatar.com/avatar/be719396bbcc1e8bcb204a54e1920c54.png?s=80&amp;d=mm" />
+<div class='my-account-menu__info'>
+<h4 class='subtitle-headline-1'>
+Carlo André Castro Galindo
+</h4>
+<p class='body-2 text--gray'>
+<span>carlocastrogalindo@gmail.com</span>
+</p>
+<a class="button" href="/my_account/profile?locale=es">Mi cuenta</a>
+</div>
+</div>
+<div class='my-account-menu__bottom'>
+<a class="text--green subtitle-headline-2" href="/my_account/credits?locale=es">Suscripción mensual
+</a><a data-analytics-action="clicked_sign_out" class="button button--hairline" rel="nofollow" data-method="delete" href="/users/sign_out?locale=es">Salir</a>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+<div class='header__search-bar js-header-search-bar'>
+<form id="catalog-search-mobile" onsubmit="ql.catalogSearchFilter(); return false;" action="/searches/elasticsearch" accept-charset="UTF-8" method="post"><input name="utf8" type="hidden" value="&#x2713;" /><input type="hidden" name="authenticity_token" value="0aGI6Bp5GwV6IJhLz56V6ZtnhJHiz0rm+j4jgDg8EQgllGgL2bzSrE6eZDfgOrSIDNjPFbspwz4Rfv5DBNQIUA==" />
+<input type="text" name="keywords" id="keywords" placeholder="Buscar" maxlength="255" aria-label="catalog search bar" />
+</form>
+
+<a class='mdl-button mdl-js-button mdl-button--icon mdl-js-ripple-effect header__button'>
+<i class='material-icons'>close</i>
+</a>
+</div>
+</div>
+
+<nav class='nav-bar'>
+<a class="nav-bar__item js-navigation-button" href="/?locale=es"><ql-icon class='nav-bar__item__icon'>
+home
+</ql-icon>
+<span class='nav-bar__item__label'>
+Página principal
+</span>
+</a>
+<a class="nav-bar__item js-navigation-button  active" aria-current="page" href="/catalog?locale=es"><ql-icon class='nav-bar__item__icon'>
+school
+</ql-icon>
+<span class='nav-bar__item__label'>
+Catálogo
+</span>
+</a>
+<a class="nav-bar__item js-navigation-button" href="/my_learning?locale=es"><ql-icon class='nav-bar__item__icon'>
+event_note
+</ql-icon>
+<span class='nav-bar__item__label'>
+Mi aprendizaje
+</span>
+</a>
+</nav>
+
+<nav class='nav-panel js-nav-panel'>
+<div class='nav-panel__logo'>
+<div class='logo logo--blue'></div>
+</div>
+<a title="Página principal" tabindex="-1" class="nav-panel__item js-navigation-button" href="/?locale=es"><ql-icon class='nav-panel__item__icon'>
+home
+</ql-icon>
+<div class='nav-panel__item__label'>
+Página principal
+</div>
+</a>
+<a title="Catálogo" tabindex="-1" class="nav-panel__item js-navigation-button active" aria-current="page" href="/catalog?locale=es"><ql-icon class='nav-panel__item__icon'>
+school
+</ql-icon>
+<div class='nav-panel__item__label'>
+Catálogo
+</div>
+</a>
+<a title="Mi aprendizaje" tabindex="-1" class="nav-panel__item js-navigation-button" href="/my_learning?locale=es"><ql-icon class='nav-panel__item__icon'>
+event_note
+</ql-icon>
+<div class='nav-panel__item__label'>
+Mi aprendizaje
+</div>
+</a>
+<div class='nav-panel__spacer'></div>
+<a title="Profile" tabindex="-1" class="nav-panel__item js-navigation-button" href="/my_account/profile?locale=es"><ql-icon class='nav-panel__item__icon'>
+account_circle
+</ql-icon>
+<div class='nav-panel__item__label'>
+Profile
+</div>
+</a>
+<a title="Credits &amp; Subscriptions" tabindex="-1" class="nav-panel__item js-navigation-button" href="/my_account/credits?locale=es"><ql-icon class='nav-panel__item__icon'>
+money
+</ql-icon>
+<div class='nav-panel__item__label'>
+Credits &amp; Subscriptions
+</div>
+</a>
+<a title="Security" tabindex="-1" class="nav-panel__item js-navigation-button" href="/my_account/security?locale=es"><ql-icon class='nav-panel__item__icon'>
+security
+</ql-icon>
+<div class='nav-panel__item__label'>
+Security
+</div>
+</a>
+<div class='nav-panel__spacer'></div>
+<a class="nav-panel__item" tabindex="-1" href="#"><ql-help>
+<div class='nav-panel__help-item'>
+<ql-icon class='nav-panel__item__icon'>help</ql-icon>
+<div class='nav-panel__item__label'>Help</div>
+</div>
+</ql-help>
+</a><div class='nav-panel__small-links'>
+<a tabindex="-1" href="/privacy_policy?locale=es">Privacidad</a>
+<a tabindex="-1" href="/terms_of_service?locale=es">Condiciones</a>
+</div>
+</nav>
+<div class='nav-panel__overlay js-nav-toggle'></div>
+
+<main class='js-main'>
+<span class='hidden' id='flash-sibling-before'></span>
+
+<div class='l-main-wrapper' id='main-wrapper'>
+
+
+
+
+
+
+
+<div class='js-lab-state' data-analytics-payload='{&quot;label&quot;:&quot;Un recorrido por Qwiklabs y Google Cloud Platform&quot;,&quot;lab_name&quot;:&quot;Un recorrido por Qwiklabs y Google Cloud Platform&quot;,&quot;classroom_name&quot;:null,&quot;deployment&quot;:&quot;run&quot;}' data-focus-id='2794' data-lab-billing-limit='0.0' data-lab-duration='2700' data-parent='catalog'></div>
+<ql-lab-control-panel class='js-lab-control-panel l-lab-control-panel' connectionDetails='[]' connectionFiles='[]' labControlButton='{&quot;disabled&quot;:false,&quot;pending&quot;:false,&quot;running&quot;:false}' labTimer='{&quot;ticking&quot;:false,&quot;secondsRemaining&quot;:2700}' studentResources='[]'></ql-lab-control-panel>
+<div class='l-lab-main-body'>
+<div class='js-lab-content lab-content'>
+<div class='alert alert--fake js-alert'>
+<p class='alert__message js-alert-message'></p>
+<a class='alert__close js-alert-close'>
+<i class='fa fa-times'></i>
+</a>
+<iframe class='l-ie-iframe-fix'></iframe>
+</div>
+<div class='lab-content__markdown-wrapper'>
+<div class='lab-preamble'>
+<h1 class='lab-preamble__title'>
+Un recorrido por Qwiklabs y Google Cloud Platform
+</h1>
+<div class='lab-preamble__details subtitle-headline-1'>
+<span>45 minutos</span>
+<span>Gratis</span>
+<div class='lab__rating'>
+<a href="/focuses/2794/reviews?locale=es&amp;parent=catalog"><div class='rateit' data-rateit-readonly='true' data-rateit-value='4.4431'></div>
+
+</a><a data-target='#lab-review-modal' data-toggle='modal'>
+Calificar lab
+</a>
+</div>
+</div>
+</div>
+
+<div class='lab-content__inner-wrapper'>
+<div class='js-markdown-instructions lab-content__markdown markdown-lab-instructions' id='markdown-lab-instructions'>
+
+
+
+<h2 id="step1">GSP282</h2>
+<p><img alt="Labs de autoaprendizaje de Google Cloud" src="https://cdn.qwiklabs.com/GMOHykaqmlTHiqEeQXTySaMXYPHeIvaqa2qHEzw6Occ%3D"></p>
+
+<h2 id="step2">Descripción general</h2>
+<p><a href="https://cloud.google.com/">Google Cloud Platform</a> (GCP) es un paquete de servicios de nube alojados en la infraestructura de Google. Desde procesamiento y almacenamiento hasta estadísticas de datos, aprendizaje automático y Herramientas de redes, GCP ofrece una amplia variedad de servicios y API que pueden integrarse en cualquier aplicación o proyecto de computación en la nube, sin importar si es personal o de nivel empresarial.</p>
+<p>En este lab de nivel introductorio, dará sus primeros pasos con GCP. Para ello, adquirirá experiencia práctica con <a href="https://cloud.google.com/cloud-console/">Google Cloud Platform Console</a>, una IU integrada en el navegador que le permite acceder a los servicios de Google Cloud y administrarlos. Identificará características clave de GCP y, además, aprenderá los pormenores del entorno de Qwiklabs. Si recién comienza a usar la computación en la nube o busca una descripción general de GCP y Qwiklabs, está en el lugar indicado. Continúe leyendo para aprender sobre los detalles de este lab y las áreas con las que adquirirá práctica.</p>
+<h3>Qué aprenderá</h3>
+<p>En este lab, hará lo siguiente:</p>
+<ul>
+<li>Aprender sobre la plataforma de Qwiklabs, además de identificar las características clave del entorno de un lab</li>
+<li>Aprender sobre los créditos de Qwiklabs (y posiblemente comprarlos) y, luego, iniciar una instancia de un lab</li>
+<li>Aprender cómo acceder a GCP Console con credenciales específicas</li>
+<li>Aprender sobre proyectos de GCP, además de identificar conceptos erróneos comunes en relación con estos</li>
+<li>Aprender cómo usar el menú de navegación de GCP para identificar tipos de servicios de GCP</li>
+<li>Aprender sobre las funciones básicas y usar el servicio de Cloud IAM a fin de inspeccionar acciones disponibles para usuarios específicos</li>
+<li>Aprender sobre Cloud Shell y ejecutar comandos que usen el kit de herramientas <code>gcloud</code>
+</li>
+<li>Aprender sobre la biblioteca de API y examinar sus funciones principales</li>
+<li>Usar las herramientas que vienen preinstaladas en Cloud Shell y ejecutar comandos como <code>touch</code>, <code>nano</code> y <code>cat</code> para crear, editar y ver el contenido de archivos</li>
+</ul>
+<h3>Requisitos previos</h3>
+<p>Este es un lab de <strong>nivel introductorio</strong> y debe ser el primero que realice si no está familiarizado con GCP ni Qwiklabs. Si ya tiene experiencia con Qwiklabs y Google Cloud Platform Console, consulte los siguientes labs (si decide realizar uno, asegúrese de <strong>finalizar su lab ahora</strong>):</p>
+<ul>
+<li><a href="https://google.qwiklabs.com/catalog_lab/320" target="_blank">Cómo comenzar a usar Cloud Shell y gcloud</a></li>
+<li><a href="https://google.qwiklabs.com/catalog_lab/1427" target="_blank">Cómo crear una máquina virtual</a></li>
+</ul>
+<p>Cuando esté listo, desplácese hacia abajo para configurar su lab.</p>
+<h2 id="step3">Aspectos básicos de Qwiklabs</h2>
+<h3>Funciones y componentes</h3>
+<p>Independientemente del tema o el nivel de experiencia, todo el contenido de Qwiklabs comparte una interfaz común. El lab que está realizando debería verse bastante similar al siguiente:</p>
+<p><img alt="f7551948fe0a5b1d.png" src="https://cdn.qwiklabs.com/cCCEY7%2B1KTma5a34x9LaYR3059SOcraUvbOduRPtitk%3D"></p>
+<ql-infobox>
+<b>Nota</b>: No realizará el lab "Cómo crear una máquina virtual" que se muestra arriba; se usa meramente como ejemplo para destacar las funciones comunes de Qwiklabs.
+</ql-infobox>
+<p>Lea las siguientes definiciones de los componentes de los labs y, luego, ubíquelas en la esquina superior derecha de la interfaz.</p>
+<h4>Comenzar lab (botón)</h4>
+<p>Cuando se hace clic en este botón, se crea un entorno de GCP temporal con todos los servicios y las credenciales necesarios habilitados, de modo que pueda profundizar y adquirir práctica con el material del lab. Una vez que haya hecho clic, comenzará a correr un temporizador de cuenta regresiva que le da una cantidad específica de tiempo para completar los pasos del lab. Cuando el temporizador llegue a <code>00:00:00</code>, el entorno de su lab y las credenciales temporales se borrarán.</p>
+<h4>Crédito</h4>
+<p>Indica el precio de un lab. <em>Generalmente</em>, 1 crédito equivale a 1 dólar estadounidense (mientras más créditos compre, mayor será el descuento que recibirá). Los labs del nivel introductorio (como este) tienen un costo de 1 crédito, los de nivel básico cuestan 5, los de nivel avanzado cuestan 7 y los de nivel experto cuestan 9 créditos. Los labs más especializados tienen un costo más alto porque implican tareas de procesamiento más complejas y demandan más recursos de GCP.</p>
+<h4>Tiempo</h4>
+<p>Especifica la cantidad de tiempo que tiene para completar un lab. Como se mencionó anteriormente, una vez que haga clic en el botón “Comenzar lab”, el temporizador comenzará la cuenta regresiva hasta llegar a <code>00:00:00</code>. Cuando lo haga, su entorno temporal de GCP se borrará, junto con los recursos correspondientes. Tendrá tiempo de sobra para completar cada lab, pero es recomendable que no intente repartir su atención entre varias actividades mientras realiza un lab, ya que correría el riesgo de perder todo su trabajo.</p>
+<h4>Puntuación</h4>
+<p>En casi todos los labs, se le asignará una puntuación. Esta función se conoce como “seguimiento de actividades” y garantiza que complete pasos específicos de un lab. Para aprobar un lab con seguimiento de actividades, es necesario que complete todos los pasos <em>en orden</em> (de lo contrario, no recibirá el crédito de finalización).</p>
+<h3>Cómo comprar créditos</h3>
+<p>Si aún no lo hizo, haga clic en el botón <strong>Comenzar lab</strong> ahora. Si cuenta con un "código de acceso" (un cupón que cubre el costo de un lab individual, sin importar el nivel de conocimiento técnico al que corresponda) o si ya compró créditos, puede pasar directamente a la sección "Cómo iniciar un lab". De lo contrario, haga clic en <strong>COMPRAR CRÉDITOS</strong>. Esta acción lo llevará a una página nueva que ofrece distintos paquetes de créditos:</p>
+<p><img alt="687cb3c84f0e3616.png" src="https://cdn.qwiklabs.com/sPRfzNrQgWMkrS4whMrVL10LX7yti7CDNF1U7cjxFDU%3D"></p>
+<p>Ingrese la cantidad de créditos que desea comprar y haga clic en <strong>Pagar con tarjeta de crédito</strong>. Esta acción lo llevará a un panel seguro en el que deberá ingresar la información de su tarjeta de crédito:</p>
+<p><img alt="dece71c4ac29dcf6.png" src="https://cdn.qwiklabs.com/pYmkOWJFlXfNo1dSUCzUUaAS12K%2FrlHO%2BeuhNs3tweM%3D"></p>
+<p>Ingrese la información de su tarjeta de crédito y haga clic en <strong>Pagar</strong>. Ya está listo para realizar este lab y cualquier otra actividad de Qwiklabs. Cuando desee comprar más créditos, solo tendrá que hacer clic en el ícono de perfil en la esquina superior derecha y seleccionar “Comprar créditos”. También se le solicitará que compre más si se queda sin créditos y trata de comenzar un lab nuevo.</p>
+<h3>Cómo iniciar un lab</h3>
+<p>Ahora que comprendemos las características y los componentes clave de un lab, haga clic en el botón <strong>Comenzar lab</strong>, en la esquina superior derecha. Si cuenta con un código de acceso, ingréselo ahora y haga clic en <strong>Iniciar con un código de acceso</strong>. De lo contrario, haga clic en <strong>Iniciar con 1 crédito</strong>:</p>
+<p><img alt="e89b47fb2c0d0cf4.png" src="https://cdn.qwiklabs.com/Rnn2qmTMgAkLK4BI3y%2BDT%2FTDBj7izBDD0xD%2BNO6bdxo%3D"></p>
+<p>Tenga paciencia, ya que es posible que el entorno de GCP y las credenciales tarden un momento en verificarse. Cuando el temporizador en la esquina superior derecha comienza a marcar el tiempo y el botón <strong>Comenzar lab</strong> se cambia a un botón de color rojo que dice <strong>Finalizar Lab</strong>, significa que todo está listo y ya puede acceder a Google Cloud Platform Console.</p>
+<p>Asegúrese de no hacer clic en el botón <strong>Finalizar lab</strong> hasta que haya completado todas las tareas requeridas. Una vez que haga clic, sus credenciales temporales se invalidarán y ya no podrá acceder al trabajo que realizó a lo largo del lab. Haga clic en el botón <strong>Finalizar lab</strong> solo cuando haya llegado al final y esté seguro de haber completado todos los pasos necesarios. Debe hacer clic en este botón cuando termine; si no lo hace, no podrá realizar otro lab (Qwiklabs cuenta con protecciones que impiden una inscripción simultánea).</p>
+<h3>Ponga a prueba sus conocimientos</h3>
+<p>Responda las siguientes preguntas de opción múltiple para reforzar sus conocimientos de los conceptos que tratamos hasta ahora.</p>
+<p><ql-multiple-choice-probe answerindex="0" optiontitles='[
+"Start lab (button)",
+"Credit",
+"Time",
+"Score"
+]' shuffle="" stem="This builds a temporary environment in GCP.">
+</ql-multiple-choice-probe></p>
+<p><ql-multiple-choice-probe answerindex="0" optiontitles='[
+"True",
+"False"
+]' shuffle="" stem="Once the timer reaches 00:00:00, you will lose access to your temporary GCP environment.">
+</ql-multiple-choice-probe></p>
+<p><ql-multiple-choice-probe answerindex="0" optiontitles='[
+"True",
+"False"
+]' shuffle="" stem="Some labs have tracking, which scores your completion of hands-on lab activities.">
+</ql-multiple-choice-probe></p>
+<p><ql-multiple-choice-probe answerindex="0" optiontitles='[
+"True",
+"False"
+]' shuffle="" stem="In order to receive completion credit for a lab that has tracking, you must complete the required hands-on lab activities.">
+</ql-multiple-choice-probe></p>
+<h2 id="step4">Cómo acceder a GCP Console</h2>
+<h3>Términos clave</h3>
+<p>Ahora que la instancia de su lab está en funcionamiento, consulte el panel Detalles de la conexión a la izquierda. Debería tener el botón Abrir Google Console, así como información propagada en los campos Nombre de usuario, Contraseña e ID del proyecto de GCP.</p>
+<p><img alt="credentials.png" src="https://cdn.qwiklabs.com/Y36TAn6ljVjIJjG1NdsKBDr5NpZQcpewYBDkFXx8Kic%3D"></p>
+<ql-infobox>
+<b>Nota</b>: Sus credenciales serán similares, pero no coincidirán con las que aparecen arriba; cada instancia de lab genera credenciales temporales nuevas.
+</ql-infobox>
+<p>Antes de seguir avanzando, examinemos cada uno de estos componentes.</p>
+<h4>Abrir Google Console</h4>
+<p>Se trata de un botón que lo lleva a <a href="https://cloud.google.com/storage/docs/cloud-console">Google Cloud Platform Console</a>, la consola web y centro de desarrollo principal de GCP. Cuando comience a trabajar en GCP, hará la mayor parte de su trabajo desde esa interfaz. Todos los labs de Qwiklabs de GCP usan la consola de alguna forma.</p>
+<h4>ID del proyecto de GCP</h4>
+<p>Un <a href="https://cloud.google.com/docs/overview/#projects">proyecto de GCP</a> es una entidad que le permite organizar sus recursos de Google Cloud. A menudo, contiene recursos y servicios, como un grupo de máquinas virtuales, un conjunto de bases de datos y una red que los conecta entre sí. Los proyectos también contienen configuraciones y permisos que especifican las reglas de seguridad y quiénes tienen acceso a cada recurso.</p>
+<p>El <em>ID del proyecto de GCP</em> es un identificador único que se usa para vincular recursos y API de GCP a su proyecto específico. Los ID de proyecto son únicos en GCP, lo que significa que solo puede haber un <strong>qwiklabs-gcp-xxx…</strong>, y esa cadena puede usarse para identificarlo a nivel global.</p>
+<h4>Nombre de usuario y contraseña</h4>
+<p>Se trata de credenciales que representan una identidad que cuenta con permisos de acceso (una o más funciones) en el servicio Identity and Access Management (IAM) de GCP, lo cual le permite trabajar con recursos de GCP en un proyecto que se le haya asignado. Estas credenciales son <em>temporales</em> y solo funcionan durante el período de acceso del lab. Esto significa que, una vez que el temporizador llegue a 0, ya no podrá acceder a su proyecto de GCP con esas credenciales.</p>
+<h3>Cómo acceder a GCP</h3>
+<p>Ahora que comprende mejor el panel Detalles de la conexión, usemos los datos que contiene para acceder a GCP Console. Haga clic en el botón <strong>Abrir Google Console</strong>. Esta acción abrirá la página de acceso de GCP en una nueva pestaña del navegador.</p>
+<p>Ahora debería estar en una página similar a la siguiente:</p>
+<p><img alt="132360d35fb145c3.png" src="https://cdn.qwiklabs.com/zET9RtU1aN7f3FhNhhUNe7%2BPbBtgwz4fTUO3E86m8m0%3D"></p>
+<p>Si alguna vez accedió a una aplicación de Google como Gmail, esta página debería resultarle familiar. Para acceder a Console, copie el <strong>nombre de usuario</strong> del panel Detalles de la conexión, péguelo en el campo "Correo electrónico o teléfono" y presione Intro.</p>
+<p><em>¡Un momento! Asegúrese de estar usando el correo electrónico googlexxxxxx_student@qwiklabs.net para acceder, NO su dirección de correo electrónico personal o corporativo.</em></p>
+<p>Regrese y copie la <strong>contraseña</strong> de las credenciales aprovisionadas en la página del lab de Qwiklabs, péguela en el campo "Contraseña" de GCP y presione Intro para acceder.</p>
+<ql-infobox>
+  El nombre de usuario similar a googlexxxxxx_student@qwiklabs.net es una Cuenta de Google creada específicamente para que la use como estudiante de Qwiklabs. Tiene un nombre de dominio específico ("qwiklabs.net"), y se le asignaron funciones de IAM que le permiten acceder al proyecto de GCP que se le aprovisionó.
+</ql-infobox>
+<p>Si accedió correctamente, su página debería ser similar a la siguiente:</p>
+<p><img alt="1101641cf530979c.png" src="https://cdn.qwiklabs.com/2Q23GxuZHTzyQM%2Fw2eQjsLXMNRyLGpEC%2Fd5ZxPjn48c%3D"></p>
+<p>Siga adelante y haga clic en <strong>Aceptar</strong> para indicar que está de acuerdo con las Condiciones del Servicio y la Política de Privacidad de Google. Luego, se lo dirigirá a la página “Protege tu cuenta”. Dado que esta es una cuenta temporal, no debe preocuparse por actualizar los números de teléfono ni los correos electrónicos de recuperación. Haga clic en <strong>Listo</strong>.</p>
+<p>Ahora se lo dirigirá a la página “Actualizaciones de las Condiciones del Servicio”. Marque la casilla <strong>No</strong> en la opción sobre si desea recibir actualizaciones por correo electrónico en relación con anuncios futuros. Marque la casilla <strong>Sí</strong> para aceptar las Condiciones del Servicio de Google Cloud Platform.</p>
+<p>Y, así, accedió correctamente a Google Cloud Platform Console con sus credenciales de Qwiklabs. Ahora, su página debería ser similar a la siguiente:</p>
+<p><img alt="35a55968748df7c0.png" src="https://cdn.qwiklabs.com/vPsOw690IZhUlPPxZk3asDaXQBRVZRiyr%2B6nBXCqEf4%3D"></p>
+<h3>Ponga a prueba sus conocimientos</h3>
+<p>Responda las siguientes preguntas de opción múltiple para reforzar sus conocimientos de los conceptos que tratamos hasta ahora.</p>
+<p><ql-multiple-choice-probe answerindex="3" optiontitles='[
+"Open Google Console",
+"Password",
+"GCP Project ID",
+"System admin"
+]' shuffle="" stem="What field is NOT found in the Connection Details panel?">
+</ql-multiple-choice-probe></p>
+<p><ql-multiple-choice-probe answerindex="0" optiontitles='[
+"True",
+"False"
+]' shuffle="" stem="The username in the Connection Details panel, which resembles googlexxxxxx_student@qwiklabs.net is a GCP IAM identity.">
+</ql-multiple-choice-probe></p>
+<p>Ahora que accedimos a GCP Console y entendemos los conceptos básicos de nuestras credenciales, conozcamos un poco más sobre los proyectos de GCP.</p>
+<h2 id="step5">Proyectos en GCP Console</h2>
+<p>Hablamos un poco de los proyectos de GCP anteriormente cuando examinábamos los componentes del panel “Detalles de conexión”. Aquí le recordamos la definición:</p>
+<p><em>Un <a href="https://cloud.google.com/docs/overview/#projects">proyecto de GCP</a> es una entidad que le permite organizar sus recursos de Google Cloud. A menudo, contiene recursos y servicios, como un grupo de máquinas virtuales, un conjunto de bases de datos y una red que los conecta entre sí. Los proyectos también contienen configuraciones y permisos que especifican las reglas de seguridad y quiénes tienen acceso a cada recurso.</em></p>
+<p>En el lado superior izquierdo de Console, verá un panel llamado <strong>Información del proyecto</strong> que debería ser similar al siguiente:</p>
+<p><img alt="76370a4185212435.png" src="https://cdn.qwiklabs.com/kaHKc2t7OyP7YUPOj4Eqw0nuUXQvt0iUypsuaeqkzKw%3D"></p>
+<p>Como puede ver, su proyecto tiene un <strong>nombre</strong>, un <strong>ID</strong> y un <strong>número</strong>. Estos identificadores se usan con frecuencia cuando se interactúa con los servicios de GCP. Está trabajando en un proyecto para adquirir práctica con un servicio o una característica de GCP en particular.</p>
+<p>Probablemente no se haya dado cuenta, pero en realidad tiene acceso a más de un proyecto de GCP. De hecho, en algunos labs, es posible que se le aprovisione más de un proyecto para que realice las tareas asignadas. Si hace clic en el menú desplegable con el nombre de su proyecto y selecciona <strong>TODOS</strong>, verá que también hay un proyecto llamado "Qwiklabs Resources" disponible:</p>
+<p><img alt="66c73e22ea578f78.png" src="https://cdn.qwiklabs.com/1hqteUty9xHbSdnkgtI4ZrrHDAG8pHWKAEUUjNzLk2M%3D"></p>
+<ql-infobox>
+<b>No cambie al proyecto Qwiklabs Resources en este momento.</b> No obstante, puede usarlo más adelante en otros labs.
+</ql-infobox>
+<p>No resulta inusual que grandes empresas o usuarios experimentados de GCP tengan varias decenas o incluso miles de proyectos de GCP. Las organizaciones usan GCP de diferentes formas, de modo que los proyectos son una buena manera de separar los servicios de computación en la nube (por equipo o producto, por ejemplo).</p>
+<p>“Qwiklabs Resources” es un proyecto que contiene archivos, imágenes de máquinas y conjuntos de datos para ciertos labs. Se puede acceder a él desde cualquier entorno de lab de GCP. Es importante señalar que “Qwiklabs Resources” es un proyecto compartido (de solo lectura) entre todos los usuarios de Qwiklabs, por lo que no podrá borrarlo ni modificarlo.</p>
+<p>El proyecto de GCP en el que trabaja, con un nombre similar a <code>qwiklabs-gcp-xxx…</code>, es <em>temporal</em>, lo que significa que tanto el proyecto como su contenido se borrarán una vez que termine el lab. Cada vez que inicie un lab nuevo, se le dará acceso a uno o más proyectos nuevos de GCP y es allí (no en “Qwiklabs Resources”) donde ejecutará todos los pasos del lab.</p>
+<h3>Ponga a prueba sus conocimientos</h3>
+<p>Responda las siguientes preguntas de opción múltiple para reforzar sus conocimientos de los conceptos que tratamos hasta ahora.</p>
+<p><ql-multiple-choice-probe answerindex="0" optiontitles='[
+"GCP Project",
+"Cloud Storage bucket",
+"Username",
+"Password"
+]' shuffle="" stem="An organizing entity for anything you build with the Google Cloud Platform.">
+</ql-multiple-choice-probe></p>
+<p><ql-multiple-choice-probe answerindex="0" optiontitles='[
+"True",
+"False"
+]' shuffle="" stem="Qwiklabs Resources is shared (read only) with all Qwiklabs users, meaning you won't be able to delete or modify it.">
+</ql-multiple-choice-probe></p>
+<p><ql-multiple-choice-probe answerindex="1" optiontitles='[
+"True",
+"False"
+]' shuffle="" stem="Qwiklabs Resources is the project where you run all of your lab steps.">
+</ql-multiple-choice-probe></p>
+<h2 id="step6">Menú de navegación y servicios</h2>
+<p>En la esquina superior izquierda, verá un ícono de tres líneas similar al siguiente:</p>
+<p><img alt="818684f8e0d0a523.png" src="https://cdn.qwiklabs.com/jNaEVX1xXeOOasukmY%2B9mcktmn9gjkwgNAJEkBlIYbI%3D"></p>
+<p>Al hacer clic en él, aparecerá (o se ocultará) un <strong>menú de navegación</strong> que apunta a los servicios principales de GCP. Si el menú no está desplegado, haga clic en el ícono y desplácese por la lista para ver los tipos de servicios que se ofrecen:</p>
+<p><img alt="5012e407e81c6d07.png" src="https://cdn.qwiklabs.com/gk6CVCz3LGXvViYQ%2FZUp%2Bu1VqI0DBrDAZh7kToRN20Q%3D"></p>
+<p>El menú de navegación es un componente importante de GCP Console, ya que ofrece acceso rápido a los servicios de la plataforma, además de resumir lo que estos ofrecen. Si se desplaza por el menú, verá que hay siete categorías de servicios de GCP:</p>
+<ul>
+<li>
+<strong>Procesamiento</strong>: Aloja una variedad de tipos de máquinas que admiten cualquier tipo de carga de trabajo. Las diferentes opciones de procesamiento le permiten decidir qué tan involucrado quiere estar en los detalles operacionales y la infraestructura, entre otros aspectos.</li>
+<li>
+<strong>Almacenamiento</strong>: Incluye opciones de almacenamiento de datos y bases de datos para datos estructurados o no estructurados, relacionales o no relacionales.</li>
+<li>
+<strong>Herramientas de redes</strong>: Son servicios que balancean el tráfico de las aplicaciones y aprovisionan reglas de seguridad, entre otros aspectos.</li>
+<li>
+<strong>Stackdriver</strong>: Es un paquete de herramientas de confiabilidad de servicios, como el registro, la supervisión y el seguimiento, entre nubes diferentes.</li>
+<li>
+<strong>Herramientas</strong>: Son servicios para desarrolladores que administran implementaciones y canalizaciones de compilación de aplicaciones.</li>
+<li>
+<strong>Macrodatos</strong>: Incluye servicios que le permiten procesar y analizar grandes conjuntos de datos.</li>
+<li>
+<strong>Inteligencia artificial</strong>: Incluye un paquete de API que ejecutan tareas específicas de inteligencia artificial y aprendizaje automático en Google Cloud Platform.</li>
+</ul>
+<p><a href="https://cloud.google.com/docs/overview/cloud-platform-services#top_of_page">Este vínculo</a> lo llevará a la documentación que abarca cada una de estas categorías con más detalle si le interesa.</p>
+<h2 id="step7">Funciones y permisos</h2>
+<p>Anteriormente mencionamos que, aparte de los servicios de computación en la nube, GCP también aloja una colección de permisos y funciones que definen quiénes tienen acceso a cada recurso. Podemos usar el servicio <a href="https://cloud.google.com/iam/">Cloud Identity and Access Management (IAM)</a> para inspeccionar y modificar tales funciones y permisos.</p>
+<p>Abra el menú de navegación si está cerrado. Luego, cerca de la parte superior, haga clic en <strong>IAM y administración</strong>. Esta acción lo llevará a una página que contiene una lista de usuarios que especifica los permisos y funciones otorgados a ciertas cuentas. Intente examinarlos y busque el nombre de usuario "@qwiklabs" con el que accedió:</p>
+<p><img alt="87534f555ed17b88.png" src="https://cdn.qwiklabs.com/v5er%2BfG4yURAeD9YUOKNuDgtD9KdMi9Sg2Ph9XThkZA%3D"></p>
+<p>Debería encontrar algo similar a lo siguiente:</p>
+<p><img alt="1d37da7a0e9ece15.png" src="https://cdn.qwiklabs.com/2DMzLfj5mYLyzliG6TBp9A0PoW1PHzDXVffA%2FwbL%2BiQ%3D"></p>
+<p>El campo <strong>Miembro</strong> está configurado en "google23396_student@qwiklabs.net" (que coincide con el nombre de usuario con el que accedió) y el campo <strong>Nombre</strong> está configurado en "google23396_student@qwiklabs.net student". Verá que el campo <strong>Función</strong> está configurado en "Editor", que corresponde a una de las tres <em>funciones básicas</em> que ofrece GCP. Estas funciones establecen permisos a nivel de proyecto y, a menos que se especifique lo contrario, controlan el acceso a todos los servicios de GCP y su administración.</p>
+<p>En la siguiente tabla, se extraen definiciones de la <a href="https://cloud.google.com/iam/docs/understanding-roles#primitive_roles">documentación de funciones</a>, que ofrece una descripción general breve de los permisos de las funciones de visualizador, editor y propietario:</p>
+<table>
+<tr>
+<td colspan="1" rowspan="1">
+<p><strong>Nombre de la función</strong></p>
+</td>
+<td colspan="1" rowspan="1">
+<p><strong>Permisos </strong></p>
+</td>
+</tr>
+<tr>
+<td colspan="1" rowspan="1">
+<p>funciones/visualizador</p>
+</td>
+<td colspan="1" rowspan="1">
+<p>Permisos para acciones de solo lectura que no afectan el estado, como leer (pero no modificar) los recursos o datos existentes</p>
+</td>
+</tr>
+<tr>
+<td colspan="1" rowspan="1">
+<p>funciones/editor</p>
+</td>
+<td colspan="1" rowspan="1">
+<p>Todos los permisos de la función de lector y permisos adicionales para acciones que modifican el estado, como cambiar recursos existentes</p>
+</td>
+</tr>
+<tr>
+<td colspan="1" rowspan="1">
+<p>funciones/propietario</p>
+</td>
+<td colspan="1" rowspan="1">
+<p>Todos los permisos de la función de editor, además de permisos para realizar las siguientes acciones:</p>
+<ul>
+<li>Administrar funciones y permisos de un proyecto y todos los recursos dentro de este</li>
+<li>Configurar la facturación de un proyecto</li>
+</ul>
+</td>
+</tr>
+</table>
+<p>Así que, como editor, podrá crear, modificar y borrar recursos de GCP. Sin embargo, no podrá agregar proyectos de GCP ni borrar sus miembros.</p>
+<h3>Ponga a prueba sus conocimientos</h3>
+<p>Responda las siguientes preguntas de opción múltiple para reforzar sus conocimientos de los conceptos que tratamos hasta ahora.</p>
+<p><ql-multiple-choice-probe answerindex="0" optiontitles='[
+"Navigation menu",
+"Compute",
+"Stackdriver",
+"Networking"
+]' shuffle="" stem="Offers quick access to the platform's services and also outlines its offerings.">
+</ql-multiple-choice-probe></p>
+<p><ql-multiple-choice-probe answerindex="0" optiontitles='[
+"True",
+"False"
+]' shuffle="" stem="Primitive roles set project-level permissions and unless otherwise specified, they control access and management to all GCP services.">
+</ql-multiple-choice-probe></p>
+<p><ql-multiple-choice-probe answerindex="1" optiontitles='[
+"Viewer role",
+"Editor role",
+"Owner role",
+"GCP project"
+]' shuffle="" stem="Provides all viewer permissions, plus permissions for actions that modify state, such as changing existing resources.">
+</ql-multiple-choice-probe></p>
+<h2 id="step8">API y servicios</h2>
+<p>Las API de Google Cloud son una parte clave de Google Cloud Platform. Al igual que los servicios, las más de 200 API (en áreas que incluyen desde administración de negocios hasta aprendizaje automático) se integran fácilmente con los proyectos y las aplicaciones de GCP.</p>
+<p>Las API son "interfaces de programación de aplicaciones" a las que puede llamar directamente o través de nuestras bibliotecas cliente. Las API de Cloud usan principios de diseño orientados a los recursos, como se describe en nuestra <a href="https://cloud.google.com/apis/design/">Guía de diseño de API de Google</a>.</p>
+<p>Cuando Qwiklabs aprovisiona un proyecto de GCP nuevo para una instancia de lab, habilita la mayoría de las API en segundo plano para que usted pueda comenzar a trabajar en las tareas del lab de inmediato. Tenga en cuenta que, cuando cree su propio proyecto de GCP fuera de Qwiklabs, tendrá que habilitar ciertas API usted mismo.</p>
+<p>La mayoría de las API de Cloud le proporcionan información detallada del uso de esa API en su proyecto, como niveles de tráfico, tasas de errores o incluso latencias, lo que lo ayuda a clasificar rápidamente los problemas que afectan a las aplicaciones que usan servicios de Google. Para ver esta información, abra Menú de navegación y haga clic en <strong>API y servicios</strong> &gt; <strong>Biblioteca</strong>:</p>
+<p><img alt="apis.gif" src="https://cdn.qwiklabs.com/IhN1xAfMsp0KrMIwX50LGtlzcsup%2BfK45UA1wseaaa4%3D"></p>
+<p>En el menú con el encabezado "CATEGORÍA", que se encuentra a la izquierda, verá los diferentes tipos de categorías que se ofrecen. En la barra de búsqueda de API, escriba Dialogflow y seleccione <strong>Dialogflow API</strong>. Ahora debería estar en la siguiente página:</p>
+<p><img alt="dialogflow.png" src="https://cdn.qwiklabs.com/TJxda7OL7Z8mAPtAWRFkf16dH2KSGWP%2FS0cEvzofT%2Fw%3D"></p>
+<p>La API de Dialogflow le permite compilar aplicaciones conversacionales eficientes (p. ej., para el Asistente de Google) sin tener que preocuparse por el esquema subyacente de aprendizaje automático y comprensión del lenguaje natural.</p>
+<p>Ahora, haga clic en <strong>Habilitar</strong>. Esta acción lo llevará a una página nueva. Seleccione el botón Atrás en su navegador y verá que la API ahora está habilitada:</p>
+<p><img alt="enabled.png" src="https://cdn.qwiklabs.com/eTgnbsNvLaqrex7qumvUuzQEc114GwncM%2FV8xL4j594%3D"></p>
+<p>Ahora haga clic en <strong>Probar esta API</strong>. De este modo, se abrirá una pestaña nueva que mostrará la documentación de la API de Dialogflow y especificará los métodos que tiene a su disposición. Examine algunos de estos métodos y cierre la pestaña cuando termine.</p>
+<p>Si le interesa aprender más sobre las API, consulte la nueva herramienta práctica de Google Cloud llamada <a href="https://developers.google.com/apis-explorer/#p/">Explorador de API</a>. También creamos un lab llamado <a href="https://google.qwiklabs.com/catalog_lab/1241">Explorador de API: Qwik Start</a> que le proporcionará experiencia práctica con la herramienta mediante un ejemplo sencillo.</p>
+<p>Abra el menú de navegación y haga clic en <strong>Página principal</strong> para regresar a esta página de GCP Console.</p>
+<h3>Ponga a prueba sus conocimientos</h3>
+<p>Responda la siguiente pregunta de opción múltiple para reforzar sus conocimientos de los conceptos que tratamos hasta ahora.</p>
+<p><ql-multiple-choice-probe answerindex="1" optiontitles='[
+"True",
+"False"
+]' shuffle="" stem="When you start a lab in Qwiklabs, you need to enable APIs in your GCP project to start working with GCP.">
+</ql-multiple-choice-probe></p>
+<h2 id="step9">Cloud Shell</h2>
+<p>Ahora que entiende las funciones clave de GCP y Console, adquirirá experiencia práctica con <a href="https://cloud.google.com/shell/docs/features">Cloud Shell</a>. Se trata de un entorno de ejecución con símbolo del sistema en el navegador que le permite ingresar comandos en una terminal para administrar recursos y servicios en su proyecto de GCP.</p>
+<p>Cloud Shell le permite ejecutar todos sus comandos de shell sin salir de Console y, además, incluye herramientas de línea de comandos preinstaladas.</p>
+<p>En la esquina superior derecha de Console, haga clic en el botón <strong>Activar Cloud Shell</strong> y, luego, si se le solicita, en <strong>Iniciar Cloud Shell</strong>:</p>
+<p><img alt="819af82459550c67.png" src="https://cdn.qwiklabs.com/RuUJsmCzDpq4kWuMpt4yXLfoj6kH3MGYNcI0DE3ipB0%3D"></p>
+<p>Debería aparecer una nueva ventana negra en la parte inferior de Console con mensajes y solicitudes, con un aspecto similar al siguiente:</p>
+<pre><code>Welcome to Cloud Shell! Type "help" to get started.&#x000A;Your Cloud Platform project in this session is set to qwiklabs-gcp-76ad0f1342e20013.&#x000A;Use "gcloud config set project [PROJECT_ID]" to change to a different project.&#x000A;gcpstaging23396_student@cloudshell:~ (qwiklabs-gcp-76ad0f1342e20013)$&#x000A;</code></pre>
+<p>Ahora, tiene una sesión de Cloud Shell en funcionamiento. Copie y pegue (o escriba) lo siguiente en Cloud Shell y presione Intro:</p>
+<pre><code>gcloud auth list&#x000A;</code></pre>
+<p>Debería recibir un resultado similar al siguiente, en el que <code>ACTIVE ACCOUNT</code> indicará su identidad de IAM de GCP (<code>gcpstagingxxxxx_student@qwiklabs.net</code>):</p>
+<pre><code>Credentialed Accounts&#x000A;ACTIVE  ACCOUNT&#x000A;*       gcpstaging23396_student@qwiklabs.net&#x000A;To set the active account, run:&#x000A;    $ gcloud config set account `ACCOUNT`&#x000A;</code></pre>
+<p>Como se mencionó anteriormente, Cloud Shell incluye herramientas de línea de comandos específicas preinstaladas. El kit de herramientas principal de GCP es <a href="https://cloud.google.com/sdk/gcloud/">gcloud</a>, que se usa para muchas tareas en la plataforma, como la administración de recursos y autenticación de usuarios.</p>
+<p>Acaba de ejecutar un comando de <code>gcloud</code>, <a href="https://cloud.google.com/sdk/gcloud/reference/auth/list">auth list</a>, que crea una lista de cuentas con credenciales en su proyecto de GCP. Este nombre de cuenta coincide con el nombre de usuario de Qwiklabs con el que accedió a Console anteriormente.</p>
+<p>Además de los kits de herramientas preinstalados, Cloud Shell también incluye herramientas estándar de la interfaz de línea de comandos (CLI) de Unix y editores de texto como <a href="https://www.nano-editor.org/">nano</a>. Podemos usarlos para crear y editar archivos directamente desde Cloud Shell.</p>
+<p>Ejecute el siguiente <a href="http://www.linfo.org/touch.html">comando touch</a> para crear un archivo llamado <code>test.txt</code>:</p>
+<pre><code>touch test.txt&#x000A;</code></pre>
+<p>El comando <code>touch</code> no generará ningún resultado visible inmediato. Ejecute el comando <a href="https://linuxconfig.org/learning-linux-commands-ls">ls</a> de Unix para ver una lista de los archivos que contiene nuestro directorio actual:</p>
+<pre><code>ls&#x000A;</code></pre>
+<p>Debería recibir el siguiente resultado:</p>
+<pre><code>README-cloudshell.txt  test.txt&#x000A;</code></pre>
+<p>Podemos ver que nuestro archivo <code>test.txt</code> nuevo se agregó a nuestro directorio de trabajo. Hagámosle algunas modificaciones con el editor de texto nano que mencionamos antes. Para editar un archivo, escriba <code>nano</code> seguido del nombre del archivo que desea editar en Cloud Shell:</p>
+<pre><code>nano test.txt&#x000A;</code></pre>
+<p>Esta acción abrirá el archivo en blanco con el editor de texto nano:</p>
+<p><img alt="885a6cb5c1a2d1ab.png" src="https://cdn.qwiklabs.com/xvq7XWdjSMm7k8g3pdSchB70h3IKQtgT4frc3fBWkzU%3D"></p>
+<p>Ahora, escriba un mensaje como el siguiente:</p>
+<pre><code>¡GCP y Qwiklabs son lo mejor!&#x000A;</code></pre>
+<p>Después de escribirlo, mantenga presionadas las teclas <strong>CTRL + X</strong>. Luego, escriba <strong>Y</strong> y presione la <strong>tecla Intro</strong> para guardar el archivo con el mensaje nuevo.</p>
+<p>Otro comando útil es <a href="http://www.linfo.org/cat.html">cat</a>, que le permite ver el contenido de un archivo. Ejecute el siguiente comando para revisar si nuestro archivo se actualizó correctamente:</p>
+<pre><code>cat test.txt&#x000A;</code></pre>
+<p>Debería ver el siguiente resultado en su sesión de Cloud Shell:</p>
+<pre><code>¡GCP y Qwiklabs son lo mejor!&#x000A;</code></pre>
+<p>Y, así, pudo crear, editar y ver el contenido de un archivo directamente en Cloud Shell (sin salir de su navegador).</p>
+<h2 id="step10">Cómo finalizar su lab</h2>
+<p>Ahora que finalizó el lab, haga clic en el botón <strong>Finalizar lab</strong> en la parte superior de esta página.</p>
+<p><img alt="9c86408d4a5e74cd.png" src="https://cdn.qwiklabs.com/tP94S9cvjMu1MDlop8AB2%2F%2Bq3%2FnyvopT6Yri1PPsBrQ%3D"></p>
+<p>Califique cada lab que realice en Qwiklabs. Califíquelo con <img alt="five_stars.png" src="https://cdn.qwiklabs.com/LZUBJPyOLYREWQFfmfqWDA%2Ftgxsb4hvRrg32UipHjD0%3D"> si está satisfecho o con una puntuación menor si no lo está. Deje comentarios sobre sus experiencias en la ventana "Comentario". Google aprecia los comentarios considerados.</p>
+<p>Cuando finalice un lab, perderá acceso al proyecto de GCP, así como a los servicios y al trabajo que realizó en la plataforma. Si regresa a GCP Console, verá que salió automáticamente de su sesión. Puede cerrar la pestaña ahora.</p>
+<h2 id="step11">¡Felicitaciones!</h2>
+<p><img alt="GCP_Essentials_125x135_new.png" src="https://cdn.qwiklabs.com/ykt8NTzPWC6%2BW8mAljshFqjsAPrZ8bElG7SLw4kSrtU%3D"></p>
+<p>En solo 30 minutos, desarrolló una comprensión sólida de GCP Console y las funciones clave de la plataforma. Aprendió sobre los proyectos, las funciones y los tipos de servicios que ofrece la plataforma. También practicó con Cloud IAM, la biblioteca de API y Cloud Shell. Ahora está preparado para realizar más labs de GCP en Qwiklabs.</p>
+<h3>Finalice su Quest</h3>
+<p>Continúe su Quest con <a href="https://google.qwiklabs.com/quests/23">GCP Essentials</a>. Una Quest es una serie de labs relacionados que forman una ruta de aprendizaje. Si completa esta Quest, obtendrá la insignia que se muestra arriba como reconocimiento de su logro. Puede hacer públicas sus insignias y agregar vínculos a ellas en su currículum en línea o en sus cuentas de redes sociales. Inscríbase en esta Quest y obtenga un crédito inmediato de finalización si realizó este lab. <a href="http://google.qwiklabs.com/catalog">Consulte otras Quests de Qwiklabs disponibles</a>.</p>
+<h3>Próximos pasos/Más información</h3>
+<p>Asegúrese de revisar los siguientes labs para adquirir más práctica con servicios esenciales de GCP:</p>
+<ul>
+<li><a href="https://google.qwiklabs.com/catalog_lab/1427" target="_blank">Cómo crear una máquina virtual</a></li>
+<li><a href="https://google.qwiklabs.com/catalog_lab/320" target="_blank">Cómo comenzar a usar Cloud Shell y gcloud</a></li>
+</ul>
+<h3>Google Cloud Training &amp; Certification</h3>
+<p>Aproveche al máximo las tecnologías de Google Cloud. <a href="https://cloud.google.com/training/courses">Nuestras clases</a> incluyen habilidades técnicas y recomendaciones para ayudarlo a ponerse en marcha rápidamente y a seguir aprendiendo. Para que pueda realizar nuestros cursos cuando más le convenga, ofrecemos distintos tipos de capacitación de nivel básico a avanzado: según demanda, presenciales y virtuales. Las <a href="https://cloud.google.com/certification/">certificaciones</a> lo ayudan a validar y demostrar sus habilidades y experiencia en las tecnologías de Google Cloud.</p>
+
+<h5>Última actualización del manual: 18 de noviembre de 2019</h5>
+<h5>Prueba más reciente del lab: 15 de julio de 2019</h5>
+<p>Copyright 2020 Google LLC. All rights reserved. Google y el logotipo de Google son marcas de Google LLC. Los demás nombres de productos y empresas pueden ser marcas de las respectivas empresas a las que estén asociados.</p>
+
+
+
+</div>
+<div class='js-lab-content-outline lab-content__outline'>
+<a href='#step1'>GSP282</a><a href='#step2'>Descripción general</a><a href='#step3'>Aspectos básicos de Qwiklabs</a><a href='#step4'>Cómo acceder a GCP Console</a><a href='#step5'>Proyectos en GCP Console</a><a href='#step6'>Menú de navegación y servicios</a><a href='#step7'>Funciones y permisos</a><a href='#step8'>API y servicios</a><a href='#step9'>Cloud Shell</a><a href='#step10'>Cómo finalizar su lab</a><a href='#step11'>¡Felicitaciones!</a>
+</div>
+</div>
+
+</div>
+
+<div class='lab-content__markdown-wrapper'>
+<div class='lab-content__markdown'>
+<div class='lab-content__recommendation'>
+<!-- # TODO: Change classes so that this doesn't stack vertically -->
+<section class='upcoming-cards'>
+<h2 class='headline-3'>Continuar Quest</h2>
+<div class='content-card-grid'>
+<div class='card-content-wrapper js-content-card' data-id='759' data-level='Introductory' data-name='Compute Engine: Qwik Start - Windows' data-type='Lab'>
+<a class="card card--content elevation-0 content-lab" href="/focuses/560?locale=es&amp;parent=catalog"><div class='card__image'>
+<div class='card__image__inner' style='background-image: url(https://cdn.qwiklabs.com/assets/fractal3-aaa9ba81223b511f2592cade38ffee5a74965dee87a9280e1ce3a7a96fdc91f1.jpg)'></div>
+</div>
+<div class='card__body'>
+<div class='overline card--content__type'>
+Lab práctico
+</div>
+<h3 class='card--content__title'>
+Compute Engine: Qwik Start - Windows
+</h3>
+<p class='card--content__description body-1'>
+Google Compute Engine permite crear y ejecutar máquinas virtuales en la infraestructura de Google.  En este lab, creará una instancia de Windows Server en Google Compute Engine y accederá a ella mediante RDP. Para obtener un avance sobre este tema, mire el video breve Launch a Windows Server Instance, GCP Essentials.
+</p>
+</div>
+<div class='card__footer'>
+<div class='card__footer__left'>
+<span>Introductory</span>
+</div>
+<div class='card__footer__right'>
+<div class='rateit' data-rateit-readonly='true' data-rateit-value='4.3937'></div>
+</div>
+</div>
+</a></div>
+
+</div>
+</section>
+
+</div>
+</div>
+</div>
+
+</div>
+</div>
+<div class='lab-introduction js-lab-introduction is-hidden'>
+<div class='lab-introduction__inner'>
+<h1 class='headline-1'>Le damos la bienvenida a su primer lab.</h1>
+<ql-icon-button class='js-skip-button'>close</ql-icon-button>
+<div class='lab-introduction__video'>
+<iframe allow='autoplay; encrypted-media' allowfullscreen frameborder='0' id='lab-introduction' src='https://www.youtube.com/embed/TGUtGKD-B-Q?enablejsapi=1&amp;rel=0&amp;showinfo=0'></iframe>
+</div>
+<a class='js-skip-button button button--outline'>Omitir este video</a>
+</div>
+</div>
+
+
+
+</div>
+</main>
+<div class='modal fade' id='lab-details-modal'>
+<div class='modal-container'>
+<div class='mdl-shadow--24dp modal-content'>
+<div class='modal-body'>
+<p class='l-mbm'>
+En este primer lab práctico, accederá a Qwiklabs y a Google Cloud Platform Console, y usará características básicas de GCP: proyectos, recursos, usuarios de IAM, funciones, permisos, API y Cloud Shell.
+</p>
+<p>
+Este lab se incluye en las siguientes Quests:
+<a href="/quests/23?locale=es">GCP Essentials</a>, <a href="/quests/90?locale=es">Comprender sus costos de GCP</a>.
+Si completa este lab, recibirá crédito por él cuando se inscriba en una de estas Quests.
+</p>
+<p class='small-label l-mbs'>
+<strong>
+Duración:
+</strong>
+0 min de configuración
+&middot;
+Acceso por 45 min
+&middot;
+30 min para completar
+</p>
+<p class='small-label l-mbs'>
+<span><strong>Niveles: </strong>Introductory</span>
+</p>
+<p class='small-label'>
+<strong>
+Vínculo permanente:
+</strong>
+<a href="https://www.qwiklabs.com/catalog_lab/1281">https://www.qwiklabs.com/catalog_lab/1281</a>
+</p>
+</div>
+<div class='modal-actions'>
+<a class='mdl-button mdl-button--primary mdl-js-button mdl-js-ripple-effect' data-dismiss='modal'>
+Got It
+</a>
+</div>
+
+
+</div>
+</div>
+<iframe class='l-ie-iframe-fix'></iframe>
+</div>
+<div class='modal fade' id='lab-review-modal'>
+<div class='modal-container'>
+<div class='mdl-shadow--24dp modal-content'>
+<form class="simple_form js-lab-review-form" id="edit_lab_review_5171460" action="/lab_reviews/5171460?locale=es" accept-charset="UTF-8" data-remote="true" method="post"><input name="utf8" type="hidden" value="&#x2713;" /><input type="hidden" name="_method" value="patch" /><div class='modal-body'>
+<p class='label'>
+¿Qué tan satisfecho está con este lab?*
+</p>
+<div class='rateit js-rateit' data-rateit-max='5' data-rateit-min='0' data-rateit-resetable='false' data-rateit-step='1' data-rateit-value='5'></div>
+<div class='l-mtm'>
+
+<div class="control-group hidden lab_review_user_id"><div class="controls"><input class="hidden" type="hidden" value="2485272" name="lab_review[user_id]" id="lab_review_user_id" /></div></div>
+<div class="control-group hidden lab_review_classroom_id"><div class="controls"><input class="hidden" type="hidden" name="lab_review[classroom_id]" id="lab_review_classroom_id" /></div></div>
+<div class="control-group hidden lab_review_lab_id"><div class="controls"><input class="hidden" type="hidden" value="1281" name="lab_review[lab_id]" id="lab_review_lab_id" /></div></div>
+<div class="control-group hidden lab_review_focus_id"><div class="controls"><input class="hidden" type="hidden" name="lab_review[focus_id]" id="lab_review_focus_id" /></div></div>
+<div class="control-group hidden lab_review_rating"><div class="controls"><input class="hidden js-rating-input" type="hidden" value="2" name="lab_review[rating]" id="lab_review_rating" /></div></div>
+<div class="control-group text optional lab_review_comment"><label class="text optional control-label" for="lab_review_comment">Comentario</label><div class="controls"><textarea class="text optional" name="lab_review[comment]" id="lab_review_comment">
+</textarea></div></div>
+</div>
+</div>
+<div class='modal-actions'>
+<a class='mdl-button mdl-button--primary mdl-js-button mdl-js-ripple-effect' data-dismiss='modal'>
+Cancel
+</a>
+<input type="submit" name="commit" value="Enviar" disabled="disabled" class="btn mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--primary" id="submit" data-disabled="false" data-disable-with="Enviar" />
+</div>
+</form>
+
+</div>
+</div>
+<iframe class='l-ie-iframe-fix'></iframe>
+</div>
+
+<script>
+  $( function() {
+    ql.initMaterialInputs();
+    initChosen();
+    initSearch();
+    initTabs();
+    ql.list.init();
+    ql.favoriting.init();
+    ql.header.myAccount.init();
+    initTooltips();
+    ql.autocomplete.init();
+    ql.modals.init();
+    ql.toggleButtons.init();
+    ql.analytics.init();
+    initLabContent( );
+  ql.labOutline.links.init();
+  ql.labOutline.layout.init();
+  initLabReviewModal();
+  ql.labAssessment.init();
+  ql.labIntroduction.init( true );
+  ql.labData.init();
+  initLabTranslations( {"are_you_sure":"¿Se completó el proceso? Si finaliza el lab, perderá todo su trabajo. Es posible que no pueda reiniciar el lab si existe un límite de cuota. ¿Está seguro de que desea finalizar el lab?","in_progress":"*En curso*","ending":"*Finalizando*","starting":"*Iniciando. Espere*","end_concurrent_labs":"Lo sentimos; solo puede ejecutar un lab a la vez. Para iniciar este lab, confirme que desea finalizar todos sus labs activos.","copied":"Copiado","no_resource":"Se produjo un error durante la recuperación del recurso.","no_support":"No hay asistencia disponible","mac_press":"Presione ⌘ + C para copiar","thanks_review":"Gracias por calificar este lab.","windows_press":"Presione Ctrl + C para copiar","days":"días"} );
+  ql.labRun.init();
+  ql.initHeader();
+  ql.navigation.init();
+  ql.navPanel.init();
+  ql.navigation.init();
+  
+  });
+</script>
+<style>
+  .mdl-layout__container {
+    position: static
+  }
+</style>
+</body>
+</html>

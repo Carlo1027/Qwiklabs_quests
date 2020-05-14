@@ -1,0 +1,830 @@
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+<meta content='[]' name='active-experiments'>
+<meta content='{&quot;userId&quot;:2485272}' name='help-api-product-data'>
+<meta name="csrf-param" content="authenticity_token" />
+<meta name="csrf-token" content="fZ2D5RM1cDoDOFHmpATUwbQjjyISjEqfDj+QfqlzfnKJqGMG0PC5kzeGrZqLoPWgI5zEpktqw0flf029lZtnKg==" />
+<title>Introduction to Docker | Qwiklabs</title>
+<meta content='width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=0' name='viewport'>
+<meta content='In this lab you will familiarize yourself with the basic Docker container environment commands.  You will create, run, and debug containers, and learn to pull and push images to and from Google Container Registry.' name='description'>
+<meta content='Qwiklabs' name='author'>
+<meta content='1rRsY0INj8RvwB5EF5pwdxt2A2P9aDgAlsICaJ0d5w0' name='google-site-verification'>
+<meta content='Introduction to Docker | Qwiklabs' property='og:title'>
+<meta content='website' property='og:type'>
+<meta content='/favicon-144.png' property='og:image'>
+<meta content='Qwiklabs' property='og:site_name'>
+<meta content='In this lab you will familiarize yourself with the basic Docker container environment commands.  You will create, run, and debug containers, and learn to pull and push images to and from Google Container Registry.' property='og:description'>
+<meta content='/qwiklabs_logo_900x887.png' property='og:logo' size='900x887'>
+<meta content='/qwiklabs_logo_994x187.png' property='og:logo' size='994x187'>
+<meta content='#3681E4' property='msapplication-TileColor'>
+<meta content='/favicon-144.png' property='msapplication-TileImage'>
+<link href='/favicon-32.png' rel='shortcut icon'>
+<link color='#3681E4' href='/favicon-svg.svg' rel='mask-icon'>
+<link href='/favicon-180.png' rel='apple-touch-icon-precomposed'>
+<link rel="stylesheet" media="screen" href="https://fonts.googleapis.com/css?family=Oswald:400|Roboto+Mono:400,700|Roboto:300,400,500,700|Google+Sans:300,400,500,700|Google+Sans+Display:400|Material+Icons|Google+Material+Icons" />
+
+
+<!--[if lt IE 9]>
+<script src='http://html5shim.googlecode.com/svn/trunk/html5.js' type='text/javascript'></script>
+<![endif]-->
+<!--[endif]>  <![endif]-->
+<script>
+//<![CDATA[
+window.gon={};gon.current_user={"firstname":"Carlo Andr\u00e9","lastname":"Castro Galindo","fullname":"Carlo Andr\u00e9 Castro Galindo","company":"Coursera","email":"carlocastrogalindo@gmail.com","origin":"googlecoursera-run, lti-coursera","subscriptions":1,"id":"eb3f0602d940d94d2eaeef36f2aa2e77","qlCreatedAt":"2020-02-28 17:36:48 UTC","optIn":false};gon.segment="j4Im8pqIko0Lxq4wVVZWMPMM0EroHUvb";gon.deployment="run";
+//]]>
+</script>
+<script type='application/ld+json'>
+{
+  "@context": "http://schema.org",
+  "@type": "WebSite",
+  "url": "https://www.qwiklabs.com/",
+  "potentialAction": {
+    "@type": "SearchAction",
+    "target": "https://www.qwiklabs.com/catalog?keywords={search_term_string}",
+    "query-input": "required name=search_term_string"
+  }
+}
+</script>
+<script id='ze-snippet' src='https://static.zdassets.com/ekr/snippet.js?key=511e4158-0aec-4e3c-b2e6-4daa1769f51e'></script>
+
+
+
+<link rel="stylesheet" media="all" href="https://cdn.qwiklabs.com/assets/application-4c3d1e8bc7757ea71809ef44e35c5d8018fb66ce6a4a777389558445ba2ce8a2.css" />
+<script>
+  EVENT_SOURCE_BASE_URL = "https://run.qwiklabs.com/nchan-sub?id=";
+</script>
+<script src="https://cdn.qwiklabs.com/polyfills/webcomponents-loader.js"></script>
+<script src="https://cdn.qwiklabs.com/assets/hallofmirrors/hallofmirrors-c2758d00524eb85dbbfd8ffdc020394cdc6d014970338c95837b835747eb8f6c.js"></script>
+<script src="https://www.youtube.com/iframe_api"></script>
+<script src="https://cdn.qwiklabs.com/assets/vendor-45d462772c30000424907184f70c7157e95fb6227698d1671c5051818a6f60d8.js"></script>
+<script src="https://cdn.qwiklabs.com/assets/application-7c67c1d428839917a0992758b33da63184c69efa420e5939804ea34d54147a97.js"></script>
+</head>
+<body class='focuses focuses-show lab-show l-full no-nav'>
+<div class='header-container light-theme'>
+<div class='header'>
+<a class='mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect header__button header__button--nav header__nav-panel-button js-nav-toggle'>
+<i class='material-icons'>menu</i>
+</a>
+<div class='header__title'>
+<a class="mdl-button mdl-js-button mdl-button--icon mdl-js-ripple-effect header__button header__button--nav" href="https://www.qwiklabs.com/quests/29"><ql-icon>arrow_back</ql-icon></a>
+
+<h1 class='headline-5'>
+Introduction to Docker
+</h1>
+</div>
+<div class='header__actions'>
+<a class='mdl-button mdl-js-button mdl-button--icon mdl-js-ripple-effect header__button header__button--action header__button--search js-header-search-bar-button'>
+<i class='material-icons'>search</i>
+</a>
+<a class="mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect" id="toggle-lab-control-panel" href="javascript:;"><i class='material-icons'>description</i>
+</a><div class='mdl-tooltip js-tooltip' data-mdl-for='toggle-lab-control-panel'>
+Toggle Lab Panel
+</div>
+<a class="mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect js-favorite-button favorite-button" id="CatalogItem-1029-favorite-button" data-type="CatalogItem" data-id="1029" data-name="Introduction to Docker" href="/favorite.json?item_id=1029&amp;item_type=CatalogItem"><i class='material-icons'>favorite_border</i>
+</a><div class='mdl-tooltip js-tooltip' for='CatalogItem-1029-favorite-button'>
+Add to favorites
+</div>
+
+
+<ql-help context="lab" productdata="{&quot;userId&quot;:2485272}" data-analytics-action="opened_help" data-analytics-label="lab"></ql-help>
+<a class='header-my-account-button mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect js-my-account-button'>
+<img class="avatar " alt="avatar image" src="https://secure.gravatar.com/avatar/be719396bbcc1e8bcb204a54e1920c54.png?s=80&amp;d=mm" />
+</a>
+<div class='header-my-account-menu js-my-account-menu'>
+<div class='card elevation-2 no-padding'>
+<div class='my-account-menu__top'>
+<img class="avatar " alt="avatar image" src="https://secure.gravatar.com/avatar/be719396bbcc1e8bcb204a54e1920c54.png?s=80&amp;d=mm" />
+<div class='my-account-menu__info'>
+<h4 class='subtitle-headline-1'>
+Carlo André Castro Galindo
+</h4>
+<p class='body-2 text--gray'>
+<span>carlocastrogalindo@gmail.com</span>
+</p>
+<a class="button" href="/my_account/profile">My Account</a>
+</div>
+</div>
+<div class='my-account-menu__bottom'>
+<a class="text--green subtitle-headline-2" href="/my_account/credits">Monthly Subscription
+</a><a data-analytics-action="clicked_sign_out" class="button button--hairline" rel="nofollow" data-method="delete" href="/users/sign_out">Sign Out</a>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+<div class='header__search-bar js-header-search-bar'>
+<form id="catalog-search-mobile" onsubmit="ql.catalogSearchFilter(); return false;" action="/searches/elasticsearch" accept-charset="UTF-8" method="post"><input name="utf8" type="hidden" value="&#x2713;" /><input type="hidden" name="authenticity_token" value="P96s9z39/5pI5D5wIw75p4fuRCTNcnbzdTGSMy3zLrLL60wU/jg2M3xawgwMqtjGEFEPoJSU/yuecU/wERs36g==" />
+<input type="text" name="keywords" id="keywords" placeholder="Search" maxlength="255" aria-label="catalog search bar" />
+</form>
+
+<a class='mdl-button mdl-js-button mdl-button--icon mdl-js-ripple-effect header__button'>
+<i class='material-icons'>close</i>
+</a>
+</div>
+</div>
+
+<nav class='nav-bar'>
+<a class="nav-bar__item js-navigation-button" href="/"><ql-icon class='nav-bar__item__icon'>
+home
+</ql-icon>
+<span class='nav-bar__item__label'>
+Home
+</span>
+</a>
+<a class="nav-bar__item js-navigation-button  active" aria-current="page" href="/catalog"><ql-icon class='nav-bar__item__icon'>
+school
+</ql-icon>
+<span class='nav-bar__item__label'>
+Catalog
+</span>
+</a>
+<a class="nav-bar__item js-navigation-button" href="/my_learning"><ql-icon class='nav-bar__item__icon'>
+event_note
+</ql-icon>
+<span class='nav-bar__item__label'>
+My Learning
+</span>
+</a>
+</nav>
+
+<nav class='nav-panel js-nav-panel'>
+<div class='nav-panel__logo'>
+<div class='logo logo--blue'></div>
+</div>
+<a title="Home" tabindex="-1" class="nav-panel__item js-navigation-button" href="/"><ql-icon class='nav-panel__item__icon'>
+home
+</ql-icon>
+<div class='nav-panel__item__label'>
+Home
+</div>
+</a>
+<a title="Catalog" tabindex="-1" class="nav-panel__item js-navigation-button active" aria-current="page" href="/catalog"><ql-icon class='nav-panel__item__icon'>
+school
+</ql-icon>
+<div class='nav-panel__item__label'>
+Catalog
+</div>
+</a>
+<a title="My Learning" tabindex="-1" class="nav-panel__item js-navigation-button" href="/my_learning"><ql-icon class='nav-panel__item__icon'>
+event_note
+</ql-icon>
+<div class='nav-panel__item__label'>
+My Learning
+</div>
+</a>
+<div class='nav-panel__spacer'></div>
+<a title="Profile" tabindex="-1" class="nav-panel__item js-navigation-button" href="/my_account/profile"><ql-icon class='nav-panel__item__icon'>
+account_circle
+</ql-icon>
+<div class='nav-panel__item__label'>
+Profile
+</div>
+</a>
+<a title="Credits &amp; Subscriptions" tabindex="-1" class="nav-panel__item js-navigation-button" href="/my_account/credits"><ql-icon class='nav-panel__item__icon'>
+money
+</ql-icon>
+<div class='nav-panel__item__label'>
+Credits &amp; Subscriptions
+</div>
+</a>
+<a title="Security" tabindex="-1" class="nav-panel__item js-navigation-button" href="/my_account/security"><ql-icon class='nav-panel__item__icon'>
+security
+</ql-icon>
+<div class='nav-panel__item__label'>
+Security
+</div>
+</a>
+<div class='nav-panel__spacer'></div>
+<a class="nav-panel__item" tabindex="-1" href="#"><ql-help>
+<div class='nav-panel__help-item'>
+<ql-icon class='nav-panel__item__icon'>help</ql-icon>
+<div class='nav-panel__item__label'>Help</div>
+</div>
+</ql-help>
+</a><div class='nav-panel__small-links'>
+<a tabindex="-1" href="/privacy_policy">Privacy</a>
+<a tabindex="-1" href="/terms_of_service">Terms</a>
+</div>
+</nav>
+<div class='nav-panel__overlay js-nav-toggle'></div>
+
+<main class='js-main'>
+<span class='hidden' id='flash-sibling-before'></span>
+
+<div class='l-main-wrapper' id='main-wrapper'>
+
+
+
+
+
+
+
+<div class='js-lab-state' data-analytics-payload='{&quot;label&quot;:&quot;Introduction to Docker&quot;,&quot;lab_name&quot;:&quot;Introduction to Docker&quot;,&quot;classroom_name&quot;:null,&quot;deployment&quot;:&quot;run&quot;}' data-focus-id='1029' data-lab-billing-limit='0.0' data-lab-duration='3600' data-parent='catalog' data-payment-required></div>
+<ql-lab-control-panel class='js-lab-control-panel l-lab-control-panel' connectionDetails='[]' connectionFiles='[]' labControlButton='{&quot;disabled&quot;:false,&quot;pending&quot;:false,&quot;running&quot;:false}' labTimer='{&quot;ticking&quot;:false,&quot;secondsRemaining&quot;:3600}' studentResources='[]'></ql-lab-control-panel>
+<div class='l-lab-main-body'>
+<div class='js-lab-content lab-content'>
+<div class='alert alert--fake js-alert'>
+<p class='alert__message js-alert-message'></p>
+<a class='alert__close js-alert-close'>
+<i class='fa fa-times'></i>
+</a>
+<iframe class='l-ie-iframe-fix'></iframe>
+</div>
+<div class='lab-content__markdown-wrapper'>
+<div class='lab-preamble'>
+<h1 class='lab-preamble__title'>
+Introduction to Docker
+</h1>
+<div class='lab-preamble__details subtitle-headline-1'>
+<span>1 hour </span>
+<span>1 Credit</span>
+<div class='lab__rating'>
+<a href="/focuses/1029/reviews?parent=catalog"><div class='rateit' data-rateit-readonly='true' data-rateit-value='4.3387'></div>
+
+</a><a data-target='#lab-review-modal' data-toggle='modal'>
+Rate Lab
+</a>
+</div>
+</div>
+</div>
+
+<div class='lab-content__inner-wrapper'>
+<div class='js-markdown-instructions lab-content__markdown markdown-lab-instructions' id='markdown-lab-instructions'>
+
+
+
+<h2 id="step1">GSP055</h2>
+<p><img alt="Google Cloud Self-Paced Labs" src="https://cdn.qwiklabs.com/GMOHykaqmlTHiqEeQXTySaMXYPHeIvaqa2qHEzw6Occ%3D"></p>
+
+<h2 id="step2">Overview</h2>
+<p>Docker is an open platform for developing, shipping, and running applications. With Docker, you can separate your applications from your infrastructure and treat your infrastructure like a managed application. Docker helps you ship code faster, test faster, deploy faster, and shorten the cycle between writing code and running code.</p>
+<p>Docker does this by combining kernel containerization features with workflows and tooling that helps you manage and deploy your applications.</p>
+<p>Docker containers can be directly used in Kubernetes, which allows them to be run in the Kubernetes Engine with ease. After learning the essentials of Docker, you will have the skillset to start developing Kubernetes and containerized applications.</p>
+<h3>What you'll learn</h3>
+<p>In this lab, you will learn how to do the following:</p>
+<ul>
+<li>How to build, run, and debug Docker containers.</li>
+<li>How to pull Docker images from Docker Hub and Google Container Registry.</li>
+<li>How to push Docker images to Google Container Registry.</li>
+</ul>
+<h3>Prerequisites</h3>
+<p>This is an <strong>introductory level</strong> lab. Little, to no prior experience with Docker and containers is assumed. Familiarity with Cloud Shell and the command line is suggested, but not required. If you are looking for more advanced material in this service area, be sure to check out the following labs:</p>
+<ul>
+<li><a href="https://google.qwiklabs.com/catalog_lab/979">App Dev: Deploying the Application into Kubernetes Engine - Python</a></li>
+<li><a href="https://google.qwiklabs.com/catalog_lab/468">Hello Node Kubernetes</a></li>
+<li><a href="https://google.qwiklabs.com/catalog_lab/572">Managing Deployments Using Kubernetes Engine</a></li>
+</ul>
+<p>Once you're ready, scroll down to get your lab environment set up.</p>
+<h2 id="step3">Setup and Requirements</h2>
+<h3><strong>Qwiklabs setup</strong></h3>
+<h4>Before you click the Start Lab button</h4>
+<p>Read these instructions. Labs are timed and you cannot pause them. The timer, which starts when you click Start Lab, shows how long Cloud resources will be made available to you.</p>
+<p>This Qwiklabs hands-on lab lets you do the lab activities yourself in a real cloud environment, not in a simulation or demo environment. It does so by giving you new, temporary credentials that you use to sign in and access the Google Cloud Platform for the duration of the lab.</p>
+<h4>What you need</h4>
+<p>To complete this lab, you need:</p>
+<ul>
+<li>Access to a standard internet browser (Chrome browser recommended).</li>
+<li>Time to complete the lab.</li>
+</ul>
+<p><strong>Note:</strong> If you already have your own personal GCP account or project, do not use it for this lab.</p>
+<p><strong>Note:</strong> If you are using a Pixelbook please open an Incognito window to run this lab.</p>
+
+<h4>How to start your lab and sign in to the Console</h4>
+<ol>
+<li>
+<p>Click the <strong>Start Lab</strong> button. If you need to pay for the lab, a pop-up opens for you to select your payment method.
+On the left is a panel populated with the temporary credentials that you must use for this lab.</p>
+<p><img alt="Open Google Console" src="https://cdn.qwiklabs.com/%2FtHp4GI5VSDyTtdqi3qDFtevuY014F88%2BFow%2FadnRgE%3D"></p>
+</li>
+<li>
+<p>Copy the username, and then click <strong>Open Google Console</strong>.
+The lab spins up resources, and then opens another tab that shows the <strong>Choose an account</strong> page.</p>
+<p><strong><em>Tip:</em></strong> Open the tabs in separate windows, side-by-side.</p>
+</li>
+<li>
+<p>On the Choose an account page, click <strong>Use Another Account</strong>.</p>
+<p><img alt="Choose an account" src="https://cdn.qwiklabs.com/eQ6xPnPn13GjiJP3RWlHWwiMjhooHxTNvzfg1AL2WPw%3D"></p>
+</li>
+<li>
+<p>The Sign in page opens. Paste the username that you copied from the Connection Details panel. Then copy and paste the password.</p>
+<p><strong><em>Important:</em></strong> You must use the credentials from the Connection Details panel. Do not use your Qwiklabs credentials. If you have your own GCP account, do not use it for this lab (avoids incurring charges).</p>
+</li>
+<li>
+<p>Click through the subsequent pages:</p>
+<ul>
+<li>Accept the terms and conditions.</li>
+<li>Do not add recovery options or two-factor authentication (because this is a temporary account).</li>
+<li>Do not sign up for free trials.</li>
+</ul>
+</li>
+</ol>
+<p>After a few moments, the GCP console opens in this tab.</p>
+<aside>
+<b>Note:</b> You can view the menu with a list of GCP Products and Services by clicking the <b>Navigation menu</b> at the top-left, next to “Google Cloud Platform”.
+<img alt="Cloud Console Menu" src="https://cdn.qwiklabs.com/9vT7xPlxoNP%2FPsK0J8j0ZPFB4HnnpaIJVCDByaBrSHg%3D">
+</aside>
+
+<h3>Activate Google Cloud Shell</h3>
+<p>Google Cloud Shell is a virtual machine that is loaded with development tools. It offers a persistent 5GB home directory and runs on the Google Cloud.
+Google Cloud Shell provides command-line access to your GCP resources.</p>
+<ol>
+<li>
+<p>In GCP console, on the top right toolbar, click the Open Cloud Shell button.</p>
+<p><img alt="Cloud Shell icon" src="https://cdn.qwiklabs.com/vdY5e%2Fan9ZGXw5a%2FZMb1agpXhRGozsOadHURcR8thAQ%3D"></p>
+</li>
+<li>
+<p>Click <strong>Continue</strong>.
+<img alt="cloudshell_continue.png" src="https://cdn.qwiklabs.com/lr3PBRjWIrJ%2BMQnE8kCkOnRQQVgJnWSg4UWk16f0s%2FA%3D"></p>
+</li>
+</ol>
+<p>It takes a few moments to provision and connect to the environment. When you are connected, you are already authenticated, and the project is set to your <em>PROJECT_ID</em>. For example:</p>
+<p><img alt="Cloud Shell Terminal" src="https://cdn.qwiklabs.com/hmMK0W41Txk%2B20bQyuDP9g60vCdBajIS%2B52iI2f4bYk%3D"></p>
+<p><strong>gcloud</strong> is the command-line tool for Google Cloud Platform. It comes pre-installed on Cloud Shell and supports tab-completion.</p>
+<p>You can list the active account name with this command:</p>
+<pre><code>gcloud auth list&#x000A;</code></pre>
+<p>Output:</p>
+<pre><code class="language-output prettyprint">Credentialed accounts:&#x000A; - &lt;myaccount&gt;@&lt;mydomain&gt;.com (active)&#x000A;</code></pre>
+<p>Example output:</p>
+<pre><code class="language-Output prettyprint">Credentialed accounts:&#x000A; - google1623327_student@qwiklabs.net&#x000A;</code></pre>
+<p>You can list the project ID with this command:</p>
+<pre><code>gcloud config list project&#x000A;</code></pre>
+<p>Output:</p>
+<pre><code class="language-output prettyprint">[core]&#x000A;project = &lt;project_ID&gt;&#x000A;</code></pre>
+<p>Example output:</p>
+<pre><code class="language-Output prettyprint">[core]&#x000A;project = qwiklabs-gcp-44776a13dea667a6&#x000A;</code></pre>
+<aside>
+  Full documentation of <strong>gcloud</strong> is available on <a href="https://cloud.google.com/sdk/gcloud">Google Cloud gcloud Overview</a>.
+
+</aside>
+
+<h2 id="step4">Hello World</h2>
+<p>Open up Cloud Shell and enter the following command to run a hello world container to get started:</p>
+<pre><code>docker run hello-world&#x000A;</code></pre>
+<p>(Command Output)</p>
+<pre><code class="language-bash prettyprint">Unable to find image 'hello-world:latest' locally&#x000A;latest: Pulling from library/hello-world&#x000A;9db2ca6ccae0: Pull complete&#x000A;Digest: sha256:4b8ff392a12ed9ea17784bd3c9a8b1fa3299cac44aca35a85c90c5e3c7afacdc&#x000A;Status: Downloaded newer image for hello-world:latest&#x000A;&#x000A;Hello from Docker!&#x000A;This message shows that your installation appears to be working correctly.&#x000A;...&#x000A;</code></pre>
+<p>This simple container returns <code>Hello from Docker!</code> to your screen.  While the command is simple, notice in the output the number of steps it performed. The docker daemon searched for the hello-world image, didn't find the image locally, pulled the image from a public registry called Docker Hub, created a container from that image, and ran the container for you.</p>
+<p>Run the following command to take a look at the container image it pulled from Docker Hub:</p>
+<pre><code>docker images&#x000A;</code></pre>
+<p>(Command Output)</p>
+<pre><code class="language-bash prettyprint">REPOSITORY     TAG      IMAGE ID       CREATED       SIZE&#x000A;hello-world    latest   1815c82652c0   6 days ago    1.84 kB&#x000A;</code></pre>
+<p>This is the image pulled from the Docker Hub public registry. The Image ID is in <a href="https://www.movable-type.co.uk/scripts/sha256.html">SHA256 hash</a> format—this field specifies the Docker image that's been provisioned. When the docker daemon can't find an image locally, it will by default search the public registry for the image. Let's run the container again:</p>
+<pre><code>docker run hello-world&#x000A;</code></pre>
+<p>(Command Output)</p>
+<pre><code class="language-bash prettyprint">Hello from Docker!&#x000A;This message shows that your installation appears to be working correctly.&#x000A;&#x000A;To generate this message, Docker took the following steps:&#x000A;...&#x000A;</code></pre>
+<p>Notice the second time you run this, the docker daemon finds the image in your local registry and runs the container from that image. It doesn't have to pull the image from Docker Hub.</p>
+<p>Finally, look at the running containers by running the following command:</p>
+<pre><code>docker ps&#x000A;</code></pre>
+<p>(Command Output)</p>
+<pre><code class="language-bash prettyprint">CONTAINER ID        IMAGE               COMMAND             CREATED             STATUS              PORTS               NAMES&#x000A;</code></pre>
+<p>There are no running containers. The hello-world containers you ran previously already exited. In order to see all containers, including ones that have finished executing, run <code>docker ps -a</code>:</p>
+<pre><code>docker ps -a&#x000A;</code></pre>
+<p>(Command Output)</p>
+<pre><code class="language-bash prettyprint">CONTAINER ID      IMAGE           COMMAND      ...     NAMES&#x000A;6027ecba1c39      hello-world     "/hello"     ...     elated_knuth&#x000A;358d709b8341      hello-world     "/hello"     ...     epic_lewin&#x000A;</code></pre>
+<p>This shows you the <code>Container ID</code>, a UUID generated by Docker to identify the container, and more metadata about the run. The container <code>Names</code> are also randomly generated but can be specified with <code>docker run --name [container-name] hello-world</code>.</p>
+<h2 id="step5">Build</h2>
+<p>Let's build a Docker image that's based on a simple node application. Execute the following command to create and switch into a folder named <code>test</code>.</p>
+<pre><code>mkdir test &amp;&amp; cd test&#x000A;</code></pre>
+<p>Create a <code>Dockerfile</code>:</p>
+<pre><code>cat &gt; Dockerfile &lt;&lt;EOF&#x000A;# Use an official Node runtime as the parent image&#x000A;FROM node:6&#x000A;&#x000A;# Set the working directory in the container to /app&#x000A;WORKDIR /app&#x000A;&#x000A;# Copy the current directory contents into the container at /app&#x000A;ADD . /app&#x000A;&#x000A;# Make the container's port 80 available to the outside world&#x000A;EXPOSE 80&#x000A;&#x000A;# Run app.js using node when the container launches&#x000A;CMD ["node", "app.js"]&#x000A;EOF&#x000A;</code></pre>
+<p>This file instructs the Docker daemon on how to build your image.</p>
+<ul>
+<li>The initial line specifies the base parent image, which in this case is the official Docker image for node version 6.</li>
+<li>In the second, we set the working (current) directory of the container.</li>
+<li>In the third, we add the current directory's contents (indicated by the <code>"."</code> ) into the container.</li>
+<li>Then we expose the container's port so it can accept connections on that port and finally run the node command to start the application.</li>
+</ul>
+<aside class="special"><p>Spend some time reviewing the <a href="https://docs.docker.com/engine/reference/builder/#known-issues-run" target="blank">Dockerfile command references</a> to understand each line of the <code>Dockerfile</code>.</p>
+</aside>
+<p>Now you'll write the node application, and after that you'll build the image.</p>
+<p>Run the following to create the node application:</p>
+<pre><code>cat &gt; app.js &lt;&lt;EOF&#x000A;const http = require('http');&#x000A;&#x000A;const hostname = '0.0.0.0';&#x000A;const port = 80;&#x000A;&#x000A;const server = http.createServer((req, res) =&gt; {&#x000A;    res.statusCode = 200;&#x000A;      res.setHeader('Content-Type', 'text/plain');&#x000A;        res.end('Hello World\n');&#x000A;});&#x000A;&#x000A;server.listen(port, hostname, () =&gt; {&#x000A;    console.log('Server running at http://%s:%s/', hostname, port);&#x000A;});&#x000A;&#x000A;process.on('SIGINT', function() {&#x000A;    console.log('Caught interrupt signal and will exit');&#x000A;    process.exit();&#x000A;});&#x000A;EOF&#x000A;</code></pre>
+<p>This is a simple HTTP server that listens on port 80 and returns "Hello World."</p>
+<p>Now let's build the image.</p>
+<p>Note again the <code>"."</code>, which means current directory so you need to run this command from within the directory that has the Dockerfile:</p>
+<pre><code>docker build -t node-app:0.1 .&#x000A;</code></pre>
+<p>It might take a couple of minutes for this command to finish executing. When it does, your output should resemble the following:</p>
+<pre><code>Sending build context to Docker daemon 3.072 kB&#x000A;Step 1 : FROM node:6&#x000A;6: Pulling from library/node&#x000A;...&#x000A;...&#x000A;...&#x000A;Step 5 : CMD node app.js&#x000A; ---&gt; Running in b677acd1edd9&#x000A; ---&gt; f166cd2a9f10&#x000A;Removing intermediate container b677acd1edd9&#x000A;Successfully built f166cd2a9f10&#x000A;</code></pre>
+<p>The <code>-t</code> is to name and tag an image with the <code>name:tag</code> syntax. The name of the image is <code>node-app</code> and the <code>tag</code> is <code>0.1</code>.  The tag is highly recommended when building Docker images.  If you don't specify a tag, the tag will default to <code>latest</code> and it becomes more difficult to distinguish newer images from older ones.  Also notice how each line in the <code>Dockerfile</code> above results in intermediate container layers as the image is built.</p>
+<p>Now, run the following command to look at the images you built:</p>
+<pre><code>docker images&#x000A;</code></pre>
+<p>Your output should resemble the following:</p>
+<pre><code>REPOSITORY     TAG      IMAGE ID        CREATED            SIZE&#x000A;node-app       0.1      f166cd2a9f10    25 seconds ago     656.2 MB&#x000A;node           6        5a767079e3df    15 hours ago       656.2 MB&#x000A;hello-world    latest   1815c82652c0    6 days ago         1.84 kB&#x000A;</code></pre>
+<p>Notice <code>node</code> is the base image and <code>node-app</code> is the image you built. You can't remove <code>node</code> without removing <code>node-app</code> first.  The size of the image is relatively small compared to VMs.  Other versions of the node image such as <code>node:slim</code> and <code>node:alpine</code> can give you even smaller images for easier portability.  The topic of slimming down container sizes is further explored in Advanced Topics.  You can view all versions in the official repository  <a href="https://hub.docker.com/_/node">here</a>.</p>
+<h2 id="step6">Run</h2>
+<p>In this module, use this code to run containers based on the image you built:</p>
+<pre><code>docker run -p 4000:80 --name my-app node-app:0.1&#x000A;</code></pre>
+<p>(Command Output)</p>
+<pre><code class="language-bash prettyprint">Server running at http://0.0.0.0:80/&#x000A;</code></pre>
+<p>The <code>--name</code> flag allows you to name the container if you like.  The <code>-p</code> instructs Docker to map the host's port 4000 to the container's port 80. Now you can reach the server at <code>http://localhost:4000</code>.  Without port mapping, you would not be able to reach the container at localhost.</p>
+<p>Open another terminal (in Cloud Shell, click the <code>+</code> icon), and test the server:</p>
+<pre><code>curl http://localhost:4000&#x000A;</code></pre>
+<p>(Command Output)</p>
+<pre><code class="language-bash prettyprint">Hello World&#x000A;</code></pre>
+<p>The container will run as long as the initial terminal is running. If you want the container to run in the background (not tied to the terminal's session), you need to specify the <code>-d</code> flag.</p>
+<p>Close the initial terminal and then run the following command to stop and remove the container:</p>
+<pre><code>docker stop my-app &amp;&amp; docker rm my-app&#x000A;</code></pre>
+<p>Now run the following command to start the container in the background:</p>
+<pre><code>docker run -p 4000:80 --name my-app -d node-app:0.1&#x000A;&#x000A;docker ps&#x000A;</code></pre>
+<p>(Command Output)</p>
+<pre><code class="language-bash prettyprint">CONTAINER ID   IMAGE          COMMAND        CREATED         ...  NAMES&#x000A;xxxxxxxxxxxx   node-app:0.1   "node app.js"  16 seconds ago  ...  my-app&#x000A;</code></pre>
+<p>Notice the container is running in the output of <code>docker ps</code>.  You can look at the logs by executing <code>docker logs [container_id]</code>.</p>
+<aside class="special"><p><strong>Tip: </strong>You don't have to write the entire container ID, as long as the initial characters uniquely identify the container.  For example, you can execute <code>docker logs 17b</code> if the container ID is <code>17bcaca6f....</code></p>
+</aside>
+<pre><code>docker logs [container_id]&#x000A;</code></pre>
+<p>(Command Output)</p>
+<pre><code class="language-bash prettyprint">Server running at http://0.0.0.0:80/&#x000A;</code></pre>
+<p>Let's modify the application. In your Cloud Shell, open the test directory you created earlier in the lab:</p>
+<pre><code>cd test&#x000A;</code></pre>
+<p>Edit <code>app.js</code> with a text editor of your choice (for example nano or vim) and replace "Hello World" with another string:</p>
+<pre><code class="language-bash prettyprint">....&#x000A;const server = http.createServer((req, res) =&gt; {&#x000A;    res.statusCode = 200;&#x000A;      res.setHeader('Content-Type', 'text/plain');&#x000A;        res.end('Welcome to Cloud\n');&#x000A;});&#x000A;....&#x000A;</code></pre>
+<p>Build this new image and tag it with <code>0.2</code>:</p>
+<pre><code>docker build -t node-app:0.2 .&#x000A;</code></pre>
+<p>(Command Output)</p>
+<pre><code class="language-bash prettyprint">Step 1/5 : FROM node:6&#x000A; ---&gt; 67ed1f028e71&#x000A;Step 2/5 : WORKDIR /app&#x000A; ---&gt; Using cache&#x000A; ---&gt; a39c2d73c807&#x000A;Step 3/5 : ADD . /app&#x000A; ---&gt; a7087887091f&#x000A;Removing intermediate container 99bc0526ebb0&#x000A;Step 4/5 : EXPOSE 80&#x000A; ---&gt; Running in 7882a1e84596&#x000A; ---&gt; 80f5220880d9&#x000A;Removing intermediate container 7882a1e84596&#x000A;Step 5/5 : CMD node app.js&#x000A; ---&gt; Running in f2646b475210&#x000A; ---&gt; 5c3edbac6421&#x000A;Removing intermediate container f2646b475210&#x000A;Successfully built 5c3edbac6421&#x000A;Successfully tagged node-app:0.2&#x000A;</code></pre>
+<p>Notice in Step 2 we are using an existing cache layer. From Step 3 and on, the layers are modified because we made a change in <code>app.js</code>.</p>
+<p>Run another container with the new image version.  Notice how we map the host's port 8080 instead of 80.  We can't use host port 4000 because it's already in use.</p>
+<pre><code>docker run -p 8080:80 --name my-app-2 -d node-app:0.2&#x000A;docker ps&#x000A;</code></pre>
+<p>(Command Output)</p>
+<pre><code class="language-bash prettyprint">CONTAINER ID     IMAGE             COMMAND            CREATED             &#x000A;xxxxxxxxxxxx     node-app:0.2      "node app.js"      53 seconds ago      ...&#x000A;xxxxxxxxxxxx     node-app:0.1      "node app.js"      About an hour ago   ...&#x000A;</code></pre>
+<p>Test the containers:</p>
+<pre><code>curl http://localhost:8080&#x000A;</code></pre>
+<p>(Command Output)</p>
+<pre><code class="language-bash prettyprint">Welcome to Cloud&#x000A;</code></pre>
+<p>And now test the first container you made:</p>
+<pre><code>curl http://localhost:4000&#x000A;</code></pre>
+<p>(Command Output)</p>
+<pre><code class="language-bash prettyprint">Hello World&#x000A;</code></pre>
+<h2 id="step7">Debug</h2>
+<p>Now that we're familiar with building and running containers, let's go over some debugging practices.</p>
+<p>You can look at the logs of a container using <code>docker logs [container_id]</code>.  If you want to follow the log's output as the container is running, use the <code>-f</code> option.</p>
+<pre><code>docker logs -f [container_id]&#x000A;</code></pre>
+<p>(Command Output)</p>
+<pre><code class="language-bash prettyprint">Server running at http://0.0.0.0:80/&#x000A;</code></pre>
+<p>Sometimes you will want to start an interactive Bash session inside the running container.  You can use docker exec to do this. Open another terminal (in Cloud Shell, click the + icon) and enter the following command:</p>
+<pre><code>docker exec -it [container_id] bash&#x000A;</code></pre>
+<p>The <code>-it</code> flags let you interact with a container by allocating a pseudo-tty and keeping stdin open.  Notice bash ran in the <code>WORKDIR</code> directory (/app) specified in the <code>Dockerfile</code>. From here, you have an interactive shell session inside the container to debug.</p>
+<p>(Command Output)</p>
+<pre><code class="language-bash prettyprint">root@xxxxxxxxxxxx:/app#&#x000A;</code></pre>
+<p>Look at the directory</p>
+<pre><code>ls&#x000A;</code></pre>
+<p>(Command Output)</p>
+<pre><code class="language-bash prettyprint">Dockerfile  app.js&#x000A;root@xxxxxxxxxxxx:/app#&#x000A;</code></pre>
+<p>Exit the Bash session. In the new terminal, enter:</p>
+<pre><code>exit&#x000A;</code></pre>
+<p>You can examine a container's metadata in Docker by using Docker inspect:</p>
+<pre><code>docker inspect [container_id]&#x000A;</code></pre>
+<p>(Command Output)</p>
+<pre><code>[&#x000A;    {&#x000A;        "Id": "xxxxxxxxxxxx....",&#x000A;        "Created": "2017-08-07T22:57:49.261726726Z",&#x000A;        "Path": "node",&#x000A;        "Args": [&#x000A;            "app.js"&#x000A;        ],&#x000A;...&#x000A;</code></pre>
+<p>Use  <code>--format</code> to inspect specific fields from the returned JSON. For example:</p>
+<pre><code>docker inspect --format='{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' [container_id]&#x000A;</code></pre>
+<p>(Example Output)</p>
+<pre><code>192.168.9.3&#x000A;</code></pre>
+<p>Be sure to check out the following resources for more information on debugging:</p>
+<ul>
+<li>Docker inspect  <a href="https://docs.docker.com/engine/reference/commandline/inspect/#examples" target="_blank">reference</a>
+</li>
+<li>Docker exec  <a href="https://docs.docker.com/engine/reference/commandline/exec/" target="_blank">reference</a>
+</li>
+</ul>
+<h2 id="step8">Publish</h2>
+<p>Now you're going to push your image to the <a href="https://cloud.google.com/container-registry/">Google Container Registry</a> (gcr). After that you'll remove all containers and images to simulate a fresh environment, and then pull and run your containers. This will demonstrate the portability of Docker containers.</p>
+<p>To push images to your private registry hosted by gcr, you need to tag the images with a registry name.  The format is <code>[hostname]/[project-id]/[image]:[tag]</code>.</p>
+<p>For gcr:</p>
+<ul>
+<li>
+<code>[hostname]</code>= gcr.io</li>
+<li>
+<code>[project-id]</code>= your project's ID</li>
+<li>
+<code>[image]</code>= your image name</li>
+<li>
+<code>[tag]</code>= any string tag of your choice.  If unspecified, it defaults to "latest".</li>
+</ul>
+<p>You can find your project ID by running:</p>
+<pre><code>gcloud config list project&#x000A;</code></pre>
+<p>(Command Output)</p>
+<pre><code class="language-bash prettyprint">[core]&#x000A;project = [project-id]&#x000A;&#x000A;Your active configuration is: [default]&#x000A;</code></pre>
+<p>Tag <code>node-app:0.2</code>.  Replace <code>[project-id]</code> with your configuration..</p>
+<pre><code>docker tag node-app:0.2 gcr.io/[project-id]/node-app:0.2&#x000A;</code></pre>
+<pre><code>docker images&#x000A;</code></pre>
+<p>(Command Output)</p>
+<pre><code class="language-bash prettyprint">REPOSITORY                      TAG         IMAGE ID          CREATED&#x000A;node-app                        0.2         76b3beef845e      22 hours ago&#x000A;gcr.io/[project-id]/node-app    0.2         76b3beef845e      22 hours ago&#x000A;node-app                        0.1         f166cd2a9f10      26 hours ago&#x000A;node                            6           5a767079e3df      7 days ago&#x000A;hello-world                     latest      1815c82652c0      7 weeks ago&#x000A;</code></pre>
+<p>Push this image to gcr.  Remember to replace <code>[project-id]</code>.</p>
+<pre><code>docker push gcr.io/[project-id]/node-app:0.2&#x000A;</code></pre>
+<p>Command output (yours may differ):</p>
+<pre><code class="language-bash prettyprint">The push refers to a repository [gcr.io/[project-id]/node-app]&#x000A;057029400a4a: Pushed&#x000A;342f14cb7e2b: Pushed&#x000A;903087566d45: Pushed&#x000A;99dac0782a63: Pushed&#x000A;e6695624484e: Pushed&#x000A;da59b99bbd3b: Pushed&#x000A;5616a6292c16: Pushed&#x000A;f3ed6cb59ab0: Pushed&#x000A;654f45ecb7e3: Pushed&#x000A;2c40c66f7667: Pushed&#x000A;0.2: digest: sha256:25b8ebd7820515609517ec38dbca9086e1abef3750c0d2aff7f341407c743c46 size: 2419&#x000A;</code></pre>
+<p>Check that the image exists in gcr by visiting the image registry in your web browser.  You can navigate via the console to <strong>Tools</strong> &gt; <strong>Container Registry</strong> or visit: <code>http://gcr.io/[project-id]/node-app</code>. You should land on a similar page:</p>
+<p><img alt="8afb07930833e781.png" src="https://cdn.qwiklabs.com/08T98M2PxiDZKimWDIIeUHF4ds7Ux2JH5KEnk4GobII%3D"></p>
+<p>Let's test this image. You could start a new VM, ssh into that VM, and install gcloud.  For simplicity, we'll just remove all containers and images to simulate a fresh environment.</p>
+<p>Stop and remove all containers:</p>
+<pre><code>docker stop $(docker ps -q)&#x000A;docker rm $(docker ps -aq)&#x000A;</code></pre>
+<p>You have to remove the child images (of <code>node:6</code>) before you remove the node image. Replace <code>[project-id]</code>.</p>
+<pre><code>docker rmi node-app:0.2 gcr.io/[project-id]/node-app node-app:0.1&#x000A;docker rmi node:6&#x000A;docker rmi $(docker images -aq) # remove remaining images&#x000A;docker images&#x000A;</code></pre>
+<p>(Command Output)</p>
+<pre><code class="language-bash prettyprint">REPOSITORY          TAG                 IMAGE ID            CREATED             SIZE&#x000A;</code></pre>
+<p>At this point you should have a pseudo-fresh environment.  Pull the image and run it. Remember to replace the <code>[project-id]</code>.</p>
+<pre><code>docker pull gcr.io/[project-id]/node-app:0.2&#x000A;docker run -p 4000:80 -d gcr.io/[project-id]/node-app:0.2&#x000A;curl http://localhost:4000&#x000A;</code></pre>
+<p>(Command Output)</p>
+<pre><code class="language-bash prettyprint">Welcome to Cloud&#x000A;</code></pre>
+<h3>Test Completed Task</h3>
+<p>Click <strong>Check my progress</strong> to verify your performed task. If you have successfully publish container image to Container Registry, you'll see an assessment score.</p>
+<ql-activity-tracking step="1">
+    Publish your container image to Container Registry
+</ql-activity-tracking>
+<p>Here we showcased the portability of containers.  As long as Docker is installed on the host (either on-premise or VM), it can pull images from public or private registries and run containers based on that image. There are no application dependencies that have to be installed on the host except for Docker.</p>
+<h2 id="step9">Congratulations</h2>
+<p>Congratulations on completing the Introduction to Docker. To recap, you:</p>
+<ul>
+<li>Ran containers based on public images from Docker Hub.</li>
+<li>Built your own container images and pushed them to Google Container Registry.</li>
+<li>Learned ways to debug running containers.</li>
+<li>Ran containers based on images pulled from Google Container Registry.</li>
+</ul>
+<p><img alt="6d0798e24a18671b.png" src="https://cdn.qwiklabs.com/2LSNdbBU3lu0UqtX1hUrMEip%2BbKsc9ecpQe%2BXtIL9qY%3D"></p>
+<h3>Finish Your Quest</h3>
+<p>This self-paced lab is part of the Qwiklabs <a href="https://google.qwiklabs.com/quests/29">Kubernetes in the Google Cloud</a> Quest. A Quest is a series of related labs that form a learning path. Completing this Quest earns you the badge above, to recognize your achievement. You can make your badge public and link to them in your online resume or social media account.  <a href="http://google.qwiklabs.com/learning_paths/29/enroll">Enroll in this Quest</a> and get immediate completion credit if you've taken this lab. <a href="http://google.qwiklabs.com/catalog">See other available Qwiklabs Quests</a>.</p>
+<h3>Take Your Next Lab</h3>
+<p>Continue your Quest with  <a href="https://google.qwiklabs.com/catalog_lab/468">Hello Node Kubernetes</a>, or check out these suggestions:</p>
+<ul>
+<li>
+<p><a href="https://google.qwiklabs.com/catalog_lab/486">Orchestrating the Cloud with Kubernetes</a></p>
+</li>
+<li>
+<p><a href="https://google.qwiklabs.com/catalog_lab/572">Managing Deployments Using Kubernetes and Kubernetes Engine </a></p>
+</li>
+</ul>
+<h3>Next Steps / Learn More</h3>
+<ul>
+<li><a href="https://docs.docker.com/engine/reference/builder/">Dockerfile reference</a></li>
+<li><a href="https://hub.docker.com/">Docker Hub</a></li>
+<li>Learn more about Docker in the  <a href="https://docs.docker.com/engine/userguide/">official documentation</a>
+</li>
+<li>Container Registry  <a href="https://cloud.google.com/container-registry/docs/">documentation</a>
+</li>
+</ul>
+<h3>Google Cloud Training &amp; Certification</h3>
+<p>...helps you make the most of Google Cloud technologies. <a href="https://cloud.google.com/training/courses">Our classes</a> include technical skills and best practices to help you get up to speed quickly and continue your learning journey. We offer fundamental to advanced level training, with on-demand, live, and virtual options to suit your busy schedule. <a href="https://cloud.google.com/certification/">Certifications</a> help you validate and prove your skill and expertise in Google Cloud technologies.</p>
+
+<h5>Manual Last Updated December 16, 2019</h5>
+<h5>Lab Last Tested December 16, 2019</h5>
+<p>Copyright 2020 Google LLC All rights reserved. Google and the Google logo are trademarks of Google LLC. All other company and product names may be trademarks of the respective companies with which they are associated.</p>
+
+
+
+</div>
+<div class='js-lab-content-outline lab-content__outline'>
+<a href='#step1'>GSP055</a><a href='#step2'>Overview</a><a href='#step3'>Setup and Requirements</a><a href='#step4'>Hello World</a><a href='#step5'>Build</a><a href='#step6'>Run</a><a href='#step7'>Debug</a><a href='#step8'>Publish</a><a href='#step9'>Congratulations</a>
+</div>
+</div>
+
+</div>
+
+<div class='lab-content__markdown-wrapper'>
+<div class='lab-content__markdown'>
+<div class='lab-content__recommendation'>
+<!-- # TODO: Change classes so that this doesn't stack vertically -->
+<section class='upcoming-cards'>
+<h2 class='headline-3'>Continue questing</h2>
+<div class='content-card-grid'>
+<div class='card-content-wrapper js-content-card' data-id='2524' data-level='Expert' data-name='Kubernetes in Google Cloud: Challenge Lab' data-type='Lab'>
+<a class="card card--content elevation-0 content-lab" href="/focuses/10457?parent=catalog"><div class='card__image'>
+<div class='card__image__inner' style='background-image: url(https://cdn.qwiklabs.com/assets/fractal4-1d205807c54d90fe4382315dbfc0dd665ddb825bbc90f3ca5db7d7170fa0df1b.jpg)'></div>
+</div>
+<div class='card__body'>
+<div class='overline card--content__type'>
+Hands-On Lab
+</div>
+<h3 class='card--content__title'>
+Kubernetes in Google Cloud: Challenge Lab
+</h3>
+<p class='card--content__description body-1'>
+This challenge lab tests your skills and knowledge from the labs in the Kubernetes in Google Cloud quest.  You should be familiar with the content of the labs before attempting this lab.
+</p>
+</div>
+<div class='card__footer'>
+<div class='card__footer__left'>
+<span>Expert</span>
+</div>
+<div class='card__footer__right'>
+<div class='rateit' data-rateit-readonly='true' data-rateit-value='3.1207'></div>
+</div>
+</div>
+</a></div>
+
+</div>
+</section>
+
+</div>
+</div>
+</div>
+
+</div>
+</div>
+<div class='lab-assessment__tab js-lab-assessment-tab'>
+<h5 class='small-label'>
+Score
+</h5>
+<h3 class='js-lab-assessment-total-score'>
+&mdash;/100
+</h3>
+<iframe class='l-ie-iframe-fix'></iframe>
+</div>
+<div class='lab-assessment__panel js-lab-assessment-panel'>
+<!-- / If lab_instance has is started and assessment is generated, use -->
+<!-- / lab_instance.assessment, otherwise use lab.assessment_manual -->
+<div class='lab-assessment__step'>
+<p class='lab-assessment__step__title'>
+Publish your container image to Container Registry
+</p>
+<p class='button button--assessment js-show-run-step-button' step_no='1'>
+Run Step
+</p>
+<p class='lab-assessment__step__score'>
+<span class='js-assessment-step-score-1'>
+</span>
+/ 100
+</p>
+</div>
+
+<iframe class='l-ie-iframe-fix'></iframe>
+</div>
+<div class='lab-introduction js-lab-introduction is-hidden'>
+<div class='lab-introduction__inner'>
+<h1 class='headline-1'>Welcome to Your First Lab!</h1>
+<ql-icon-button class='js-skip-button'>close</ql-icon-button>
+<div class='lab-introduction__video'>
+<iframe allow='autoplay; encrypted-media' allowfullscreen frameborder='0' id='lab-introduction' src='https://www.youtube.com/embed/yF7EDXKTmoQ?enablejsapi=1&amp;rel=0&amp;showinfo=0'></iframe>
+</div>
+<a class='js-skip-button button button--outline'>Skip this video</a>
+</div>
+</div>
+
+
+
+</div>
+</main>
+<div class='modal fade' id='lab-details-modal'>
+<div class='modal-container'>
+<div class='mdl-shadow--24dp modal-content'>
+<div class='modal-body'>
+<p class='l-mbm'>
+In this lab you will familiarize yourself with the basic Docker container environment commands.  You will create, run, and debug containers, and learn to pull and push images to and from Google Container Registry.
+</p>
+<p>
+This lab is included in the quest
+<a href="/quests/29">Kubernetes in Google Cloud</a>.
+If you complete this lab you&#39;ll receive credit for it when you enroll in this quest.
+</p>
+<p class='small-label l-mbs'>
+<strong>
+Duration:
+</strong>
+0m setup
+&middot;
+60m access
+&middot;
+45m completion
+</p>
+<p class='small-label l-mbs'>
+<span><strong>Levels: </strong>introductory</span>
+</p>
+<p class='small-label'>
+<strong>
+Permalink:
+</strong>
+<a href="https://www.qwiklabs.com/catalog_lab/944">https://www.qwiklabs.com/catalog_lab/944</a>
+</p>
+</div>
+<div class='modal-actions'>
+<a class='mdl-button mdl-button--primary mdl-js-button mdl-js-ripple-effect' data-dismiss='modal'>
+Got It
+</a>
+</div>
+
+
+</div>
+</div>
+<iframe class='l-ie-iframe-fix'></iframe>
+</div>
+<div class='modal fade' id='lab-review-modal'>
+<div class='modal-container'>
+<div class='mdl-shadow--24dp modal-content'>
+<form class="simple_form js-lab-review-form" id="edit_lab_review_5376062" action="/lab_reviews/5376062" accept-charset="UTF-8" data-remote="true" method="post"><input name="utf8" type="hidden" value="&#x2713;" /><input type="hidden" name="_method" value="patch" /><div class='modal-body'>
+<p class='label'>
+How satisfied are you with this lab?*
+</p>
+<div class='rateit js-rateit' data-rateit-max='5' data-rateit-min='0' data-rateit-resetable='false' data-rateit-step='1' data-rateit-value='5'></div>
+<div class='l-mtm'>
+
+<div class="control-group hidden lab_review_user_id"><div class="controls"><input class="hidden" type="hidden" value="2485272" name="lab_review[user_id]" id="lab_review_user_id" /></div></div>
+<div class="control-group hidden lab_review_classroom_id"><div class="controls"><input class="hidden" type="hidden" name="lab_review[classroom_id]" id="lab_review_classroom_id" /></div></div>
+<div class="control-group hidden lab_review_lab_id"><div class="controls"><input class="hidden" type="hidden" value="944" name="lab_review[lab_id]" id="lab_review_lab_id" /></div></div>
+<div class="control-group hidden lab_review_focus_id"><div class="controls"><input class="hidden" type="hidden" name="lab_review[focus_id]" id="lab_review_focus_id" /></div></div>
+<div class="control-group hidden lab_review_rating"><div class="controls"><input class="hidden js-rating-input" type="hidden" value="2" name="lab_review[rating]" id="lab_review_rating" /></div></div>
+<div class="control-group text optional lab_review_comment"><label class="text optional control-label" for="lab_review_comment">Comment</label><div class="controls"><textarea class="text optional" name="lab_review[comment]" id="lab_review_comment">
+</textarea></div></div>
+</div>
+</div>
+<div class='modal-actions'>
+<a class='mdl-button mdl-button--primary mdl-js-button mdl-js-ripple-effect' data-dismiss='modal'>
+Cancel
+</a>
+<input type="submit" name="commit" value="Submit" disabled="disabled" class="btn mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--primary" id="submit" data-disabled="false" data-disable-with="Submit" />
+</div>
+</form>
+
+</div>
+</div>
+<iframe class='l-ie-iframe-fix'></iframe>
+</div>
+<div class='modal fade' id='lab-access-modal'>
+<div class='modal-container'>
+<div class='mdl-shadow--24dp modal-content'>
+<a class='lab-access-modal-close' data-analytics-action='dismissed_lab_payment_modal' data-dismiss='modal'>
+<i class='material-icons'>close</i>
+</a>
+<form class="js-lab-access-form" action="/lab_onetime_coupons/activate?parent=catalog" accept-charset="UTF-8" data-remote="true" method="post"><input name="utf8" type="hidden" value="&#x2713;" />
+<div class='modal-body'>
+<div class='lab-access-modal'>
+<input type="hidden" name="id" id="id" value="1029" />
+<input type="hidden" name="user_id" id="user_id" value="2485272" />
+<input type="hidden" name="launch_with_credits" id="launch_with_credits" value="0" class="js-launch-with-credits-input" />
+<input type="hidden" name="launch_with_subs" id="launch_with_subs" value="0" class="js-launch-with-subscription-input" />
+<div class='lab-access-modal__method'>
+<p>
+This lab costs
+1 Credit.
+</p>
+<p>
+You have a valid subscription package. Would you like to charge this lab to your subscription?
+
+</p>
+<a class='button js-launch-with-subscription-button js-lab-access-modal-button' data-analytics-action='clicked_launch_with_subscription_button'>
+Use Subscription
+</a>
+</div>
+<div class='lab-access-modal__method'>
+<p>
+Enter Lab Access Code:
+</p>
+<div class='lab-access-modal__code js-access-code'>
+<input type="text" name="uuid_1" id="uuid_1" value="" maxlength="4" placeholder="1234" />
+<input type="text" name="uuid_2" id="uuid_2" value="" maxlength="4" placeholder="1234" />
+<input type="text" name="uuid_3" id="uuid_3" value="" maxlength="4" placeholder="1234" />
+<input type="text" name="uuid_4" id="uuid_4" value="" maxlength="4" placeholder="1234" />
+</div>
+<a class='button js-launch-with-access-code-button js-lab-access-modal-button' data-analytics-action='clicked_launch_with_access_code_button'>
+Launch with Access Code
+</a>
+</div>
+</div>
+</div>
+</form>
+
+
+
+</div>
+</div>
+<iframe class='l-ie-iframe-fix'></iframe>
+</div>
+
+<script>
+  $( function() {
+    ql.initMaterialInputs();
+    initChosen();
+    initSearch();
+    initTabs();
+    ql.list.init();
+    ql.favoriting.init();
+    ql.header.myAccount.init();
+    initTooltips();
+    ql.autocomplete.init();
+    ql.modals.init();
+    ql.toggleButtons.init();
+    ql.analytics.init();
+    initLabContent( );
+  ql.labOutline.links.init();
+  ql.labOutline.layout.init();
+  initLabReviewModal();
+  initLabAccessModal();
+  ql.labAssessment.init();
+  ql.labIntroduction.init( true );
+  ql.labData.init();
+  initLabTranslations( {"are_you_sure":"All done? If you end this lab, you will lose all your work. You may not be able to restart the lab if there is a quota limit. Are you sure you want to end this lab?\n","in_progress":"*In Progress*","ending":"*Ending*","starting":"*Starting, please wait*","end_concurrent_labs":"Sorry, you can only run one lab at a time. To start this lab, please confirm that you want all of your existing labs to end.\n","copied":"Copied","no_resource":"Error retrieving resource.","no_support":"No Support","mac_press":"Press ⌘-C to copy","thanks_review":"Thanks for reviewing this lab.","windows_press":"Press Ctrl-C to copy","days":"days"} );
+  ql.labRun.init();
+  ql.initHeader();
+  ql.navigation.init();
+  ql.navPanel.init();
+  ql.navigation.init();
+  
+  });
+</script>
+<style>
+  .mdl-layout__container {
+    position: static
+  }
+</style>
+</body>
+</html>

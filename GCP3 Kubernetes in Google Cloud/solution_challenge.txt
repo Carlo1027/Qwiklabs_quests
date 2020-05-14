@@ -1,0 +1,92 @@
+gcloud config set compute/zone us-east1-b
+
+#1
+source <(gsutil cat gs://cloud-training/gsp318/marking/setup_marking.sh)
+
+gcloud source repos list
+
+gcloud source repos clone valkyrie-app
+
+cd valkyrie-app
+
+cat > Dockerfile <<EOF
+FROM golang:1.10
+WORKDIR /go/src/app
+COPY source .
+RUN go install -v
+ENTRYPOINT ["app","-single=true","-port=8080"]
+EOF
+
+docker build -t valkyrie-app:v0.0.1 .
+
+step1.sh
+
+#2
+docker run -p 8080:8080 --name my-app valkyrie-app:v0.0.1 &
+
+step2.sh
+
+#3
+
+gcloud config list project
+
+docker tag valkyrie-app:v0.0.1 gcr.io/qwiklabs-gcp-03-f6c4ca8202a6/valkyrie-app:v0.0.1
+
+docker images
+
+docker push gcr.io/qwiklabs-gcp-03-f6c4ca8202a6/valkyrie-app:v0.0.1
+
+#4
+
+gcloud container clusters get-credentials valkyrie-dev
+
+cat k8s/deployment.yaml
+kubectl create -f k8s/deployment.yaml
+
+cat k8s/service.yaml
+kubectl create -f k8s/service.yaml
+
+#5
+
+kubectl scale deployment valkyrie-dev --replicas=3
+
+git merge origin/kurt-dev
+
+kubectl edit deployment valkyrie-dev
+
+docker build -t valkyrie-app:v0.0.2 .
+docker tag valkyrie-app:v0.0.2 gcr.io/qwiklabs-gcp-03-f6c4ca8202a6/valkyrie-app:v0.0.2
+docker push gcr.io/qwiklabs-gcp-03-f6c4ca8202a6/valkyrie-app:v0.0.2
+
+kubectl edit deployment valkyrie-dev
+
+#######
+kubectl get service
+EXTERNAL-IP
+
+#6
+
+gcloud container clusters list
+
+docker ps
+### get container id
+docker kill container_id
+
+export POD_NAME=$(kubectl get pods --namespace default -l "app.kubernetes.io/component=jenkins-master" -l "app.kubernetes.io/instance=cd" -o jsonpath="{.items[0].metadata.name}")
+
+kubectl port-forward $POD_NAME 8080:8080 >> /dev/null &
+
+kubectl get svc
+
+printf $(kubectl get secret cd-jenkins -o jsonpath="{.data.jenkins-admin-password}" | base64 --decode);echo
+
+
+
+valkyrie-app  qwiklabs-gcp-03-f6c4ca8202a6  https://source.developers.google.com/p/qwiklabs-gcp-03-f6c4ca8202a6/r/valkyrie-app
+
+sed -i "s/YOUR_PROJECT/qwiklabs-gcp-03-f6c4ca8202a6/g" Jenkinsfile
+
+git config --global user.email "carlocastrogalindo@gmail.com"
+git config --global user.name "Carlo1027"
+git add .
+git commit -m "cambios"

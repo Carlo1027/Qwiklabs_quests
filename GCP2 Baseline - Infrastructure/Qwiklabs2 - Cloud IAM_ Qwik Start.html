@@ -1,0 +1,888 @@
+<!DOCTYPE html>
+<html lang='es'>
+<head>
+<meta content='[]' name='active-experiments'>
+<meta content='{&quot;userId&quot;:2485272}' name='help-api-product-data'>
+<meta name="csrf-param" content="authenticity_token" />
+<meta name="csrf-token" content="DWNBRnhWT2Qs3eCPPuui5VhTVRFgY6vAyTRB9ZYWT235VqGlu5OGzRhjHPMRT4OEz+welTmFIhgidJw2qv5WNQ==" />
+<title>Cloud IAM: Qwik Start | Qwiklabs</title>
+<meta content='width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=0' name='viewport'>
+<meta content='Google Cloud IAM unifica el control de acceso para los servicios de Cloud Platform en un solo sistema a fin de presentar un conjunto coherente de operaciones. Para comenzar, mire este video breve: &amp;lt;A HREF=&quot;https://youtu.be/PqMGmRhKsnM&quot;&amp;gt;Manage Access Control with Google Cloud IAM&amp;lt;/A&amp;gt;.' name='description'>
+<meta content='Qwiklabs' name='author'>
+<meta content='1rRsY0INj8RvwB5EF5pwdxt2A2P9aDgAlsICaJ0d5w0' name='google-site-verification'>
+<meta content='Cloud IAM: Qwik Start | Qwiklabs' property='og:title'>
+<meta content='website' property='og:type'>
+<meta content='/favicon-144.png' property='og:image'>
+<meta content='Qwiklabs' property='og:site_name'>
+<meta content='Google Cloud IAM unifica el control de acceso para los servicios de Cloud Platform en un solo sistema a fin de presentar un conjunto coherente de operaciones. Para comenzar, mire este video breve: &amp;lt;A HREF=&quot;https://youtu.be/PqMGmRhKsnM&quot;&amp;gt;Manage Access Control with Google Cloud IAM&amp;lt;/A&amp;gt;.' property='og:description'>
+<meta content='/qwiklabs_logo_900x887.png' property='og:logo' size='900x887'>
+<meta content='/qwiklabs_logo_994x187.png' property='og:logo' size='994x187'>
+<meta content='#3681E4' property='msapplication-TileColor'>
+<meta content='/favicon-144.png' property='msapplication-TileImage'>
+<link href='/favicon-32.png' rel='shortcut icon'>
+<link color='#3681E4' href='/favicon-svg.svg' rel='mask-icon'>
+<link href='/favicon-180.png' rel='apple-touch-icon-precomposed'>
+<link rel="stylesheet" media="screen" href="https://fonts.googleapis.com/css?family=Oswald:400|Roboto+Mono:400,700|Roboto:300,400,500,700|Google+Sans:300,400,500,700|Google+Sans+Display:400|Material+Icons|Google+Material+Icons" />
+
+<link rel="stylesheet" media="screen" href="https://cdn.qwiklabs.com/assets/application_old/locales/es-7c4d85e3db7c28c14f71b18551da7ddc227e8f9b85777ece770fcbd96d9ef753.css" />
+<!--[if lt IE 9]>
+<script src='http://html5shim.googlecode.com/svn/trunk/html5.js' type='text/javascript'></script>
+<![endif]-->
+<!--[endif]>  <![endif]-->
+<script>
+//<![CDATA[
+window.gon={};gon.current_user={"firstname":"Carlo Andr\u00e9","lastname":"Castro Galindo","fullname":"Carlo Andr\u00e9 Castro Galindo","company":"Coursera","email":"carlocastrogalindo@gmail.com","origin":"googlecoursera-run, lti-coursera","subscriptions":1,"id":"eb3f0602d940d94d2eaeef36f2aa2e77","qlCreatedAt":"2020-02-28 17:36:48 UTC","optIn":false};gon.segment="j4Im8pqIko0Lxq4wVVZWMPMM0EroHUvb";gon.deployment="run";
+//]]>
+</script>
+<script type='application/ld+json'>
+{
+  "@context": "http://schema.org",
+  "@type": "WebSite",
+  "url": "https://www.qwiklabs.com/",
+  "potentialAction": {
+    "@type": "SearchAction",
+    "target": "https://www.qwiklabs.com/catalog?keywords={search_term_string}",
+    "query-input": "required name=search_term_string"
+  }
+}
+</script>
+<script id='ze-snippet' src='https://static.zdassets.com/ekr/snippet.js?key=511e4158-0aec-4e3c-b2e6-4daa1769f51e'></script>
+
+
+
+<link rel="stylesheet" media="all" href="https://cdn.qwiklabs.com/assets/application-4c3d1e8bc7757ea71809ef44e35c5d8018fb66ce6a4a777389558445ba2ce8a2.css" />
+<script>
+  EVENT_SOURCE_BASE_URL = "https://run.qwiklabs.com/nchan-sub?id=";
+</script>
+<script src="https://cdn.qwiklabs.com/polyfills/webcomponents-loader.js"></script>
+<script src="https://cdn.qwiklabs.com/assets/hallofmirrors/hallofmirrors__es_419-53722a8c29aa90d0fbab9b3c73008da3dadf74f9c7e6e4d2cb1df2c62c3fb110.js"></script>
+<script src="https://www.youtube.com/iframe_api"></script>
+<script src="https://cdn.qwiklabs.com/assets/vendor-45d462772c30000424907184f70c7157e95fb6227698d1671c5051818a6f60d8.js"></script>
+<script src="https://cdn.qwiklabs.com/assets/application-7c67c1d428839917a0992758b33da63184c69efa420e5939804ea34d54147a97.js"></script>
+</head>
+<body class='focuses focuses-show lab-show l-full no-nav'>
+<div class='header-container light-theme'>
+<div class='header'>
+<a class='mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect header__button header__button--nav header__nav-panel-button js-nav-toggle'>
+<i class='material-icons'>menu</i>
+</a>
+<div class='header__title'>
+<a class="mdl-button mdl-js-button mdl-button--icon mdl-js-ripple-effect header__button header__button--nav" href="https://www.qwiklabs.com/quests/33?locale=es"><ql-icon>arrow_back</ql-icon></a>
+
+<h1 class='headline-5'>
+Cloud IAM: Qwik Start
+</h1>
+</div>
+<div class='header__actions'>
+<a class='mdl-button mdl-js-button mdl-button--icon mdl-js-ripple-effect header__button header__button--action header__button--search js-header-search-bar-button'>
+<i class='material-icons'>search</i>
+</a>
+<a class="mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect" id="toggle-lab-control-panel" href="javascript:;"><i class='material-icons'>description</i>
+</a><div class='mdl-tooltip js-tooltip' data-mdl-for='toggle-lab-control-panel'>
+Activar o desactivar panel del lab
+</div>
+<a class="mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect js-favorite-button favorite-button" id="CatalogItem-551-favorite-button" data-type="CatalogItem" data-id="551" data-name="Cloud IAM: Qwik Start" href="/favorite.json?item_id=551&amp;item_type=CatalogItem&amp;locale=es"><i class='material-icons'>favorite_border</i>
+</a><div class='mdl-tooltip js-tooltip' for='CatalogItem-551-favorite-button'>
+Agregar a favoritos
+</div>
+
+
+<ql-help context="lab" productdata="{&quot;userId&quot;:2485272}" data-analytics-action="opened_help" data-analytics-label="lab"></ql-help>
+<a class='header-my-account-button mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect js-my-account-button'>
+<img class="avatar " alt="avatar image" src="https://secure.gravatar.com/avatar/be719396bbcc1e8bcb204a54e1920c54.png?s=80&amp;d=mm" />
+</a>
+<div class='header-my-account-menu js-my-account-menu'>
+<div class='card elevation-2 no-padding'>
+<div class='my-account-menu__top'>
+<img class="avatar " alt="avatar image" src="https://secure.gravatar.com/avatar/be719396bbcc1e8bcb204a54e1920c54.png?s=80&amp;d=mm" />
+<div class='my-account-menu__info'>
+<h4 class='subtitle-headline-1'>
+Carlo André Castro Galindo
+</h4>
+<p class='body-2 text--gray'>
+<span>carlocastrogalindo@gmail.com</span>
+</p>
+<a class="button" href="/my_account/profile?locale=es">Mi cuenta</a>
+</div>
+</div>
+<div class='my-account-menu__bottom'>
+<a class="text--green subtitle-headline-2" href="/my_account/credits?locale=es">Suscripción mensual
+</a><a data-analytics-action="clicked_sign_out" class="button button--hairline" rel="nofollow" data-method="delete" href="/users/sign_out?locale=es">Salir</a>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+<div class='header__search-bar js-header-search-bar'>
+<form id="catalog-search-mobile" onsubmit="ql.catalogSearchFilter(); return false;" action="/searches/elasticsearch" accept-charset="UTF-8" method="post"><input name="utf8" type="hidden" value="&#x2713;" /><input type="hidden" name="authenticity_token" value="nBVLz/oFfcGNwDR/L3BH7PkhBRUi254v5GtMAeG0gKpoIKssOcC0aLl+yAMA1GaNbp5OkXs9F/cPK5HC3VyZ8g==" />
+<input type="text" name="keywords" id="keywords" placeholder="Buscar" maxlength="255" aria-label="catalog search bar" />
+</form>
+
+<a class='mdl-button mdl-js-button mdl-button--icon mdl-js-ripple-effect header__button'>
+<i class='material-icons'>close</i>
+</a>
+</div>
+</div>
+
+<nav class='nav-bar'>
+<a class="nav-bar__item js-navigation-button" href="/?locale=es"><ql-icon class='nav-bar__item__icon'>
+home
+</ql-icon>
+<span class='nav-bar__item__label'>
+Página principal
+</span>
+</a>
+<a class="nav-bar__item js-navigation-button  active" aria-current="page" href="/catalog?locale=es"><ql-icon class='nav-bar__item__icon'>
+school
+</ql-icon>
+<span class='nav-bar__item__label'>
+Catálogo
+</span>
+</a>
+<a class="nav-bar__item js-navigation-button" href="/my_learning?locale=es"><ql-icon class='nav-bar__item__icon'>
+event_note
+</ql-icon>
+<span class='nav-bar__item__label'>
+Mi aprendizaje
+</span>
+</a>
+</nav>
+
+<nav class='nav-panel js-nav-panel'>
+<div class='nav-panel__logo'>
+<div class='logo logo--blue'></div>
+</div>
+<a title="Página principal" tabindex="-1" class="nav-panel__item js-navigation-button" href="/?locale=es"><ql-icon class='nav-panel__item__icon'>
+home
+</ql-icon>
+<div class='nav-panel__item__label'>
+Página principal
+</div>
+</a>
+<a title="Catálogo" tabindex="-1" class="nav-panel__item js-navigation-button active" aria-current="page" href="/catalog?locale=es"><ql-icon class='nav-panel__item__icon'>
+school
+</ql-icon>
+<div class='nav-panel__item__label'>
+Catálogo
+</div>
+</a>
+<a title="Mi aprendizaje" tabindex="-1" class="nav-panel__item js-navigation-button" href="/my_learning?locale=es"><ql-icon class='nav-panel__item__icon'>
+event_note
+</ql-icon>
+<div class='nav-panel__item__label'>
+Mi aprendizaje
+</div>
+</a>
+<div class='nav-panel__spacer'></div>
+<a title="Profile" tabindex="-1" class="nav-panel__item js-navigation-button" href="/my_account/profile?locale=es"><ql-icon class='nav-panel__item__icon'>
+account_circle
+</ql-icon>
+<div class='nav-panel__item__label'>
+Profile
+</div>
+</a>
+<a title="Credits &amp; Subscriptions" tabindex="-1" class="nav-panel__item js-navigation-button" href="/my_account/credits?locale=es"><ql-icon class='nav-panel__item__icon'>
+money
+</ql-icon>
+<div class='nav-panel__item__label'>
+Credits &amp; Subscriptions
+</div>
+</a>
+<a title="Security" tabindex="-1" class="nav-panel__item js-navigation-button" href="/my_account/security?locale=es"><ql-icon class='nav-panel__item__icon'>
+security
+</ql-icon>
+<div class='nav-panel__item__label'>
+Security
+</div>
+</a>
+<div class='nav-panel__spacer'></div>
+<a class="nav-panel__item" tabindex="-1" href="#"><ql-help>
+<div class='nav-panel__help-item'>
+<ql-icon class='nav-panel__item__icon'>help</ql-icon>
+<div class='nav-panel__item__label'>Help</div>
+</div>
+</ql-help>
+</a><div class='nav-panel__small-links'>
+<a tabindex="-1" href="/privacy_policy?locale=es">Privacidad</a>
+<a tabindex="-1" href="/terms_of_service?locale=es">Condiciones</a>
+</div>
+</nav>
+<div class='nav-panel__overlay js-nav-toggle'></div>
+
+<main class='js-main'>
+<span class='hidden' id='flash-sibling-before'></span>
+
+<div class='l-main-wrapper' id='main-wrapper'>
+
+
+
+
+
+
+
+<div class='js-lab-state' data-analytics-payload='{&quot;label&quot;:&quot;Cloud IAM: Qwik Start&quot;,&quot;lab_name&quot;:&quot;Cloud IAM: Qwik Start&quot;,&quot;classroom_name&quot;:null,&quot;deployment&quot;:&quot;run&quot;}' data-focus-id='551' data-lab-billing-limit='0.0' data-lab-duration='2700' data-parent='catalog' data-payment-required></div>
+<ql-lab-control-panel class='js-lab-control-panel l-lab-control-panel' connectionDetails='[]' connectionFiles='[]' labControlButton='{&quot;disabled&quot;:false,&quot;pending&quot;:false,&quot;running&quot;:false}' labTimer='{&quot;ticking&quot;:false,&quot;secondsRemaining&quot;:2700}' studentResources='[]'></ql-lab-control-panel>
+<div class='l-lab-main-body'>
+<div class='js-lab-content lab-content'>
+<div class='alert alert--fake js-alert'>
+<p class='alert__message js-alert-message'></p>
+<a class='alert__close js-alert-close'>
+<i class='fa fa-times'></i>
+</a>
+<iframe class='l-ie-iframe-fix'></iframe>
+</div>
+<div class='lab-content__markdown-wrapper'>
+<div class='lab-preamble'>
+<h1 class='lab-preamble__title'>
+Cloud IAM: Qwik Start
+</h1>
+<div class='lab-preamble__details subtitle-headline-1'>
+<span>45 minutos</span>
+<span>1 crédito</span>
+<div class='lab__rating'>
+<a href="/focuses/551/reviews?locale=es&amp;parent=catalog"><div class='rateit' data-rateit-readonly='true' data-rateit-value='4.3643'></div>
+
+</a><a data-target='#lab-review-modal' data-toggle='modal'>
+Calificar lab
+</a>
+</div>
+</div>
+</div>
+
+<div class='lab-content__inner-wrapper'>
+<div class='js-markdown-instructions lab-content__markdown markdown-lab-instructions' id='markdown-lab-instructions'>
+
+
+
+<h2 id="step1">GSP064</h2>
+<p><img alt="Labs de autoaprendizaje de Google Cloud" src="https://cdn.qwiklabs.com/GMOHykaqmlTHiqEeQXTySaMXYPHeIvaqa2qHEzw6Occ%3D"></p>
+
+<h2 id="step2">Descripción general</h2>
+<p>El servicio Identity and Access Management (IAM) de Google Cloud le permite crear y administrar permisos para los recursos de GCP. Cloud IAM unifica el control de acceso para los servicios de GCP en un solo sistema y proporciona un conjunto coherente de operaciones. En este lab práctico, aprenderá cómo asignar una función a un segundo usuario y cómo quitar las funciones asignadas que se asocian con Cloud IAM. Específicamente, accederá con 2 conjuntos de credenciales distintos para ver cómo se otorgan y revocan los permisos con las funciones de propietario y lector de proyecto de GCP.</p>
+<h2 id="step3">Requisitos previos</h2>
+<p>Este es un lab de <strong>nivel introductorio</strong>. No es necesario que tenga conocimientos previos de Cloud IAM. Tener experiencia en Cloud Storage es útil para realizar las tareas de este lab, pero no es obligatorio contar con ella. Asegúrese de tener un archivo .txt o .html disponible. Si desea practicar habilidades más avanzadas de Cloud IAM, realice el siguiente lab:</p>
+<ul>
+<li><a href="https://google.qwiklabs.com/catalog_lab/955">Funciones personalizadas de IAM</a></li>
+</ul>
+<p>Cuando esté listo, desplácese hacia abajo y siga los pasos para configurar su entorno de lab.</p>
+<h2 id="step4">Configure dos usuarios</h2>
+<p>Como se mencionó antes, en este lab se proporcionan dos conjuntos de credenciales a fin de mostrar las políticas de IAM y los permisos disponibles para las funciones específicas.</p>
+<p>En el panel ubicado en la parte izquierda de su lab, verá una lista de credenciales similares a las siguientes:</p>
+<p><img alt="2_users.png" src="https://cdn.qwiklabs.com/HvRjPlDrsdpXJmdjfWpV1C%2B6i5wxGswMCs1%2F2bfkhkU%3D"></p>
+<p>Observe que hay <em>dos</em> nombres de usuario: Username 1 y Username 2. Estos representan las identidades en Cloud IAM. Cada uno tiene distintos permisos de acceso asignados. Estas “funciones” de GCP establecen restricciones sobre lo que puede y no puede hacer con los recursos de GCP en el proyecto que se le asignó.</p>
+<h3>Acceda a GCP Console como el primer usuario</h3>
+<ol>
+<li>Haga clic en el botón <strong>Abrir Google Console</strong>. Se abrirá una pestaña nueva del navegador. Si aparece el mensaje <strong>Selecciona una cuenta</strong>, haga clic en <strong>Usar otra cuenta</strong>.</li>
+<li>Se abrirá la página de acceso de GCP. Copie la credencial de <strong>Username 1</strong>, que se parece a <code>googlexxxxxx_student@qwiklabs.net</code>, y péguela en el campo "Correo electrónico o teléfono".</li>
+<li>Copie la contraseña del panel “Detalles de la conexión” y péguela en el campo de la contraseña de Acceso con Google.</li>
+<li>Haga clic en <strong>Siguiente</strong> y, luego, en <strong>Aceptar</strong> para aceptar las Condiciones del Servicio. Se abrirá Google Cloud Platform Console. <strong>Acepte</strong> las Condiciones del Servicio y marque <strong>No</strong> para no recibir actualizaciones por correo electrónico:</li>
+</ol>
+<p><img alt="sign-in.png" src="https://cdn.qwiklabs.com/TD134jpLDP6zcuhJQqVcoul%2FXx3suZ%2FnVsBUxUu%2BKJ8%3D"></p>
+<h3>Acceda a GCP Console como el segundo usuario</h3>
+<ol>
+<li>Vuelva a hacer clic en el botón <strong>Abrir Google Console</strong>. Se abrirá una pestaña nueva del navegador. Si aparece el mensaje <strong>Selecciona una cuenta</strong>, haga clic en <strong>Usar otra cuenta</strong>.</li>
+<li>Se abrirá la página de acceso de GCP. Copie la credencial de <strong>Username 2</strong>, que se parece a <code>googlexxxxxx_student@qwiklabs.net</code>, y péguela en el campo <strong>Correo electrónico o teléfono</strong>.</li>
+<li>Copie la contraseña desde el panel <strong>Detalles de la conexión</strong> y péguela en el campo de la contraseña de Acceso con Google.</li>
+<li>Haga clic en <strong>Siguiente</strong> y, luego, en <strong>Aceptar</strong> para aceptar las Condiciones del Servicio. Se abrirá Google Cloud Platform Console. <strong>Acepte</strong> las Condiciones del Servicio y marque <strong>No</strong> para no recibir actualizaciones por correo electrónico:</li>
+</ol>
+<p><img alt="sign-in.png" src="https://cdn.qwiklabs.com/TD134jpLDP6zcuhJQqVcoul%2FXx3suZ%2FnVsBUxUu%2BKJ8%3D"></p>
+<p>Ahora debería tener dos pestañas de GCP Console abiertas en su navegador: una en la que accedió como Username 1 y otra como Username 2.</p>
+<h3>Vea o restablezca el usuario en una pestaña del navegador</h3>
+<p>En algunos casos, es posible que se sobrescriba un usuario en una pestaña del navegador o que usted se confunda y no tenga claro qué usuario accedió en cada pestaña.</p>
+<p>A fin de saber qué usuario accedió a una pestaña del navegador, desplácese sobre su avatar para ver su nombre de usuario en la pestaña.</p>
+<p><img alt="check-user.png" src="https://cdn.qwiklabs.com/oVLQ%2F9gR8aFyUYMrI6b9hKqby3vhYtRYslY7giSzpvU%3D"></p>
+<p>Siga estos pasos para restablecer el usuario que accedió a una pestaña del navegador:</p>
+<ol>
+<li>
+<p>Haga clic en su avatar y, luego, en <strong>Salir</strong> para salir.</p>
+</li>
+<li>
+<p>En el panel <strong>Detalles de la conexión</strong>, haga clic en <strong>Abrir Google Console</strong> y vuelva a acceder con el nombre de usuario y la contraseña adecuados.</p>
+</li>
+</ol>
+<h2 id="step5">La consola IAM y las funciones en el nivel del proyecto</h2>
+<ol>
+<li>Vuelva a la página de GCP Console de <strong>Username 1</strong>.</li>
+<li>Seleccione el <strong>menú de navegación</strong> &gt; <strong>IAM y administración</strong> &gt; <strong>IAM</strong>. Ahora se encuentra en la consola “IAM y administración”.</li>
+<li>Haga clic en el botón <strong>+AGREGAR</strong> cerca de la parte superior de la página y, luego, en el menú desplegable “Selecciona una función” para explorar las funciones asociadas con los proyectos:</li>
+</ol>
+<p><img alt="iam-roles.gif" src="https://cdn.qwiklabs.com/Fj2raSqxxSSaysd18h01Ky0DK7M%2BpUc%2FJsmmSDhvPno%3D"></p>
+<p>Debería ver las funciones de navegador, editor, propietario y lector. Estas cuatro funciones se conocen como <em>funciones básicas</em> en GCP. Establecen permisos a nivel del proyecto y, a menos que se especifique lo contrario, controlan el acceso a todos los servicios de GCP y su administración.</p>
+<p>En la siguiente tabla, se extraen definiciones de la <a href="https://cloud.google.com/iam/docs/understanding-roles#primitive_roles">documentación de funciones de GCP</a> que ofrecen una descripción general breve de los permisos de las funciones de navegador, lector, editor y propietario:</p>
+<table>
+<tr>
+<td colspan="1" rowspan="1">
+<p><strong>Nombre de la función</strong></p>
+</td>
+<td colspan="1" rowspan="1">
+<p><strong>Permisos </strong></p>
+</td>
+</tr>
+<tr>
+<td colspan="1" rowspan="1">
+<p>roles/viewer</p>
+</td>
+<td colspan="1" rowspan="1">
+<p>Permisos para acciones de solo lectura que no afectan el estado, como leer (pero no modificar) los recursos o datos existentes.</p>
+</td>
+</tr>
+<tr>
+<td colspan="1" rowspan="1">
+<p>roles/editor</p>
+</td>
+<td colspan="1" rowspan="1">
+<p>Todos los permisos de la función de lector y permisos adicionales para acciones que modifican el estado, como cambiar recursos existentes.</p>
+</td>
+</tr>
+<tr>
+<td colspan="1" rowspan="1">
+<p>roles/owner</p>
+</td>
+<td colspan="1" rowspan="1">
+<p>Todos los permisos de la función de editor, además de permisos para realizar las siguientes acciones:</p>
+<ul>
+<li>Administrar funciones y permisos de un proyecto y todos los recursos dentro de este</li>
+<li>Configurar la facturación de un proyecto</li>
+</ul>
+</td>
+</tr>
+<tr>
+<td colspan="1" rowspan="1">
+<p>roles/browser (Beta)</p>
+</td>
+<td colspan="1" rowspan="1">
+<p>Acceso de lectura para navegar en la jerarquía de un proyecto, incluida la carpeta, organización y política de Cloud IAM. Esta función no incluye el permiso para ver los recursos del proyecto.	</p>
+</td>
+</tr>
+</table>
+<p>Dado que pudimos administrar los permisos y funciones de este proyecto, Username 1 tiene permisos de propietario.</p>
+<ol start="4">
+<li>
+<p>Haga clic en <strong>CANCELAR</strong> para salir del panel “Agrega miembros”.</p>
+</li>
+</ol>
+<h3>Explore las funciones de editor</h3>
+<p>Ahora, vaya a la consola de <strong>Username 2</strong>.</p>
+<ol>
+<li>
+<p>Navegue a la consola IAM y administración. Para ello, seleccione el <strong>menú de navegación</strong> &gt; <strong>IAM y administración</strong> &gt; <strong>IAM</strong>.</p>
+</li>
+<li>
+<p>Busque el Username 1 y el Username 2 en la tabla, y examine las funciones que se les otorgaron. Debería ver algo como esto:</p>
+</li>
+</ol>
+<p><img alt="user-roles.png" src="https://cdn.qwiklabs.com/RaAyxDSY%2FVrK0ziQlHLdMwvkAUY3rftmvxp5Nvndwcg%3D"></p>
+<p>Debería ver lo siguiente:</p>
+<ul>
+<li>A Username 2 se le asignó la función “Lector".</li>
+<li>El botón <strong>+AGREGAR</strong> situado en la parte superior está inhabilitado. Si intenta hacer clic en él, verá el siguiente mensaje:</li>
+</ul>
+<p><img alt="more-permissions.png" src="https://cdn.qwiklabs.com/cNeK9TAhskx4dQPXm4lmHqPk9Vb14sS7KFHtmnW150A%3D"></p>
+<p>Este es un ejemplo de cómo influyen las funciones de IAM en las acciones que puede y no puede hacer en GCP:</p>
+<ol start="3">
+<li>
+<p>Vuelva a la consola de <strong>Username 1</strong> para realizar el paso siguiente.</p>
+</li>
+</ol>
+<h2 id="step6">Prepare un recurso para probar el acceso</h2>
+<p>Asegúrese de estar en la consola de <strong>Username 1</strong>.</p>
+<h3>Cree un depósito</h3>
+<ol>
+<li>
+<p>Cree un depósito de GCS con un nombre único. En Console, seleccione el <strong>menú de navegación</strong> &gt; <strong>Storage</strong> &gt; <strong>Navegador</strong>.</p>
+</li>
+<li>
+<p>Haga clic en <strong>Crear depósito</strong>.</p>
+</li>
+</ol>
+<aside>
+<b>Nota</b>: Si ve un mensaje de error de permisos durante la creación del depósito, salga y vuelva a acceder con las credenciales de Username 1.
+
+</aside>
+<ol start="3">
+<li>Actualice los siguientes campos y deje todos los demás con sus valores predeterminados:</li>
+</ol>
+<table>
+<tr>
+<td colspan="1" rowspan="1">
+<p><strong>Propiedad</strong></p>
+</td>
+<td colspan="1" rowspan="1">
+<p><strong>Valor</strong></p>
+</td>
+</tr>
+<tr>
+<td colspan="1" rowspan="1">
+<p><strong>Nombre</strong>:</p>
+</td>
+<td colspan="1" rowspan="1">
+<p><em>nombre global único (créelo usted mismo)</em></p>
+</td>
+</tr>
+<tr>
+<td colspan="1" rowspan="1">
+<p><strong>Clase de almacenamiento predeterminada:</strong></p>
+</td>
+<td colspan="1" rowspan="1">
+<p>Multirregional</p>
+</td>
+</tr>
+</table>
+<p>Tome nota del nombre del depósito. Lo usará en un paso posterior.</p>
+<ol start="4">
+<li>Haga clic en <strong>Crear</strong>.</li>
+</ol>
+<aside>
+<b>Nota</b>: Si ve un mensaje de error de permisos durante la creación del depósito, salga y vuelva a acceder con las credenciales de Username 1.
+
+</aside>
+<h3><strong>Suba un archivo de muestra</strong></h3>
+<ol>
+<li>
+<p>En la página Detalles del depósito, haga clic en el botón <strong>Cargar archivos</strong>.</p>
+</li>
+<li>
+<p>Busque en su computadora un archivo que pueda usar. Puede ser cualquier archivo de texto o html.</p>
+</li>
+<li>
+<p>Haga clic en los tres puntos al final de la línea que contiene el archivo y haga clic en <strong>Cambiar nombre</strong>.</p>
+</li>
+<li>
+<p>Cambie el nombre del archivo a "<code>sample.txt</code>".</p>
+</li>
+<li>
+<p>Haga clic en <strong>Cambiar nombre</strong>.</p>
+</li>
+</ol>
+<p>Haga clic en <strong>Revisar mi progreso</strong> para verificar el objetivo.</p>
+<ql-activity-tracking step="1">
+    Cree un depósito y suba un archivo de muestra
+</ql-activity-tracking>
+<h3><strong>Verifique el acceso del lector de proyecto</strong></h3>
+<ol>
+<li>
+<p>Vaya a la consola de <strong>Username 2</strong>.</p>
+</li>
+<li>
+<p>Allí, seleccione el <strong>menú de navegación</strong> &gt; <strong>Storage</strong> &gt; <strong>Navegador</strong>. Verifique que el usuario pueda ver el depósito.</p>
+</li>
+</ol>
+<p>Username 2 tiene la función “Lector", con la que puede realizar acciones de solo lectura que no afectan el estado. En este ejemplo, se muestra la característica: el usuario puede ver los depósitos y archivos de Cloud Storage alojados en el proyecto de GCP a los que tiene acceso.</p>
+<h2 id="step7">Quite el acceso al proyecto</h2>
+<p>Cambie a la consola de <strong>Username 1</strong>.</p>
+<h3><strong>Quítele a Username 2 la función de lector de proyecto</strong></h3>
+<ol>
+<li>Seleccione el <strong>menú de navegación</strong> &gt; <strong>IAM y administración</strong> &gt; <strong>IAM</strong>. Luego, haga clic en el ícono de lápiz que se encuentra junto a <strong>Username 2</strong>.</li>
+</ol>
+<aside>
+Es posible que deba expandir la pantalla para poder ver el ícono de lápiz.
+
+</aside>
+<p><img alt="edit.png" src="https://cdn.qwiklabs.com/klPjwWYwm8JsmtfNIjAw2jy5jblVy68CIyTeqiAJRcc%3D"></p>
+<ol start="2">
+<li>Para quitar el acceso de lector de proyecto a <strong>Username 2</strong>, haga clic en el ícono de la papelera junto al nombre de la función. Luego, haga clic en <strong>GUARDAR</strong>.</li>
+</ol>
+<p><img alt="IAM_role_trash.png" src="https://cdn.qwiklabs.com/J3a%2BJeH31q7Sk1IFkOPBWSO13jbUkP3duf5nn%2F9rKp4%3D"></p>
+<p>Podrá ver que el usuario desapareció de la lista, por lo que ya no tiene acceso.</p>
+<aside>
+<b>Nota</b>: Los cambios pueden tardar hasta 80 segundos en propagarse y aplicarse. Obtenga más información <a href="https://cloud.google.com/iam/docs/faq">aquí</a>.
+
+</aside>
+<h3><strong>Verifique que Username 2 ya no tenga acceso</strong></h3>
+<ol>
+<li>
+<p>Vaya a la consola de <strong>Username 2</strong>. Asegúrese de seguir usando las credenciales de Username 2 y de no haber salido del proyecto después de revocar los permisos. Si salió del proyecto, vuelva a acceder con las credenciales correctas.</p>
+</li>
+<li>
+<p>Seleccione el <strong>menú de navegación</strong> &gt; <strong>Página principal</strong>.</p>
+</li>
+<li>
+<p>Seleccione el <strong>menú de navegación</strong> &gt; <strong>Storage</strong> &gt; <strong>Navegador</strong> para volver a Cloud Storage.</p>
+</li>
+</ol>
+<p>Debería ver un error de permisos como el siguiente:</p>
+<p><img alt="Ipermission-error.png" src="https://cdn.qwiklabs.com/3kzLKfVcqhSq7UsD%2BpIg8rLfiTVSAuS2p%2FcNYPNcO90%3D"></p>
+<aside>
+<b>Nota</b>: Como se mencionó antes, es posible que la revocación de permisos tarde hasta 80 segundos. Si no vio un mensaje de error de permisos, espere 2 minutos y actualice la consola.
+
+</aside>
+<p>Haga clic en <strong>Revisar mi progreso</strong> para verificar el objetivo.</p>
+<ql-activity-tracking step="2">
+    Quite el acceso al proyecto
+</ql-activity-tracking>
+<h2 id="step8">Agregue permisos para Storage</h2>
+<ol>
+<li>Copie el nombre de <strong>Username 2</strong> desde el panel “Detalles de la conexión” de Qwiklabs.</li>
+</ol>
+<p><img alt="2_users.png" src="https://cdn.qwiklabs.com/HvRjPlDrsdpXJmdjfWpV1C%2B6i5wxGswMCs1%2F2bfkhkU%3D"></p>
+<ol start="2">
+<li>
+<p>Vaya a la consola de <strong>Username 1</strong>. Asegúrese de seguir usando las credenciales de Username 1. Si salió del proyecto, vuelva a acceder con las credenciales correctas.</p>
+</li>
+<li>
+<p>En la consola, seleccione el <strong>menú de navegación</strong> &gt; <strong>IAM y administración</strong> &gt; <strong>IAM</strong>.</p>
+</li>
+<li>
+<p>Haga clic en <strong>+AGREGAR</strong> para pegar el nombre de <strong>Username 2</strong> en el campo Nuevos miembros.</p>
+</li>
+<li>
+<p>En el campo <strong>Funciones</strong>, seleccione <strong>Storage</strong> &gt; <strong>Lector de objetos de almacenamiento</strong> en el menú desplegable.</p>
+</li>
+<li>
+<p>Haga clic en <strong>GUARDAR</strong>.</p>
+</li>
+</ol>
+<h2 id="step9">Verifique el acceso</h2>
+<ol>
+<li>Vaya a la consola de <strong>Username 2</strong>.</li>
+</ol>
+<p><strong>Username 2</strong> no tiene la función de lector del proyecto, por lo que no puede ver el proyecto ni ninguno de sus recursos en Console. Sin embargo, este usuario tiene acceso específico a Cloud Storage. Veamos cómo funciona.</p>
+<ol start="2">
+<li>Haga clic en el ícono de <strong>Activar Cloud Shell</strong> para abrir la línea de comandos de Cloud Shell.</li>
+</ol>
+<p><img alt="start-cloud-shell.png" src="https://cdn.qwiklabs.com/MwTIT1EPNZG9oo8k53JUFkWo3YG2G0Uk31h9Tfhh4M8%3D"></p>
+<ol start="3">
+<li>
+<p>Abra una sesión de Cloud Shell y, luego, ingrese el siguiente comando para reemplazar <code>[YOUR_BUCKET_NAME]</code> con el nombre del depósito que creó:</p>
+</li>
+</ol>
+<pre><code class="language-bash prettyprint">gsutil ls gs://[YOUR_BUCKET_NAME]&#x000A;</code></pre>
+<ol start="3">
+<li>
+<p>Debería obtener un resultado como el siguiente:</p>
+</li>
+</ol>
+<pre><code class="language-bash prettyprint">gs://[YOUR_BUCKET_NAME]/sample.txt&#x000A;</code></pre>
+<ol start="4">
+<li>Como puede ver, le otorgó acceso de lectura a <strong>Username 2</strong> para el depósito de Cloud Storage.</li>
+</ol>
+<p>Haga clic en <strong>Revisar mi progreso</strong> para verificar el objetivo.</p>
+<ql-activity-tracking step="3">
+    Agregue permisos para Storage
+</ql-activity-tracking>
+<h2 id="step10">¡Felicitaciones!</h2>
+<p>Completó el lab. En este lab, asignó y revocó funciones de Cloud IAM a un usuario.</p>
+<p><img alt="5edc9b3763bbb596.png" src="https://cdn.qwiklabs.com/6EiXINl%2FCnCMQyRdF%2Fs34InkRozTg%2FhSEqCQ4CD4nf4%3D">
+<img alt="SecurityandIdentity_125.png" src="https://cdn.qwiklabs.com/%2FEzSUI369NAcLdtb5VyfU4a36AGdiWpaU3srdPddAm0%3D">
+<img alt="CloudEngineeringExaPrep_125.png" src="https://cdn.qwiklabs.com/jVIZEu1uWCkufNtCmqyElRifK5o%2FNRrtt5Vo9iZxHz8%3D"></p>
+<h3>Finalice su Quest</h3>
+<p>Este lab de autoaprendizaje forma parte de las Quests <a href="https://google.qwiklabs.com/quests/40">Security &amp; Identity Fundamentals</a>, <a href="https://google.qwiklabs.com/quests/33">Baseline: Infrastructure</a> y <a href="https://google.qwiklabs.com/quests/66">Cloud Engineering</a>. Una Quest es una serie de labs relacionados que forman una ruta de aprendizaje. Si completa esta Quest, obtendrá la insignia que se muestra arriba como reconocimiento de su logro. Puede hacer públicas sus insignias y agregar un vínculo a ellas en su currículum en línea o en sus cuentas de redes sociales.  Inscríbase en una Quest y obtenga un crédito inmediato de finalización si realizó este lab.  <a href="http://google.qwiklabs.com/catalog">Consulte otras Quests de Qwiklabs disponibles</a>.</p>
+<h3>Próximos pasos/Más información</h3>
+<p>Este lab también forma parte de una serie de labs llamada Qwik Starts. Estos labs están diseñados para ofrecerle una visión general de las numerosas funciones disponibles en Google Cloud. Busque "Qwik Starts" en el <a href="https://google.qwiklabs.com/catalog">catálogo de labs</a> para elegir el siguiente lab en el que desee participar.</p>
+<h3>Google Cloud Training &amp; Certification</h3>
+<p>Aproveche al máximo las tecnologías de Google Cloud. <a href="https://cloud.google.com/training/courses">Nuestras clases</a> incluyen habilidades técnicas y recomendaciones para ayudarlo a ponerse en marcha rápidamente y a seguir aprendiendo. Para que pueda realizar nuestros cursos cuando más le convenga, ofrecemos distintos tipos de capacitación de nivel básico a avanzado: según demanda, presenciales y virtuales. Las <a href="https://cloud.google.com/certification/">certificaciones</a> lo ayudan a validar y demostrar sus habilidades y experiencia en las tecnologías de Google Cloud.</p>
+
+<h5>Última actualización del manual: 12 de junio de 2019</h5>
+<h5>Prueba más reciente del lab: 13 de mayo de 2019</h5>
+<p>Copyright 2020 Google LLC. All rights reserved. Google y el logotipo de Google son marcas de Google LLC. Los demás nombres de productos y empresas pueden ser marcas de las respectivas empresas a las que estén asociados.</p>
+
+
+
+</div>
+<div class='js-lab-content-outline lab-content__outline'>
+<a href='#step1'>GSP064</a><a href='#step2'>Descripción general</a><a href='#step3'>Requisitos previos</a><a href='#step4'>Configure dos usuarios</a><a href='#step5'>La consola IAM y las funciones en el nivel del proyecto</a><a href='#step6'>Prepare un recurso para probar el acceso</a><a href='#step7'>Quite el acceso al proyecto</a><a href='#step8'>Agregue permisos para Storage</a><a href='#step9'>Verifique el acceso</a><a href='#step10'>¡Felicitaciones!</a>
+</div>
+</div>
+
+</div>
+
+<div class='lab-content__markdown-wrapper'>
+<div class='lab-content__markdown'>
+<div class='lab-content__recommendation'>
+<!-- # TODO: Change classes so that this doesn't stack vertically -->
+<section class='upcoming-cards'>
+<h2 class='headline-3'>Continuar Quest</h2>
+<div class='content-card-grid'>
+<div class='card-content-wrapper js-content-card' data-id='700' data-level='Introductory' data-name='Cloud Storage: Qwik Start - CLI/SDK' data-type='Lab'>
+<a class="card card--content elevation-0 content-lab" href="/focuses/569?locale=es&amp;parent=catalog"><div class='card__image'>
+<div class='card__image__inner' style='background-image: url(https://cdn.qwiklabs.com/assets/fractal0-8ca42d5686105a4c14126a9aa4e917b00cbebee8ad55d56a66712c5dbafa0b52.jpg)'></div>
+</div>
+<div class='card__body'>
+<div class='overline card--content__type'>
+Lab práctico
+</div>
+<h3 class='card--content__title'>
+Cloud Storage: Qwik Start - CLI/SDK
+</h3>
+<p class='card--content__description body-1'>
+En este lab práctico, aprenderá a ejecutar tareas básicas en Cloud Storage mediante la herramienta de línea de comandos gsutil. Para comenzar, mire este video breve: Google Cloud Storage: Massive Scalability Plus More.
+</p>
+</div>
+<div class='card__footer'>
+<div class='card__footer__left'>
+<span>Introductory</span>
+</div>
+<div class='card__footer__right'>
+<div class='rateit' data-rateit-readonly='true' data-rateit-value='4.4481'></div>
+</div>
+</div>
+</a></div>
+
+<div class='card-content-wrapper js-content-card' data-id='2574' data-level='Expert' data-name='Cloud Engineering: Challenge Lab' data-type='Lab'>
+<a class="card card--content elevation-0 content-lab" href="/focuses/10603?locale=es&amp;parent=catalog"><div class='card__image'>
+<div class='card__image__inner' style='background-image: url(https://cdn.qwiklabs.com/assets/fractal5-0b9c1091ae0b232c6183f561cba00288eb66afa9f51e45ce9d4bbf8bf6d40a1a.jpg)'></div>
+</div>
+<div class='card__body'>
+<div class='overline card--content__type'>
+Lab práctico
+</div>
+<h3 class='card--content__title'>
+Cloud Engineering: Challenge Lab
+</h3>
+<p class='card--content__description body-1'>
+This challenge lab tests your skills and knowledge from the labs in the Kubernetes in Google Cloud quest.  You should be familiar with the content of the labs before attempting this lab.
+</p>
+</div>
+<div class='card__footer'>
+<div class='card__footer__left'>
+<span>Expert</span>
+</div>
+<div class='card__footer__right'>
+<div class='rateit' data-rateit-readonly='true' data-rateit-value='3.2259'></div>
+</div>
+</div>
+</a></div>
+
+</div>
+</section>
+
+</div>
+</div>
+</div>
+
+</div>
+</div>
+<div class='lab-assessment__tab js-lab-assessment-tab'>
+<h5 class='small-label'>
+Puntuación
+</h5>
+<h3 class='js-lab-assessment-total-score'>
+&mdash;/100
+</h3>
+<iframe class='l-ie-iframe-fix'></iframe>
+</div>
+<div class='lab-assessment__panel js-lab-assessment-panel'>
+<!-- / If lab_instance has is started and assessment is generated, use -->
+<!-- / lab_instance.assessment, otherwise use lab.assessment_manual -->
+<div class='lab-assessment__step'>
+<p class='lab-assessment__step__title'>
+Create a bucket and upload a sample file
+</p>
+<p class='button button--assessment js-show-run-step-button' step_no='1'>
+Ejecutar paso
+</p>
+<p class='lab-assessment__step__score'>
+<span class='js-assessment-step-score-1'>
+</span>
+/ 20
+</p>
+</div>
+
+<div class='lab-assessment__step'>
+<p class='lab-assessment__step__title'>
+Remove project access
+</p>
+<p class='button button--assessment js-show-run-step-button' step_no='2'>
+Ejecutar paso
+</p>
+<p class='lab-assessment__step__score'>
+<span class='js-assessment-step-score-2'>
+</span>
+/ 40
+</p>
+</div>
+
+<div class='lab-assessment__step'>
+<p class='lab-assessment__step__title'>
+Add Storage permissions
+</p>
+<p class='button button--assessment js-show-run-step-button' step_no='3'>
+Ejecutar paso
+</p>
+<p class='lab-assessment__step__score'>
+<span class='js-assessment-step-score-3'>
+</span>
+/ 40
+</p>
+</div>
+
+<iframe class='l-ie-iframe-fix'></iframe>
+</div>
+<div class='lab-introduction js-lab-introduction is-hidden'>
+<div class='lab-introduction__inner'>
+<h1 class='headline-1'>Le damos la bienvenida a su primer lab.</h1>
+<ql-icon-button class='js-skip-button'>close</ql-icon-button>
+<div class='lab-introduction__video'>
+<iframe allow='autoplay; encrypted-media' allowfullscreen frameborder='0' id='lab-introduction' src='https://www.youtube.com/embed/TGUtGKD-B-Q?enablejsapi=1&amp;rel=0&amp;showinfo=0'></iframe>
+</div>
+<a class='js-skip-button button button--outline'>Omitir este video</a>
+</div>
+</div>
+
+
+
+</div>
+</main>
+<div class='modal fade' id='lab-details-modal'>
+<div class='modal-container'>
+<div class='mdl-shadow--24dp modal-content'>
+<div class='modal-body'>
+<p class='l-mbm'>
+Google Cloud IAM unifica el control de acceso para los servicios de Cloud Platform en un solo sistema a fin de presentar un conjunto coherente de operaciones. Para comenzar, mire este video breve: <a href="https://youtu.be/PqMGmRhKsnM">Manage Access Control with Google Cloud IAM</a>.
+</p>
+<p>
+Este lab se incluye en las siguientes Quests:
+<a href="/quests/33?locale=es">Baseline: Infrastructure</a>, <a href="/quests/24?locale=es">Cloud Architecture</a>, <a href="/quests/66?locale=es">Cloud Engineering</a>, <a href="/quests/40?locale=es">Security &amp; Identity Fundamentals</a>.
+Si completa este lab, recibirá crédito por él cuando se inscriba en una de estas Quests.
+</p>
+<p class='small-label l-mbs'>
+<strong>
+Duración:
+</strong>
+0 min de configuración
+&middot;
+Acceso por 45 min
+&middot;
+45 min para completar
+</p>
+<p class='small-label l-mbs'>
+<span><strong>Niveles: </strong>introductory</span>
+</p>
+<p class='small-label'>
+<strong>
+Vínculo permanente:
+</strong>
+<a href="https://www.qwiklabs.com/catalog_lab/686">https://www.qwiklabs.com/catalog_lab/686</a>
+</p>
+</div>
+<div class='modal-actions'>
+<a class='mdl-button mdl-button--primary mdl-js-button mdl-js-ripple-effect' data-dismiss='modal'>
+Got It
+</a>
+</div>
+
+
+</div>
+</div>
+<iframe class='l-ie-iframe-fix'></iframe>
+</div>
+<div class='modal fade' id='lab-review-modal'>
+<div class='modal-container'>
+<div class='mdl-shadow--24dp modal-content'>
+<form class="simple_form js-lab-review-form" id="edit_lab_review_5334869" action="/lab_reviews/5334869?locale=es" accept-charset="UTF-8" data-remote="true" method="post"><input name="utf8" type="hidden" value="&#x2713;" /><input type="hidden" name="_method" value="patch" /><div class='modal-body'>
+<p class='label'>
+¿Qué tan satisfecho está con este lab?*
+</p>
+<div class='rateit js-rateit' data-rateit-max='5' data-rateit-min='0' data-rateit-resetable='false' data-rateit-step='1' data-rateit-value='5'></div>
+<div class='l-mtm'>
+
+<div class="control-group hidden lab_review_user_id"><div class="controls"><input class="hidden" type="hidden" value="2485272" name="lab_review[user_id]" id="lab_review_user_id" /></div></div>
+<div class="control-group hidden lab_review_classroom_id"><div class="controls"><input class="hidden" type="hidden" name="lab_review[classroom_id]" id="lab_review_classroom_id" /></div></div>
+<div class="control-group hidden lab_review_lab_id"><div class="controls"><input class="hidden" type="hidden" value="686" name="lab_review[lab_id]" id="lab_review_lab_id" /></div></div>
+<div class="control-group hidden lab_review_focus_id"><div class="controls"><input class="hidden" type="hidden" name="lab_review[focus_id]" id="lab_review_focus_id" /></div></div>
+<div class="control-group hidden lab_review_rating"><div class="controls"><input class="hidden js-rating-input" type="hidden" value="2" name="lab_review[rating]" id="lab_review_rating" /></div></div>
+<div class="control-group text optional lab_review_comment"><label class="text optional control-label" for="lab_review_comment">Comentario</label><div class="controls"><textarea class="text optional" name="lab_review[comment]" id="lab_review_comment">
+</textarea></div></div>
+</div>
+</div>
+<div class='modal-actions'>
+<a class='mdl-button mdl-button--primary mdl-js-button mdl-js-ripple-effect' data-dismiss='modal'>
+Cancel
+</a>
+<input type="submit" name="commit" value="Enviar" disabled="disabled" class="btn mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--primary" id="submit" data-disabled="false" data-disable-with="Enviar" />
+</div>
+</form>
+
+</div>
+</div>
+<iframe class='l-ie-iframe-fix'></iframe>
+</div>
+<div class='modal fade' id='lab-access-modal'>
+<div class='modal-container'>
+<div class='mdl-shadow--24dp modal-content'>
+<a class='lab-access-modal-close' data-analytics-action='dismissed_lab_payment_modal' data-dismiss='modal'>
+<i class='material-icons'>close</i>
+</a>
+<form class="js-lab-access-form" action="/lab_onetime_coupons/activate?locale=es&amp;parent=catalog" accept-charset="UTF-8" data-remote="true" method="post"><input name="utf8" type="hidden" value="&#x2713;" />
+<div class='modal-body'>
+<div class='lab-access-modal'>
+<input type="hidden" name="id" id="id" value="551" />
+<input type="hidden" name="user_id" id="user_id" value="2485272" />
+<input type="hidden" name="launch_with_credits" id="launch_with_credits" value="0" class="js-launch-with-credits-input" />
+<input type="hidden" name="launch_with_subs" id="launch_with_subs" value="0" class="js-launch-with-subscription-input" />
+<div class='lab-access-modal__method'>
+<p>
+Este lab cuesta
+1 crédito.
+</p>
+<p>
+Tiene un paquete con suscripción válida. ¿Desea cargar este lab a su suscripción?
+</p>
+<a class='button js-launch-with-subscription-button js-lab-access-modal-button' data-analytics-action='clicked_launch_with_subscription_button'>
+Usar suscripción
+</a>
+</div>
+<div class='lab-access-modal__method'>
+<p>
+Ingrese el código de acceso del lab:
+</p>
+<div class='lab-access-modal__code js-access-code'>
+<input type="text" name="uuid_1" id="uuid_1" value="" maxlength="4" placeholder="1234" />
+<input type="text" name="uuid_2" id="uuid_2" value="" maxlength="4" placeholder="1234" />
+<input type="text" name="uuid_3" id="uuid_3" value="" maxlength="4" placeholder="1234" />
+<input type="text" name="uuid_4" id="uuid_4" value="" maxlength="4" placeholder="1234" />
+</div>
+<a class='button js-launch-with-access-code-button js-lab-access-modal-button' data-analytics-action='clicked_launch_with_access_code_button'>
+Iniciar con el código de acceso
+</a>
+</div>
+</div>
+</div>
+</form>
+
+
+
+</div>
+</div>
+<iframe class='l-ie-iframe-fix'></iframe>
+</div>
+
+<script>
+  $( function() {
+    ql.initMaterialInputs();
+    initChosen();
+    initSearch();
+    initTabs();
+    ql.list.init();
+    ql.favoriting.init();
+    ql.header.myAccount.init();
+    initTooltips();
+    ql.autocomplete.init();
+    ql.modals.init();
+    ql.toggleButtons.init();
+    ql.analytics.init();
+    initLabContent( );
+  ql.labOutline.links.init();
+  ql.labOutline.layout.init();
+  initLabReviewModal();
+  initLabAccessModal();
+  ql.labAssessment.init();
+  ql.labIntroduction.init( true );
+  ql.labData.init();
+  initLabTranslations( {"are_you_sure":"¿Se completó el proceso? Si finaliza el lab, perderá todo su trabajo. Es posible que no pueda reiniciar el lab si existe un límite de cuota. ¿Está seguro de que desea finalizar el lab?","in_progress":"*En curso*","ending":"*Finalizando*","starting":"*Iniciando. Espere*","end_concurrent_labs":"Lo sentimos; solo puede ejecutar un lab a la vez. Para iniciar este lab, confirme que desea finalizar todos sus labs activos.","copied":"Copiado","no_resource":"Se produjo un error durante la recuperación del recurso.","no_support":"No hay asistencia disponible","mac_press":"Presione ⌘ + C para copiar","thanks_review":"Gracias por calificar este lab.","windows_press":"Presione Ctrl + C para copiar","days":"días"} );
+  ql.labRun.init();
+  ql.initHeader();
+  ql.navigation.init();
+  ql.navPanel.init();
+  ql.navigation.init();
+  
+  });
+</script>
+<style>
+  .mdl-layout__container {
+    position: static
+  }
+</style>
+</body>
+</html>

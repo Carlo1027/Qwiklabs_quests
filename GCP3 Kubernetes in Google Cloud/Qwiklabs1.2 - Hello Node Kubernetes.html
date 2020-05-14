@@ -1,0 +1,926 @@
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+<meta content='[]' name='active-experiments'>
+<meta content='{&quot;userId&quot;:2485272}' name='help-api-product-data'>
+<meta name="csrf-param" content="authenticity_token" />
+<meta name="csrf-token" content="nb+s+RXsjDsQVUDb9L7KOB7kCmkgNxXA3XxaKTH55uVpikwa1ilFkiTrvKfbGutZiVtB7XnRnBg2PIfqDRH/vQ==" />
+<title>Hello Node Kubernetes | Qwiklabs</title>
+<meta content='width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=0' name='viewport'>
+<meta content='In this hands-on lab, you turn your code into a replicated application running on Kubernetes. You create a Node.js app, create a Docker container from it, deploy it to Kubernetes Engine, and scale it up. Watch a short preview &amp;lt;A HREF=&quot;https://youtu.be/fRYEJmRMkQk&quot;&amp;gt;Hello Node Kubernetes, GCP Essentials&amp;lt;/A&amp;gt;.' name='description'>
+<meta content='Qwiklabs' name='author'>
+<meta content='1rRsY0INj8RvwB5EF5pwdxt2A2P9aDgAlsICaJ0d5w0' name='google-site-verification'>
+<meta content='Hello Node Kubernetes | Qwiklabs' property='og:title'>
+<meta content='website' property='og:type'>
+<meta content='/favicon-144.png' property='og:image'>
+<meta content='Qwiklabs' property='og:site_name'>
+<meta content='In this hands-on lab, you turn your code into a replicated application running on Kubernetes. You create a Node.js app, create a Docker container from it, deploy it to Kubernetes Engine, and scale it up. Watch a short preview &amp;lt;A HREF=&quot;https://youtu.be/fRYEJmRMkQk&quot;&amp;gt;Hello Node Kubernetes, GCP Essentials&amp;lt;/A&amp;gt;.' property='og:description'>
+<meta content='/qwiklabs_logo_900x887.png' property='og:logo' size='900x887'>
+<meta content='/qwiklabs_logo_994x187.png' property='og:logo' size='994x187'>
+<meta content='#3681E4' property='msapplication-TileColor'>
+<meta content='/favicon-144.png' property='msapplication-TileImage'>
+<link href='/favicon-32.png' rel='shortcut icon'>
+<link color='#3681E4' href='/favicon-svg.svg' rel='mask-icon'>
+<link href='/favicon-180.png' rel='apple-touch-icon-precomposed'>
+<link rel="stylesheet" media="screen" href="https://fonts.googleapis.com/css?family=Oswald:400|Roboto+Mono:400,700|Roboto:300,400,500,700|Google+Sans:300,400,500,700|Google+Sans+Display:400|Material+Icons|Google+Material+Icons" />
+
+
+<!--[if lt IE 9]>
+<script src='http://html5shim.googlecode.com/svn/trunk/html5.js' type='text/javascript'></script>
+<![endif]-->
+<!--[endif]>  <![endif]-->
+<script>
+//<![CDATA[
+window.gon={};gon.current_user={"firstname":"Carlo Andr\u00e9","lastname":"Castro Galindo","fullname":"Carlo Andr\u00e9 Castro Galindo","company":"Coursera","email":"carlocastrogalindo@gmail.com","origin":"googlecoursera-run, lti-coursera","subscriptions":1,"id":"eb3f0602d940d94d2eaeef36f2aa2e77","qlCreatedAt":"2020-02-28 17:36:48 UTC","optIn":false};gon.segment="j4Im8pqIko0Lxq4wVVZWMPMM0EroHUvb";gon.deployment="run";
+//]]>
+</script>
+<script type='application/ld+json'>
+{
+  "@context": "http://schema.org",
+  "@type": "WebSite",
+  "url": "https://www.qwiklabs.com/",
+  "potentialAction": {
+    "@type": "SearchAction",
+    "target": "https://www.qwiklabs.com/catalog?keywords={search_term_string}",
+    "query-input": "required name=search_term_string"
+  }
+}
+</script>
+<script id='ze-snippet' src='https://static.zdassets.com/ekr/snippet.js?key=511e4158-0aec-4e3c-b2e6-4daa1769f51e'></script>
+
+
+
+<link rel="stylesheet" media="all" href="https://cdn.qwiklabs.com/assets/application-4c3d1e8bc7757ea71809ef44e35c5d8018fb66ce6a4a777389558445ba2ce8a2.css" />
+<script>
+  EVENT_SOURCE_BASE_URL = "https://run.qwiklabs.com/nchan-sub?id=";
+</script>
+<script src="https://cdn.qwiklabs.com/polyfills/webcomponents-loader.js"></script>
+<script src="https://cdn.qwiklabs.com/assets/hallofmirrors/hallofmirrors-c2758d00524eb85dbbfd8ffdc020394cdc6d014970338c95837b835747eb8f6c.js"></script>
+<script src="https://www.youtube.com/iframe_api"></script>
+<script src="https://cdn.qwiklabs.com/assets/vendor-45d462772c30000424907184f70c7157e95fb6227698d1671c5051818a6f60d8.js"></script>
+<script src="https://cdn.qwiklabs.com/assets/application-7c67c1d428839917a0992758b33da63184c69efa420e5939804ea34d54147a97.js"></script>
+</head>
+<body class='focuses focuses-show lab-show l-full no-nav'>
+<div class='header-container light-theme'>
+<div class='header'>
+<a class='mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect header__button header__button--nav header__nav-panel-button js-nav-toggle'>
+<i class='material-icons'>menu</i>
+</a>
+<div class='header__title'>
+<a class="mdl-button mdl-js-button mdl-button--icon mdl-js-ripple-effect header__button header__button--nav" href="javascript:history.back()"><ql-icon>arrow_back</ql-icon></a>
+
+<h1 class='headline-5'>
+Hello Node Kubernetes
+</h1>
+</div>
+<div class='header__actions'>
+<a class='mdl-button mdl-js-button mdl-button--icon mdl-js-ripple-effect header__button header__button--action header__button--search js-header-search-bar-button'>
+<i class='material-icons'>search</i>
+</a>
+<a class="mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect" id="toggle-lab-control-panel" href="javascript:;"><i class='material-icons'>description</i>
+</a><div class='mdl-tooltip js-tooltip' data-mdl-for='toggle-lab-control-panel'>
+Toggle Lab Panel
+</div>
+<a class="mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect js-favorite-button favorite-button" id="CatalogItem-564-favorite-button" data-type="CatalogItem" data-id="564" data-name="Hello Node Kubernetes" href="/favorite.json?item_id=564&amp;item_type=CatalogItem"><i class='material-icons'>favorite_border</i>
+</a><div class='mdl-tooltip js-tooltip' for='CatalogItem-564-favorite-button'>
+Add to favorites
+</div>
+
+
+<ql-help context="lab" productdata="{&quot;userId&quot;:2485272}" data-analytics-action="opened_help" data-analytics-label="lab"></ql-help>
+<a class='header-my-account-button mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect js-my-account-button'>
+<img class="avatar " alt="avatar image" src="https://secure.gravatar.com/avatar/be719396bbcc1e8bcb204a54e1920c54.png?s=80&amp;d=mm" />
+</a>
+<div class='header-my-account-menu js-my-account-menu'>
+<div class='card elevation-2 no-padding'>
+<div class='my-account-menu__top'>
+<img class="avatar " alt="avatar image" src="https://secure.gravatar.com/avatar/be719396bbcc1e8bcb204a54e1920c54.png?s=80&amp;d=mm" />
+<div class='my-account-menu__info'>
+<h4 class='subtitle-headline-1'>
+Carlo André Castro Galindo
+</h4>
+<p class='body-2 text--gray'>
+<span>carlocastrogalindo@gmail.com</span>
+</p>
+<a class="button" href="/my_account/profile">My Account</a>
+</div>
+</div>
+<div class='my-account-menu__bottom'>
+<a class="text--green subtitle-headline-2" href="/my_account/credits">Monthly Subscription
+</a><a data-analytics-action="clicked_sign_out" class="button button--hairline" rel="nofollow" data-method="delete" href="/users/sign_out">Sign Out</a>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+<div class='header__search-bar js-header-search-bar'>
+<form id="catalog-search-mobile" onsubmit="ql.catalogSearchFilter(); return false;" action="/searches/elasticsearch" accept-charset="UTF-8" method="post"><input name="utf8" type="hidden" value="&#x2713;" /><input type="hidden" name="authenticity_token" value="bX8x0ePobb0iwS6EcAOEj2N7sATIcp1x4M5jdrwv9lCZStEyIC2kFBZ/0vhfp6Xu9MT7gJGUFKkLjr61gMfvCA==" />
+<input type="text" name="keywords" id="keywords" placeholder="Search" maxlength="255" aria-label="catalog search bar" />
+</form>
+
+<a class='mdl-button mdl-js-button mdl-button--icon mdl-js-ripple-effect header__button'>
+<i class='material-icons'>close</i>
+</a>
+</div>
+</div>
+
+<nav class='nav-bar'>
+<a class="nav-bar__item js-navigation-button" href="/"><ql-icon class='nav-bar__item__icon'>
+home
+</ql-icon>
+<span class='nav-bar__item__label'>
+Home
+</span>
+</a>
+<a class="nav-bar__item js-navigation-button  active" aria-current="page" href="/catalog"><ql-icon class='nav-bar__item__icon'>
+school
+</ql-icon>
+<span class='nav-bar__item__label'>
+Catalog
+</span>
+</a>
+<a class="nav-bar__item js-navigation-button" href="/my_learning"><ql-icon class='nav-bar__item__icon'>
+event_note
+</ql-icon>
+<span class='nav-bar__item__label'>
+My Learning
+</span>
+</a>
+</nav>
+
+<nav class='nav-panel js-nav-panel'>
+<div class='nav-panel__logo'>
+<div class='logo logo--blue'></div>
+</div>
+<a title="Home" tabindex="-1" class="nav-panel__item js-navigation-button" href="/"><ql-icon class='nav-panel__item__icon'>
+home
+</ql-icon>
+<div class='nav-panel__item__label'>
+Home
+</div>
+</a>
+<a title="Catalog" tabindex="-1" class="nav-panel__item js-navigation-button active" aria-current="page" href="/catalog"><ql-icon class='nav-panel__item__icon'>
+school
+</ql-icon>
+<div class='nav-panel__item__label'>
+Catalog
+</div>
+</a>
+<a title="My Learning" tabindex="-1" class="nav-panel__item js-navigation-button" href="/my_learning"><ql-icon class='nav-panel__item__icon'>
+event_note
+</ql-icon>
+<div class='nav-panel__item__label'>
+My Learning
+</div>
+</a>
+<div class='nav-panel__spacer'></div>
+<a title="Profile" tabindex="-1" class="nav-panel__item js-navigation-button" href="/my_account/profile"><ql-icon class='nav-panel__item__icon'>
+account_circle
+</ql-icon>
+<div class='nav-panel__item__label'>
+Profile
+</div>
+</a>
+<a title="Credits &amp; Subscriptions" tabindex="-1" class="nav-panel__item js-navigation-button" href="/my_account/credits"><ql-icon class='nav-panel__item__icon'>
+money
+</ql-icon>
+<div class='nav-panel__item__label'>
+Credits &amp; Subscriptions
+</div>
+</a>
+<a title="Security" tabindex="-1" class="nav-panel__item js-navigation-button" href="/my_account/security"><ql-icon class='nav-panel__item__icon'>
+security
+</ql-icon>
+<div class='nav-panel__item__label'>
+Security
+</div>
+</a>
+<div class='nav-panel__spacer'></div>
+<a class="nav-panel__item" tabindex="-1" href="#"><ql-help>
+<div class='nav-panel__help-item'>
+<ql-icon class='nav-panel__item__icon'>help</ql-icon>
+<div class='nav-panel__item__label'>Help</div>
+</div>
+</ql-help>
+</a><div class='nav-panel__small-links'>
+<a tabindex="-1" href="/privacy_policy">Privacy</a>
+<a tabindex="-1" href="/terms_of_service">Terms</a>
+</div>
+</nav>
+<div class='nav-panel__overlay js-nav-toggle'></div>
+
+<main class='js-main'>
+<span class='hidden' id='flash-sibling-before'></span>
+
+<div class='l-main-wrapper' id='main-wrapper'>
+
+
+
+
+
+
+
+<div class='js-lab-state' data-analytics-payload='{&quot;label&quot;:&quot;Hello Node Kubernetes&quot;,&quot;lab_name&quot;:&quot;Hello Node Kubernetes&quot;,&quot;classroom_name&quot;:null,&quot;deployment&quot;:&quot;run&quot;}' data-focus-id='564' data-lab-billing-limit='0.0' data-lab-duration='3900' data-parent='catalog' data-payment-required></div>
+<ql-lab-control-panel class='js-lab-control-panel l-lab-control-panel' connectionDetails='[]' connectionFiles='[]' labControlButton='{&quot;disabled&quot;:false,&quot;pending&quot;:false,&quot;running&quot;:false}' labTimer='{&quot;ticking&quot;:false,&quot;secondsRemaining&quot;:3900}' studentResources='[{&quot;text&quot;:&quot;Hello Node Kubernetes, GCP Essentials&quot;,&quot;icon&quot;:&quot;videocam&quot;,&quot;href&quot;:&quot;https://youtu.be/fRYEJmRMkQk&quot;}]'></ql-lab-control-panel>
+<div class='l-lab-main-body'>
+<div class='js-lab-content lab-content'>
+<div class='alert alert--fake js-alert'>
+<p class='alert__message js-alert-message'></p>
+<a class='alert__close js-alert-close'>
+<i class='fa fa-times'></i>
+</a>
+<iframe class='l-ie-iframe-fix'></iframe>
+</div>
+<div class='lab-content__markdown-wrapper'>
+<div class='lab-preamble'>
+<h1 class='lab-preamble__title'>
+Hello Node Kubernetes
+</h1>
+<div class='lab-preamble__details subtitle-headline-1'>
+<span>1 hour 5 minutes</span>
+<span>7 Credits</span>
+<div class='lab__rating'>
+<a href="/focuses/564/reviews?parent=catalog"><div class='rateit' data-rateit-readonly='true' data-rateit-value='4.1381'></div>
+
+</a><a data-target='#lab-review-modal' data-toggle='modal'>
+Rate Lab
+</a>
+</div>
+</div>
+</div>
+
+<div class='lab-content__inner-wrapper'>
+<div class='js-markdown-instructions lab-content__markdown markdown-lab-instructions' id='markdown-lab-instructions'>
+
+
+
+<h2 id="step1">GSP005</h2>
+<p><img alt="Google Cloud Self-Paced Labs" src="https://cdn.qwiklabs.com/GMOHykaqmlTHiqEeQXTySaMXYPHeIvaqa2qHEzw6Occ%3D"></p>
+
+<h2 id="step2">Overview</h2>
+<p>The goal of this hands-on lab is for you to turn code that you have developed into a replicated application running on  <a href="http://kubernetes.io">Kubernetes</a>, which is running on  <a href="https://cloud.google.com/container-engine/">Kubernetes Engine</a>. For this lab the code will be a simple Hello World node.js app.</p>
+<p>Here's a diagram of the various parts in play in this lab, to help you understand how the pieces fit together with one another. Use this as a reference as you progress through the lab; it should all make sense by the time you get to the end (but feel free to ignore this for now).</p>
+<p><img alt="ba830277f2d92e04.png" src="https://cdn.qwiklabs.com/ZB%2FLTu%2FfOBuu7svaY0%2Fier%2FSvbJdfF3Lrb%2F5woXeecI%3D"></p>
+<p>Kubernetes is an open source project (available on  <a href="http://kubernetes.io/">kubernetes.io</a>) which can run on many different environments, from laptops to high-availability multi-node clusters; from public clouds to on-premise deployments; from virtual machines to bare metal.</p>
+<p>For the purpose of this lab, using a managed environment such as Kubernetes Engine (a Google-hosted version of Kubernetes running on Compute Engine) will allow you to focus more on experiencing Kubernetes rather than setting up the underlying infrastructure.</p>
+<h4>What you'll do</h4>
+<ul>
+<li>Create a Node.js server.</li>
+<li>Create a Docker container image.</li>
+<li>Create a container cluster.</li>
+<li>Create a Kubernetes pod.</li>
+<li>Scale up your services.</li>
+</ul>
+<h3>Prerequisites</h3>
+<ul>
+<li>Familiarity with standard Linux text editors such as <code>vim</code>, <code>emacs</code>, or <code>nano</code> will be helpful.</li>
+</ul>
+<p>We encourage students to type the commands themselves, to help encourage learning of the core concepts. Many labs will include a code block that contains the required commands. You can easily copy and paste the commands from the code block into the appropriate places during the lab.</p>
+<h2 id="step3">Setup</h2>
+<h4>Before you click the Start Lab button</h4>
+<p>Read these instructions. Labs are timed and you cannot pause them. The timer, which starts when you click Start Lab, shows how long Cloud resources will be made available to you.</p>
+<p>This Qwiklabs hands-on lab lets you do the lab activities yourself in a real cloud environment, not in a simulation or demo environment. It does so by giving you new, temporary credentials that you use to sign in and access the Google Cloud Platform for the duration of the lab.</p>
+<h4>What you need</h4>
+<p>To complete this lab, you need:</p>
+<ul>
+<li>Access to a standard internet browser (Chrome browser recommended).</li>
+<li>Time to complete the lab.</li>
+</ul>
+<p><strong>Note:</strong> If you already have your own personal GCP account or project, do not use it for this lab.</p>
+<p><strong>Note:</strong> If you are using a Pixelbook please open an Incognito window to run this lab.</p>
+
+<h4>How to start your lab and sign in to the Console</h4>
+<ol>
+<li>
+<p>Click the <strong>Start Lab</strong> button. If you need to pay for the lab, a pop-up opens for you to select your payment method.
+On the left is a panel populated with the temporary credentials that you must use for this lab.</p>
+<p><img alt="Open Google Console" src="https://cdn.qwiklabs.com/%2FtHp4GI5VSDyTtdqi3qDFtevuY014F88%2BFow%2FadnRgE%3D"></p>
+</li>
+<li>
+<p>Copy the username, and then click <strong>Open Google Console</strong>.
+The lab spins up resources, and then opens another tab that shows the <strong>Choose an account</strong> page.</p>
+<p><strong><em>Tip:</em></strong> Open the tabs in separate windows, side-by-side.</p>
+</li>
+<li>
+<p>On the Choose an account page, click <strong>Use Another Account</strong>.</p>
+<p><img alt="Choose an account" src="https://cdn.qwiklabs.com/eQ6xPnPn13GjiJP3RWlHWwiMjhooHxTNvzfg1AL2WPw%3D"></p>
+</li>
+<li>
+<p>The Sign in page opens. Paste the username that you copied from the Connection Details panel. Then copy and paste the password.</p>
+<p><strong><em>Important:</em></strong> You must use the credentials from the Connection Details panel. Do not use your Qwiklabs credentials. If you have your own GCP account, do not use it for this lab (avoids incurring charges).</p>
+</li>
+<li>
+<p>Click through the subsequent pages:</p>
+<ul>
+<li>Accept the terms and conditions.</li>
+<li>Do not add recovery options or two-factor authentication (because this is a temporary account).</li>
+<li>Do not sign up for free trials.</li>
+</ul>
+</li>
+</ol>
+<p>After a few moments, the GCP console opens in this tab.</p>
+<aside>
+<b>Note:</b> You can view the menu with a list of GCP Products and Services by clicking the <b>Navigation menu</b> at the top-left, next to “Google Cloud Platform”.
+<img alt="Cloud Console Menu" src="https://cdn.qwiklabs.com/9vT7xPlxoNP%2FPsK0J8j0ZPFB4HnnpaIJVCDByaBrSHg%3D">
+</aside>
+
+<h3>Activate Google Cloud Shell</h3>
+<p>Google Cloud Shell is a virtual machine that is loaded with development tools. It offers a persistent 5GB home directory and runs on the Google Cloud.
+Google Cloud Shell provides command-line access to your GCP resources.</p>
+<ol>
+<li>
+<p>In GCP console, on the top right toolbar, click the Open Cloud Shell button.</p>
+<p><img alt="Cloud Shell icon" src="https://cdn.qwiklabs.com/vdY5e%2Fan9ZGXw5a%2FZMb1agpXhRGozsOadHURcR8thAQ%3D"></p>
+</li>
+<li>
+<p>Click <strong>Continue</strong>.
+<img alt="cloudshell_continue.png" src="https://cdn.qwiklabs.com/lr3PBRjWIrJ%2BMQnE8kCkOnRQQVgJnWSg4UWk16f0s%2FA%3D"></p>
+</li>
+</ol>
+<p>It takes a few moments to provision and connect to the environment. When you are connected, you are already authenticated, and the project is set to your <em>PROJECT_ID</em>. For example:</p>
+<p><img alt="Cloud Shell Terminal" src="https://cdn.qwiklabs.com/hmMK0W41Txk%2B20bQyuDP9g60vCdBajIS%2B52iI2f4bYk%3D"></p>
+<p><strong>gcloud</strong> is the command-line tool for Google Cloud Platform. It comes pre-installed on Cloud Shell and supports tab-completion.</p>
+<p>You can list the active account name with this command:</p>
+<pre><code>gcloud auth list&#x000A;</code></pre>
+<p>Output:</p>
+<pre><code class="language-output prettyprint">Credentialed accounts:&#x000A; - &lt;myaccount&gt;@&lt;mydomain&gt;.com (active)&#x000A;</code></pre>
+<p>Example output:</p>
+<pre><code class="language-Output prettyprint">Credentialed accounts:&#x000A; - google1623327_student@qwiklabs.net&#x000A;</code></pre>
+<p>You can list the project ID with this command:</p>
+<pre><code>gcloud config list project&#x000A;</code></pre>
+<p>Output:</p>
+<pre><code class="language-output prettyprint">[core]&#x000A;project = &lt;project_ID&gt;&#x000A;</code></pre>
+<p>Example output:</p>
+<pre><code class="language-Output prettyprint">[core]&#x000A;project = qwiklabs-gcp-44776a13dea667a6&#x000A;</code></pre>
+<aside>
+  Full documentation of <strong>gcloud</strong> is available on <a href="https://cloud.google.com/sdk/gcloud">Google Cloud gcloud Overview</a>.
+
+</aside>
+
+<h2 id="step4">Create your Node.js application</h2>
+<p>Using Cloud Shell, write a simple Node.js server that you'll deploy to Kubernetes Engine:</p>
+<pre><code>vi server.js&#x000A;</code></pre>
+<p>Start the editor:</p>
+<pre><code>i&#x000A;</code></pre>
+<p>Add this content to the file:</p>
+<pre><code>var http = require('http');&#x000A;var handleRequest = function(request, response) {&#x000A;  response.writeHead(200);&#x000A;  response.end("Hello World!");&#x000A;}&#x000A;var www = http.createServer(handleRequest);&#x000A;www.listen(8080);&#x000A;</code></pre>
+<aside>
+<strong>Note:</strong> <code>vi</code> is used here, but <code>nano</code> and <code>emacs</code> are also available in Cloud Shell. You can also use the Web-editor feature of CloudShell as <a href="https://cloud.google.com/shell/docs/features#web_editor"> described here</a>.
+
+</aside>
+<p>Save the <code>server.js</code> file: <strong>Esc</strong> then:</p>
+<pre><code>:wq&#x000A;</code></pre>
+<p>Since Cloud Shell has the <code>node</code> executable installed, run this command to start the node server (the command produces no output):</p>
+<pre><code>node server.js&#x000A;</code></pre>
+<p>Use the built-in <a href="https://cloud.google.com/cloud-shell/docs/features#web_preview">Web preview</a> feature of Cloud Shell to open a new browser tab and proxy a request to the instance you just started on port <code>8080</code>.</p>
+<p><img alt="bde9fe42e27656fb.png" src="https://cdn.qwiklabs.com/a6YnJv8GlGae4rnJIbjA27J8c7YApa%2B6noPFkkKxZjk%3D"></p>
+<p>A new browser tab will open to display your results:</p>
+<p><img alt="24aab6bb51533e91.png" src="https://cdn.qwiklabs.com/Si2q8aZMVmxlt1eZELd271lVh9W24mbVd5YnZ8iS37g%3D"></p>
+<p>Before continuing, return to Cloud Shell and type <strong>Ctrl</strong>+<strong>c</strong> to stop the running node server.</p>
+<p>Next you will package this application in a Docker container.</p>
+<h2 id="step5">Create a Docker container image</h2>
+<p>Next, create a <code>Dockerfile</code> that describes the image you want to build. Docker container images can extend from other existing images, so for this image, we'll extend from an existing Node image.</p>
+<pre><code>vi Dockerfile&#x000A;</code></pre>
+<p>Start the editor:</p>
+<pre><code>i&#x000A;</code></pre>
+<p>Add this content:</p>
+<pre><code>FROM node:6.9.2&#x000A;EXPOSE 8080&#x000A;COPY server.js .&#x000A;CMD node server.js&#x000A;</code></pre>
+<p>This "recipe" for the Docker image will:</p>
+<ul>
+<li>Start from the <code>node</code> image found on the Docker hub.</li>
+<li>Expose port <code>8080</code>.</li>
+<li>Copy your <code>server.js</code> file to the image.</li>
+<li>Start the node server as we previously did manually.</li>
+</ul>
+<p>Save this <code>Dockerfile</code> by pressing <strong>Esc</strong>, then type:</p>
+<pre><code>:wq&#x000A;</code></pre>
+<p>Build the image with the following, replacing <code>PROJECT_ID</code> with your GCP Project ID, found in the Console and the <strong>Connection Details</strong> section of the lab:</p>
+<pre><code>docker build -t gcr.io/PROJECT_ID/hello-node:v1 .&#x000A;</code></pre>
+<p>It'll take some time to download and extract everything, but you can see the progress bars as the image builds.</p>
+<p>Once complete, test the image locally by running a Docker container as a daemon on port 8080 from your newly-created container image.</p>
+<p>Run the following command replacing <code>PROJECT_ID</code> with your GCP Project ID, found in the Console and the <strong>Connection Details</strong> section of the lab:</p>
+<pre><code>docker run -d -p 8080:8080 gcr.io/PROJECT_ID/hello-node:v1&#x000A;</code></pre>
+<p>Your output should look something like this:</p>
+<pre><code class="language-bash prettyprint">325301e6b2bffd1d0049c621866831316d653c0b25a496d04ce0ec6854cb7998&#x000A;</code></pre>
+<p>To see your results you can use the web preview feature of Cloud Shell:</p>
+<p><img alt="bde9fe42e27656fb.png" src="https://cdn.qwiklabs.com/a6YnJv8GlGae4rnJIbjA27J8c7YApa%2B6noPFkkKxZjk%3D"></p>
+<p>Or use <code>curl</code> from your Cloud Shell prompt:</p>
+<pre><code>curl http://localhost:8080&#x000A;</code></pre>
+<p>This is the output you should see:</p>
+<pre><code class="language-bash prettyprint">Hello World!&#x000A;</code></pre>
+<aside>
+<strong>Note:</strong> Full documentation for the <code>docker run</code> command is <a href="https://docs.docker.com/engine/reference/run/">found here</a>.
+
+</aside>
+<p>Next, stop the running container.</p>
+<p>Find your Docker container ID by running:</p>
+<pre><code>docker ps&#x000A;</code></pre>
+<p>Your output you should look like this:</p>
+<pre><code class="language-output prettyprint">CONTAINER ID        IMAGE                              COMMAND&#x000A;2c66d0efcbd4        gcr.io/PROJECT_ID/hello-node:v1    "/bin/sh -c 'node&#x000A;</code></pre>
+<p>Stop the container by running the following, replacing the <code>[CONTAINER ID]</code> with the value provided from the previous step:</p>
+<pre><code>docker stop [CONTAINER ID]&#x000A;</code></pre>
+<p>Your console output should resemble the following (your container ID):</p>
+<pre><code class="language-bash prettyprint">2c66d0efcbd4&#x000A;</code></pre>
+<p>Now that the image is working as intended, push it to the  <a href="https://cloud.google.com/tools/container-registry/">Google Container Registry</a>, a private repository for your Docker images, accessible from your Google Cloud projects.</p>
+<p>Run this command, replacing <code>PROJECT_ID</code> with your GCP Project ID, found in the Console or the <strong>Connection Details</strong> section of the lab.</p>
+<pre><code>gcloud auth configure-docker&#x000A;</code></pre>
+<pre><code>docker push gcr.io/PROJECT_ID/hello-node:v1&#x000A;</code></pre>
+<p>The initial push may take a few minutes to complete. You'll see the progress bars as it builds.</p>
+<pre><code class="language-bash prettyprint">The push refers to a repository [gcr.io/qwiklabs-gcp-6h281a111f098/hello-node]&#x000A;ba6ca48af64e: Pushed&#x000A;381c97ba7dc3: Pushed&#x000A;604c78617f34: Pushed&#x000A;fa18e5ffd316: Pushed&#x000A;0a5e2b2ddeaa: Pushed&#x000A;53c779688d06: Pushed&#x000A;60a0858edcd5: Pushed&#x000A;b6ca02dfe5e6: Pushed&#x000A;v1: digest: sha256:8a9349a355c8e06a48a1e8906652b9259bba6d594097f115060acca8e3e941a2 size: 2002&#x000A;</code></pre>
+<p>The container image will be listed in your Console. Select <strong>Navigation menu</strong> &gt; <strong>Container Registry</strong>.</p>
+<p><img alt="Kubernetes_Container_reg.png" src="https://cdn.qwiklabs.com/01saPtda19enDOnSFx3tQ6w0N5FuM4uER8GDsC8n5cA%3D"></p>
+<p>Now you have a project-wide Docker image available which Kubernetes can access and orchestrate.</p>
+<p><img alt="container_reg.png" src="https://cdn.qwiklabs.com/dQgWvGqTs5%2BVCSfmbpL2lpTlQ7dd19FwSIKTEBS3poA%3D"></p>
+<aside>
+<strong>Note:</strong> A generic domain is used for the registry (<code>gcr.io</code>). In your own environment you can be more specific about which zone and bucket to use. Details are <a href="https://cloud.google.com/container-registry/docs/#pushing_to_the_registry">documented here</a>.
+
+</aside>
+<h2 id="step6">Create your cluster</h2>
+<p>Now you're ready to create your Kubernetes Engine cluster. A cluster consists of a Kubernetes master API server hosted by Google and a set of worker nodes. The worker nodes are Compute Engine virtual machines.</p>
+<p>Make sure you have set your project using <code>gcloud</code> (replace <code>PROJECT_ID</code> with your GCP Project ID, found in the console and in the <strong>Connection Details</strong> section of the lab):</p>
+<pre><code>gcloud config set project PROJECT_ID&#x000A;</code></pre>
+<p>Create a cluster with two  <a href="https://cloud.google.com/compute/docs/machine-types">n1-standard-1</a> nodes (this will take a few minutes to complete):</p>
+<pre><code>gcloud container clusters create hello-world \&#x000A;                --num-nodes 2 \&#x000A;                --machine-type n1-standard-1 \&#x000A;                --zone us-central1-a&#x000A;</code></pre>
+<p>You can safely ignore warnings that come up when the cluster builds.</p>
+<p>The console output should look like this:</p>
+<pre><code class="language-bash prettyprint">Creating cluster hello-world...done.&#x000A;Created [https://container.googleapis.com/v1/projects/PROJECT_ID/zones/us-central1-a/clusters/hello-world].&#x000A;kubeconfig entry generated for hello-world.&#x000A;NAME         ZONE           MASTER_VERSION  MASTER_IP       MACHINE_TYPE   STATUS&#x000A;hello-world  us-central1-a  1.5.7           146.148.46.124  n1-standard-1  RUNNING&#x000A;</code></pre>
+<p><strong>Note:</strong> You can also create this cluster through the Console by opening the Navigation menu and selecting  <strong>Kubernetes Engine</strong> &gt; <strong>Kubernetes clusters</strong> &gt; <strong>Create cluster</strong>.</p>
+<aside>
+<strong>Note:</strong> It is recommended to create the cluster in the same zone as the storage bucket used by the container registry (see previous step).
+
+</aside>
+<p>If you select <strong>Navigation menu</strong> &gt; <strong>Kubernetes Engine</strong>, you'll see that you now you have a fully-functioning Kubernetes cluster powered by Kubernetes Engine:</p>
+<p><img alt="kubernetes_cluster.png" src="https://cdn.qwiklabs.com/wMR0qhPxxgayDTSjDq1oXmoXEy4OeuQ%2FUtc6CZnvFT0%3D"></p>
+<p>It's time to deploy your own containerized application to the Kubernetes cluster! From now on you'll use the <code>kubectl</code> command line (already set up in your Cloud Shell environment).</p>
+<p>Click <strong>Check my progress</strong> below to check your lab progress.</p>
+<ql-activity-tracking step="1">
+    Create your cluster.
+</ql-activity-tracking>
+<h2 id="step7">Create your pod</h2>
+<p>A Kubernetes <strong>pod</strong> is a group of containers tied together for administration and networking purposes. It can contain single or multiple containers. Here you'll use one container built with your Node.js image stored in your private container registry. It will serve content on port 8080.</p>
+<p>Create a pod with the <code>kubectl run</code> command (replace <code>PROJECT_ID</code> with your GCP Project ID, found in the console and in the <strong>Connection Details</strong> section of the lab):</p>
+<pre><code>kubectl run hello-node \&#x000A;    --image=gcr.io/PROJECT_ID/hello-node:v1 \&#x000A;    --port=8080&#x000A;</code></pre>
+<p>(Output)</p>
+<pre><code class="language-bash prettyprint">deployment "hello-node" created&#x000A;</code></pre>
+<p>As you can see, you've created a <strong>deployment</strong> object. Deployments are the recommended way to create and scale pods. Here, a new deployment manages a single pod replica running the <code>hello-node:v1</code> image.</p>
+<p>To view the deployment, run:</p>
+<pre><code>kubectl get deployments&#x000A;</code></pre>
+<p>(Output)</p>
+<pre><code class="language-bash prettyprint">NAME         DESIRED   CURRENT   UP-TO-DATE   AVAILABLE   AGE&#x000A;hello-node   1         1         1            1           2m&#x000A;</code></pre>
+<p>To view the pod created by the deployment, run:</p>
+<pre><code>kubectl get pods&#x000A;</code></pre>
+<p>(Output)</p>
+<pre><code class="language-bash prettyprint">NAME                         READY     STATUS    RESTARTS   AGE&#x000A;hello-node-714049816-ztzrb   1/1       Running   0          6m&#x000A;</code></pre>
+<p>Now is a good time to go through some interesting <code>kubectl</code> commands. None of these will change the state of the cluster, full documentation is <a href="https://cloud.google.com/container-engine/docs/kubectl/">available  here</a>:</p>
+<pre><code>kubectl cluster-info&#x000A;</code></pre>
+<pre><code>kubectl config view&#x000A;</code></pre>
+<p>And for troubleshooting :</p>
+<pre><code>kubectl get events&#x000A;</code></pre>
+<pre><code>kubectl logs &lt;pod-name&gt;&#x000A;</code></pre>
+<p>You now need to make your pod accessible to the outside world.</p>
+<p>Click <strong>Check my progress</strong> below to check your lab progress.</p>
+<ql-activity-tracking step="2">
+    Create your pod
+</ql-activity-tracking>
+<h2 id="step8">Allow external traffic</h2>
+<p>By default, the pod is only accessible by its internal IP within the cluster. In order to make the <code>hello-node</code> container accessible from outside the Kubernetes virtual network, you have to expose the pod as a Kubernetes <strong>service</strong>.</p>
+<p>From Cloud Shell you can expose the pod to the public internet with the <code>kubectl expose</code> command combined with the <code>--type="LoadBalancer"</code> flag. This flag is required for the creation of an externally accessible IP:</p>
+<pre><code>kubectl expose deployment hello-node --type="LoadBalancer"&#x000A;</code></pre>
+<p>(Output)</p>
+<pre><code class="language-bash prettyprint">service "hello-node" exposed&#x000A;</code></pre>
+<p>The flag used in this command specifies that are using the load-balancer provided by the underlying infrastructure (in this case the  <a href="https://cloud.google.com/compute/docs/load-balancing/">Compute Engine load balancer</a>). Note that you expose the deployment, and not the pod, directly. This will cause the resulting service to load balance traffic across all pods managed by the deployment (in this case only 1 pod, but you will add more replicas later).</p>
+<p>The Kubernetes master creates the load balancer and related Compute Engine forwarding rules, target pools, and firewall rules to make the service fully accessible from outside of Google Cloud Platform.</p>
+<p>To find the publicly-accessible IP address of the service, request <code>kubectl</code> to list all the cluster services:</p>
+<pre><code>kubectl get services&#x000A;</code></pre>
+<p>This is the output you should see:</p>
+<pre><code class="language-bash prettyprint">NAME         CLUSTER-IP     EXTERNAL-IP      PORT(S)    AGE&#x000A;hello-node   10.3.250.149   104.154.90.147   8080/TCP   1m&#x000A;kubernetes   10.3.240.1     &lt;none&gt;           443/TCP    5m&#x000A;</code></pre>
+<p>There are 2 IP addresses listed for your hello-node service, both serving port 8080. The <code>CLUSTER-IP</code> is the internal IP that is only visible inside your cloud virtual network; the <code>EXTERNAL-IP</code> is the external load-balanced IP.</p>
+<aside class="special"><p><strong>Note:</strong> The <code>EXTERNAL-IP</code> may take several minutes to become available and visible. If the <code>EXTERNAL-IP</code> is missing, wait a few minutes and run the command again.</p>
+</aside>
+<p>You should now be able to reach the service by pointing your browser to this address: <code>http://&lt;EXTERNAL_IP&gt;:8080</code></p>
+<p><img alt="67cfa8c674f8c708.png" src="https://cdn.qwiklabs.com/C36gw9A9wyqza3PveBYBCsMggISATH80A18fqFBck7U%3D"></p>
+<p>At this point you've gained several features from moving to containers and Kubernetes - you do not need to specify on which host to run your workload and you also benefit from service monitoring and restart. Now see what else can be gained from your new Kubernetes infrastructure.</p>
+<p>Click <strong>Check my progress</strong> below to check your lab progress.</p>
+<ql-activity-tracking step="3">
+    Create a Kubernetes Service
+</ql-activity-tracking>
+<h2 id="step9">Scale up your service</h2>
+<p>One of the powerful features offered by Kubernetes is how easy it is to scale your application. Suppose you suddenly need more capacity. You can tell the replication controller to manage a new number of replicas for your pod:</p>
+<pre><code>kubectl scale deployment hello-node --replicas=4&#x000A;</code></pre>
+<p>(Output)</p>
+<pre><code class="language-bash prettyprint">deployment "hello-node" scaled&#x000A;</code></pre>
+<p>You can request a description of the updated deployment:</p>
+<pre><code>kubectl get deployment&#x000A;</code></pre>
+<p>(Output)</p>
+<pre><code class="language-bash prettyprint">NAME         DESIRED   CURRENT   UP-TO-DATE   AVAILABLE   AGE&#x000A;hello-node   4         4         4            4           16m&#x000A;</code></pre>
+<p>You can also list the all pods:</p>
+<pre><code>kubectl get pods&#x000A;</code></pre>
+<p>This is the output you should see:</p>
+<pre><code class="language-bash prettyprint">NAME                         READY     STATUS    RESTARTS   AGE&#x000A;hello-node-714049816-g4azy   1/1       Running   0          1m&#x000A;hello-node-714049816-rk0u6   1/1       Running   0          1m&#x000A;hello-node-714049816-sh812   1/1       Running   0          1m&#x000A;hello-node-714049816-ztzrb   1/1       Running   0          16m&#x000A;</code></pre>
+<p>A <strong>declarative approach</strong> is being used here. Rather than starting or stopping new instances, you declare how many instances should be running at all times. Kubernetes reconciliation loops makes sure that reality matches what you requested and takes action if needed.</p>
+<p>Here's a diagram summarizing the state of your Kubernetes cluster:</p>
+<p><img alt="587f7f0a097aaa2.png" src="https://cdn.qwiklabs.com/xcK5q7mZsGBWS%2BPbytdmF0W%2BdsZxvNXdOIEPBXX13X4%3D"></p>
+<p>Click <strong>Check my progress</strong> below to check your lab progress.</p>
+<ql-activity-tracking step="4">
+    Scale up your service
+</ql-activity-tracking>
+<h2 id="step10">Roll out an upgrade to your service</h2>
+<p>At some point the application that you've deployed to production will require bug fixes or additional features. Kubernetes helps you deploy a new version to production without impacting your users.</p>
+<p>First, modify the application by opening <code>server.js</code>:</p>
+<pre><code>vi server.js&#x000A;</code></pre>
+<pre><code>i&#x000A;</code></pre>
+<p>Then update the response message:</p>
+<pre><code class="language-bash prettyprint">response.end("Hello Kubernetes World!");&#x000A;</code></pre>
+<p>Save the <code>server.js</code> file by pressing <strong>Esc</strong> then:</p>
+<pre><code>:wq&#x000A;</code></pre>
+<p>Now you can build and publish a new container image to the registry with an incremented tag (<code>v2</code> in this case).</p>
+<p>Run the following commands, replacing <code>PROJECT_ID</code> with your lab project ID:</p>
+<pre><code>docker build -t gcr.io/PROJECT_ID/hello-node:v2 .&#x000A;</code></pre>
+<pre><code>docker push gcr.io/PROJECT_ID/hello-node:v2&#x000A;</code></pre>
+<aside>
+<strong>Note:</strong> Building and pushing this updated image should be quicker since caching is being taken advantage of.
+</aside>
+<p>Kubernetes will smoothly update your replication controller to the new version of the application. In order to change the image label for your running container, you will edit the existing <code>hello-node deployment</code> and change the image from <code>gcr.io/PROJECT_ID/hello-node:v1</code> to <code>gcr.io/PROJECT_ID/hello-node:v2</code>.</p>
+<p>To do this, use the <code>kubectl edit</code> command. It opens a text editor displaying the full deployment yaml configuration. It isn't necessary to understand the full yaml config right now, just understand that by updating the <code>spec.template.spec.containers.image</code> field in the config you are telling the deployment to update the pods with the new image.</p>
+<pre><code>kubectl edit deployment hello-node&#x000A;</code></pre>
+<p>Look for <code>Spec</code> &gt; <code>containers</code> &gt; <code>image</code> and change the version number to v2:</p>
+<pre><code># Please edit the object below. Lines beginning with a '#' will be ignored,&#x000A;# and an empty file will abort the edit. If an error occurs while saving this file will be&#x000A;# reopened with the relevant failures.&#x000A;#&#x000A;apiVersion: extensions/v1beta1&#x000A;kind: Deployment&#x000A;metadata:&#x000A;  annotations:&#x000A;    deployment.kubernetes.io/revision: "1"&#x000A;  creationTimestamp: 2016-03-24T17:55:28Z&#x000A;  generation: 3&#x000A;  labels:&#x000A;    run: hello-node&#x000A;  name: hello-node&#x000A;  namespace: default&#x000A;  resourceVersion: "151017"&#x000A;  selfLink: /apis/extensions/v1beta1/namespaces/default/deployments/hello-node&#x000A;  uid: 981fe302-f1e9-11e5-9a78-42010af00005&#x000A;spec:&#x000A;  replicas: 4&#x000A;  selector:&#x000A;    matchLabels:&#x000A;      run: hello-node&#x000A;  strategy:&#x000A;    rollingUpdate:&#x000A;      maxSurge: 1&#x000A;      maxUnavailable: 1&#x000A;    type: RollingUpdate&#x000A;  template:&#x000A;    metadata:&#x000A;      creationTimestamp: null&#x000A;      labels:&#x000A;        run: hello-node&#x000A;    spec:&#x000A;      containers:&#x000A;      - image: gcr.io/PROJECT_ID/hello-node:v1 ## Update this line ##&#x000A;        imagePullPolicy: IfNotPresent&#x000A;        name: hello-node&#x000A;        ports:&#x000A;        - containerPort: 8080&#x000A;          protocol: TCP&#x000A;        resources: {}&#x000A;        terminationMessagePath: /dev/termination-log&#x000A;      dnsPolicy: ClusterFirst&#x000A;      restartPolicy: Always&#x000A;      securityContext: {}&#x000A;      terminationGracePeriodSeconds: 30&#x000A;</code></pre>
+<p>After making the change, save and close this file: Press <strong>Esc</strong>, then:</p>
+<pre><code>:wq&#x000A;</code></pre>
+<p>This is the output you should see:</p>
+<pre><code>deployment "hello-node" edited&#x000A;</code></pre>
+<p>Run the following to update the deployment with the new image:</p>
+<pre><code>kubectl get deployments&#x000A;</code></pre>
+<p>New pods will be created with the new image and the old pods will be deleted.</p>
+<p>This is the output you should see:</p>
+<pre><code>NAME         DESIRED   CURRENT   UP-TO-DATE   AVAILABLE   AGE&#x000A;hello-node   4         4         4            4           1h&#x000A;</code></pre>
+<p>While this is happening, the users of your services shouldn't see any interruption. After a little while they'll start accessing the new version of your application. You can find more details on rolling updates in  <a href="https://cloud.google.com/container-engine/docs/rolling-updates">this documentation</a>.</p>
+<p>Hopefully with these deployment, scaling, and updated features, once you've set up your Kubernetes Engine cluster, you'll agree that Kubernetes will help you focus on the application rather than the infrastructure.</p>
+<h2 id="step11">Kubernetes graphical dashboard (optional)</h2>
+<p>A graphical web user interface (dashboard) has been introduced in recent versions of Kubernetes. The dashboard allows you to get started quickly and enables some of the functionality found in the CLI as a more approachable and discoverable way of interacting with the system.</p>
+<p>To get started, run the following command to grant cluster level permissions:</p>
+<pre><code>kubectl create clusterrolebinding cluster-admin-binding --clusterrole=cluster-admin --user=$(gcloud config get-value account)&#x000A;</code></pre>
+<p>With the appropriate permissions set, run the following command to create a new dashboard service:</p>
+<pre><code>kubectl apply -f https://raw.githubusercontent.com/kubernetes/dashboard/v1.10.1/src/deploy/recommended/kubernetes-dashboard.yaml&#x000A;</code></pre>
+<p>You should receive a similar output:</p>
+<pre><code class="language-output prettyprint">secret "kubernetes-dashboard-certs" created&#x000A;serviceaccount "kubernetes-dashboard" created&#x000A;role.rbac.authorization.k8s.io "kubernetes-dashboard-minimal" created&#x000A;rolebinding.rbac.authorization.k8s.io "kubernetes-dashboard-minimal" created&#x000A;deployment.apps "kubernetes-dashboard" created&#x000A;service "kubernetes-dashboard" created&#x000A;</code></pre>
+<p>Now run the following command to edit the <code>yaml</code> representation of the dashboard service:</p>
+<pre><code>kubectl -n kube-system edit service kubernetes-dashboard&#x000A;</code></pre>
+<p>Press <code>i</code> to enter the editing mode.</p>
+<p>Change <code>type: ClusterIP</code> to <code>type: NodePort</code>.</p>
+<p>After making the change, save and close this file. Press <strong>Esc</strong>, then:</p>
+<pre><code>:wq&#x000A;</code></pre>
+<p>To log in to the Kubernetes dashboard you must authenticate using a token. Use a token allocated to a service account, such as the <code>namespace-controller</code>.</p>
+<p>To get the token value, run the following command:</p>
+<pre><code>kubectl -n kube-system describe $(kubectl -n kube-system \&#x000A;get secret -n kube-system -o name | grep namespace) | grep token:&#x000A;</code></pre>
+<p>You should receive a similar Output:</p>
+<pre><code class="language-bash prettyprint">token:      eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJrdWJlcm5ldGVzL3NlcnZpY2VhY2NvdW50Iiwia3ViZXJuZXRlcy5pby9zZXJ2aWNlYWNjb3VudC9uYW1lc3BhY2UiOiJrdWJlLXN5c3RlbSIsImt1YmVybmV0ZXMuaW8vc2VydmljZWFjY291bnQvc2VjcmV0Lm5hbWUiOiJuYW1lc3BhY2UtY29udHJvbGxlci10b2tlbi1kOTZyNCIsImt1YmVybmV0ZXMuaW8vc2VydmljZWFjY291bnQvc2VydmljZS1hY2NvdW50Lm5hbWUiOiJuYW1lc3BhY2UtY29udHJvbGxlciIsImt1YmVybmV0ZXMuaW8vc2VydmljZWFjY291bnQvc2VydmljZS1hY2NvdW50LnVpZCI6ImU2ZmFkNGQ5LTJjNjYtMTFlOC05NDFiLTQyMDEwYTgwMDFlYiIsInN1YiI6InN5c3RlbTpzZXJ2aWNlYWNjb3VudDprdWJlLXN5c3RlbTpuYW1lc3BhY2UtY29udHJvbGxlciJ9.AY3Fp-T_4wxTzvo4kiWi4zxojVTSr1Wy7BL_-HmIRlWTRAUmy_1RAJS19zn4BbSkxlV13Y9Bv3NoVcG01jKd4QoM172OXo2TqSU5v2B62i3-_CDZtf3CVgQIp9jiuxACcR5zg3w-4ewGfH4C3ospoKCuayyRaADLq0ThWLGaTQv9e7UjSfWAPir3XPXQut3mMRYrSiHcFNiEGeztSfF3cyhuvL2I5Lfh20yYuqW5j-w72BLnlqQGPuhJXJgH1_35XUCU8WtnkEK-qYX40ajDWJYa1s9_R-MWzF6Zwji2Gh5txOvxG3lZuIq9GSAOBp85617wB3eCGio6Nu3L9TwWXA&#x000A;</code></pre>
+<p>Copy the token and save it to use later to get into the Kubernetes dashboard. Run the following command to open a connection:</p>
+<pre><code>kubectl proxy --port 8081&#x000A;</code></pre>
+<p>Then use the Cloud Shell Web preview feature to change ports to <strong>8081</strong>:</p>
+<p><img alt="CloudShell_web_preview_changeport.png" src="https://cdn.qwiklabs.com/SBq6c7%2Fh9Y7hCaC5sg4icIk%2FLssTrTseMY10PdL6tpo%3D"></p>
+<p>This should send you to the API endpoint.</p>
+<p>To get to the dashboard, remove <code>/?authuser=0</code> and append the URL with the following:</p>
+<pre><code>/api/v1/namespaces/kube-system/services/https:kubernetes-dashboard:/proxy/#!/overview?namespace=default&#x000A;</code></pre>
+<p>Your final URL should resemble the following:</p>
+<pre><code>https://8081-dot-5177448-dot-devshell.appspot.com/api/v1/namespaces/kube-system/services/https:kubernetes-dashboard:/proxy/#!/overview?namespace=default&#x000A;</code></pre>
+<p>You will then be taken a web preview:</p>
+<p><img alt="e28f04ef7f77f1e6.png" src="https://cdn.qwiklabs.com/TQXFLFhWIKiwNS5WfFzqbo7zYaukguShztoxNFwxzYc%3D"></p>
+<p>Select the <strong>Token</strong> radio button and paste the token copied from previous step. Click <strong>Sign In</strong>.</p>
+<p>Enjoy the Kubernetes graphical dashboard and use it for deploying containerized applications, as well as for monitoring and managing your clusters!</p>
+<p><img alt="dashboard.png" src="https://cdn.qwiklabs.com/poLdd9NpGhinl5apCl1cmRaKLYQj5bb79wpFUqrLFsE%3D"></p>
+<p>You can access the dashboard from a development or local machine from the Web console. You would select <strong>Navigation menu</strong> &gt; <strong>Kubernetes Engine</strong>, and then click the <strong>Connect</strong> button for the cluster you want to monitor.</p>
+<p><img alt="kubernetes_cluster_connect.png" src="https://cdn.qwiklabs.com/wgf9r%2Bl04aq9GdhtmDqN3Q8RGaomIdLf6LU%2F6owm%2Bm0%3D"></p>
+<p><img alt="d580f036b7c50a.png" src="https://cdn.qwiklabs.com/lHbjivR2ApkRJo1Szf9HePkfbiJ2Yog2ep29%2B8M8nLE%3D"></p>
+<p>Learn more about the Kubernetes dashboard by taking the  <a href="http://kubernetes.io/docs/user-guide/ui/">Dashboard tour</a>.</p>
+<h2 id="step12">Test your knowledge</h2>
+<p>Test your knowledge about Google cloud Platform by taking our quiz. (Please select multiple correct options.)</p>
+<p><ql-multiple-select-probe answerindices="[0, 1, 2]" optiontitles='[
+"Stateful Application Support",
+"Identity and Access Management",
+"Integrated Logging and Monitoring",
+"None of these"
+]' shuffle="" stem="Which of the following are features of the Kubernetes Engine?">
+</ql-multiple-select-probe></p>
+<h2 id="step13">Congratulations!</h2>
+<p>This concludes this hands-on lab with Kubernetes. You've only scratched the surface of this technology. Explore with your own pods, replication controllers, and services - and also check out liveness probes (health checks) and consider using the Kubernetes API directly.</p>
+<h3>Take Your Next Lab</h3>
+<p>Try <a href="https://google.qwiklabs.com/catalog_lab/572">Managing Deployments using Kubernetes Engine</a>, or check out these suggestions:</p>
+<ul>
+<li>
+<p><a href="https://google.qwiklabs.com/catalog_lab/486">Orchestrating the Cloud with Kubernetes</a></p>
+</li>
+<li>
+<p><a href="https://google.qwiklabs.com/catalog_lab/908">Setting Up a Private Kubernetes Cluster</a></p>
+</li>
+</ul>
+<h3>Next Steps/Learn More</h3>
+<ul>
+<li>Check out <strong>Minikube</strong>, which offers a simple setup of a single node kubernetes cluster for development and testing purposes after you take this lab:  <a href="http://kubernetes.io/docs/getting-started-guides/minikube/">http://kubernetes.io/docs/getting-started-guides/minikube/</a>.</li>
+<li>Kubernetes is an open source project ( <a href="http://kubernetes.io/">http://kubernetes.io/</a>) hosted on  <a href="https://github.com/kubernetes/kubernetes">GitHub</a>. Your feedback and contributions are always welcome.</li>
+<li>You can follow the Kubernetes news on  <a href="https://twitter.com/kubernetesio">Twitter</a> and on the  <a href="http://blog.kubernetes.io/">community blog</a>.</li>
+</ul>
+<h3>Google Cloud Training &amp; Certification</h3>
+<p>...helps you make the most of Google Cloud technologies. <a href="https://cloud.google.com/training/courses">Our classes</a> include technical skills and best practices to help you get up to speed quickly and continue your learning journey. We offer fundamental to advanced level training, with on-demand, live, and virtual options to suit your busy schedule. <a href="https://cloud.google.com/certification/">Certifications</a> help you validate and prove your skill and expertise in Google Cloud technologies.</p>
+
+<h5>Manual last updated August 20, 2019</h5>
+<h5>Lab last tested May 6, 2019</h5>
+<p>Copyright 2020 Google LLC All rights reserved. Google and the Google logo are trademarks of Google LLC. All other company and product names may be trademarks of the respective companies with which they are associated.</p>
+
+
+
+</div>
+<div class='js-lab-content-outline lab-content__outline'>
+<a href='#step1'>GSP005</a><a href='#step2'>Overview</a><a href='#step3'>Setup</a><a href='#step4'>Create your Node.js application</a><a href='#step5'>Create a Docker container image</a><a href='#step6'>Create your cluster</a><a href='#step7'>Create your pod</a><a href='#step8'>Allow external traffic</a><a href='#step9'>Scale up your service</a><a href='#step10'>Roll out an upgrade to your service</a><a href='#step11'>Kubernetes graphical dashboard (optional)</a><a href='#step12'>Test your knowledge</a><a href='#step13'>Congratulations!</a>
+</div>
+</div>
+
+</div>
+
+<div class='lab-content__markdown-wrapper'>
+<div class='lab-content__markdown'>
+<div class='lab-content__recommendation'>
+<h4 class='headline-3'>
+Ready for more?
+<p>Here&#39;s another lab we think you&#39;ll like.</p>
+<div class='card-content-wrapper js-content-card' data-id='1062' data-level='Advanced' data-name='Creating a Data Transformation Pipeline with Cloud Dataprep' data-type='Lab'>
+<a class="card card--content elevation-0 content-lab" href="/focuses/4415?parent=catalog"><div class='card__image'>
+<div class='card__image__inner' style='background-image: url(https://cdn.qwiklabs.com/assets/fractal5-0b9c1091ae0b232c6183f561cba00288eb66afa9f51e45ce9d4bbf8bf6d40a1a.jpg)'></div>
+</div>
+<div class='card__body'>
+<div class='overline card--content__type'>
+Hands-On Lab
+</div>
+<h3 class='card--content__title'>
+Creating a Data Transformation Pipeline with Cloud Dataprep
+</h3>
+<p class='card--content__description body-1'>
+Cloud Dataprep by Trifacta is an intelligent data service for visually exploring, cleaning, and preparing structured and unstructured data for analysis. In this lab you will explore the Cloud Dataprep UI to build a data transformation pipeline.
+</p>
+</div>
+<div class='card__footer'>
+<div class='card__footer__left'>
+<span>Advanced</span>
+</div>
+<div class='card__footer__right'>
+<div class='rateit' data-rateit-readonly='true' data-rateit-value='4.2184'></div>
+</div>
+</div>
+</a></div>
+
+</h4>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+<div class='lab-assessment__tab js-lab-assessment-tab'>
+<h5 class='small-label'>
+Score
+</h5>
+<h3 class='js-lab-assessment-total-score'>
+&mdash;/100
+</h3>
+<iframe class='l-ie-iframe-fix'></iframe>
+</div>
+<div class='lab-assessment__panel js-lab-assessment-panel'>
+<!-- / If lab_instance has is started and assessment is generated, use -->
+<!-- / lab_instance.assessment, otherwise use lab.assessment_manual -->
+<div class='lab-assessment__step'>
+<p class='lab-assessment__step__title'>
+Create your cluster
+</p>
+<p class='button button--assessment js-show-run-step-button' step_no='1'>
+Run Step
+</p>
+<p class='lab-assessment__step__score'>
+<span class='js-assessment-step-score-1'>
+</span>
+/ 20
+</p>
+</div>
+
+<div class='lab-assessment__step'>
+<p class='lab-assessment__step__title'>
+Create your pod
+</p>
+<p class='button button--assessment js-show-run-step-button' step_no='2'>
+Run Step
+</p>
+<p class='lab-assessment__step__score'>
+<span class='js-assessment-step-score-2'>
+</span>
+/ 30
+</p>
+</div>
+
+<div class='lab-assessment__step'>
+<p class='lab-assessment__step__title'>
+Create a Kubernetes Service
+</p>
+<p class='button button--assessment js-show-run-step-button' step_no='3'>
+Run Step
+</p>
+<p class='lab-assessment__step__score'>
+<span class='js-assessment-step-score-3'>
+</span>
+/ 30
+</p>
+</div>
+
+<div class='lab-assessment__step'>
+<p class='lab-assessment__step__title'>
+Scale up your service
+</p>
+<p class='button button--assessment js-show-run-step-button' step_no='4'>
+Run Step
+</p>
+<p class='lab-assessment__step__score'>
+<span class='js-assessment-step-score-4'>
+</span>
+/ 20
+</p>
+</div>
+
+<iframe class='l-ie-iframe-fix'></iframe>
+</div>
+<div class='lab-introduction js-lab-introduction is-hidden'>
+<div class='lab-introduction__inner'>
+<h1 class='headline-1'>Welcome to Your First Lab!</h1>
+<ql-icon-button class='js-skip-button'>close</ql-icon-button>
+<div class='lab-introduction__video'>
+<iframe allow='autoplay; encrypted-media' allowfullscreen frameborder='0' id='lab-introduction' src='https://www.youtube.com/embed/yF7EDXKTmoQ?enablejsapi=1&amp;rel=0&amp;showinfo=0'></iframe>
+</div>
+<a class='js-skip-button button button--outline'>Skip this video</a>
+</div>
+</div>
+
+
+
+</div>
+</main>
+<div class='modal fade' id='lab-details-modal'>
+<div class='modal-container'>
+<div class='mdl-shadow--24dp modal-content'>
+<div class='modal-body'>
+<p class='l-mbm'>
+In this hands-on lab, you turn your code into a replicated application running on Kubernetes. You create a Node.js app, create a Docker container from it, deploy it to Kubernetes Engine, and scale it up. Watch a short preview <a href="https://youtu.be/fRYEJmRMkQk">Hello Node Kubernetes, GCP Essentials</a>.
+</p>
+<p>
+This lab is included in the quest
+<a href="/quests/23">Google Cloud Essentials</a>.
+If you complete this lab you&#39;ll receive credit for it when you enroll in this quest.
+</p>
+<p class='small-label l-mbs'>
+<strong>
+Duration:
+</strong>
+0m setup
+&middot;
+65m access
+&middot;
+65m completion
+</p>
+<p class='small-label l-mbs'>
+<span><strong>Levels: </strong>advanced</span>
+</p>
+<p class='small-label'>
+<strong>
+Permalink:
+</strong>
+<a href="https://www.qwiklabs.com/catalog_lab/468">https://www.qwiklabs.com/catalog_lab/468</a>
+</p>
+</div>
+<div class='modal-actions'>
+<a class='mdl-button mdl-button--primary mdl-js-button mdl-js-ripple-effect' data-dismiss='modal'>
+Got It
+</a>
+</div>
+
+
+</div>
+</div>
+<iframe class='l-ie-iframe-fix'></iframe>
+</div>
+<div class='modal fade' id='lab-review-modal'>
+<div class='modal-container'>
+<div class='mdl-shadow--24dp modal-content'>
+<form class="simple_form js-lab-review-form" id="edit_lab_review_5376899" action="/lab_reviews/5376899" accept-charset="UTF-8" data-remote="true" method="post"><input name="utf8" type="hidden" value="&#x2713;" /><input type="hidden" name="_method" value="patch" /><div class='modal-body'>
+<p class='label'>
+How satisfied are you with this lab?*
+</p>
+<div class='rateit js-rateit' data-rateit-max='5' data-rateit-min='0' data-rateit-resetable='false' data-rateit-step='1' data-rateit-value='5'></div>
+<div class='l-mtm'>
+
+<div class="control-group hidden lab_review_user_id"><div class="controls"><input class="hidden" type="hidden" value="2485272" name="lab_review[user_id]" id="lab_review_user_id" /></div></div>
+<div class="control-group hidden lab_review_classroom_id"><div class="controls"><input class="hidden" type="hidden" name="lab_review[classroom_id]" id="lab_review_classroom_id" /></div></div>
+<div class="control-group hidden lab_review_lab_id"><div class="controls"><input class="hidden" type="hidden" value="468" name="lab_review[lab_id]" id="lab_review_lab_id" /></div></div>
+<div class="control-group hidden lab_review_focus_id"><div class="controls"><input class="hidden" type="hidden" name="lab_review[focus_id]" id="lab_review_focus_id" /></div></div>
+<div class="control-group hidden lab_review_rating"><div class="controls"><input class="hidden js-rating-input" type="hidden" value="2" name="lab_review[rating]" id="lab_review_rating" /></div></div>
+<div class="control-group text optional lab_review_comment"><label class="text optional control-label" for="lab_review_comment">Comment</label><div class="controls"><textarea class="text optional" name="lab_review[comment]" id="lab_review_comment">
+</textarea></div></div>
+</div>
+</div>
+<div class='modal-actions'>
+<a class='mdl-button mdl-button--primary mdl-js-button mdl-js-ripple-effect' data-dismiss='modal'>
+Cancel
+</a>
+<input type="submit" name="commit" value="Submit" disabled="disabled" class="btn mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--primary" id="submit" data-disabled="false" data-disable-with="Submit" />
+</div>
+</form>
+
+</div>
+</div>
+<iframe class='l-ie-iframe-fix'></iframe>
+</div>
+<div class='modal fade' id='lab-access-modal'>
+<div class='modal-container'>
+<div class='mdl-shadow--24dp modal-content'>
+<a class='lab-access-modal-close' data-analytics-action='dismissed_lab_payment_modal' data-dismiss='modal'>
+<i class='material-icons'>close</i>
+</a>
+<form class="js-lab-access-form" action="/lab_onetime_coupons/activate?parent=catalog" accept-charset="UTF-8" data-remote="true" method="post"><input name="utf8" type="hidden" value="&#x2713;" />
+<div class='modal-body'>
+<div class='lab-access-modal'>
+<input type="hidden" name="id" id="id" value="564" />
+<input type="hidden" name="user_id" id="user_id" value="2485272" />
+<input type="hidden" name="launch_with_credits" id="launch_with_credits" value="0" class="js-launch-with-credits-input" />
+<input type="hidden" name="launch_with_subs" id="launch_with_subs" value="0" class="js-launch-with-subscription-input" />
+<div class='lab-access-modal__method'>
+<p>
+This lab costs
+7 Credits.
+</p>
+<p>
+You have a valid subscription package. Would you like to charge this lab to your subscription?
+
+</p>
+<a class='button js-launch-with-subscription-button js-lab-access-modal-button' data-analytics-action='clicked_launch_with_subscription_button'>
+Use Subscription
+</a>
+</div>
+<div class='lab-access-modal__method'>
+<p>
+Enter Lab Access Code:
+</p>
+<div class='lab-access-modal__code js-access-code'>
+<input type="text" name="uuid_1" id="uuid_1" value="" maxlength="4" placeholder="1234" />
+<input type="text" name="uuid_2" id="uuid_2" value="" maxlength="4" placeholder="1234" />
+<input type="text" name="uuid_3" id="uuid_3" value="" maxlength="4" placeholder="1234" />
+<input type="text" name="uuid_4" id="uuid_4" value="" maxlength="4" placeholder="1234" />
+</div>
+<a class='button js-launch-with-access-code-button js-lab-access-modal-button' data-analytics-action='clicked_launch_with_access_code_button'>
+Launch with Access Code
+</a>
+</div>
+</div>
+</div>
+</form>
+
+
+
+</div>
+</div>
+<iframe class='l-ie-iframe-fix'></iframe>
+</div>
+
+<script>
+  $( function() {
+    ql.initMaterialInputs();
+    initChosen();
+    initSearch();
+    initTabs();
+    ql.list.init();
+    ql.favoriting.init();
+    ql.header.myAccount.init();
+    initTooltips();
+    ql.autocomplete.init();
+    ql.modals.init();
+    ql.toggleButtons.init();
+    ql.analytics.init();
+    initLabContent( );
+  ql.labOutline.links.init();
+  ql.labOutline.layout.init();
+  initLabReviewModal();
+  initLabAccessModal();
+  ql.labAssessment.init();
+  ql.labIntroduction.init( true );
+  ql.labData.init();
+  initLabTranslations( {"are_you_sure":"All done? If you end this lab, you will lose all your work. You may not be able to restart the lab if there is a quota limit. Are you sure you want to end this lab?\n","in_progress":"*In Progress*","ending":"*Ending*","starting":"*Starting, please wait*","end_concurrent_labs":"Sorry, you can only run one lab at a time. To start this lab, please confirm that you want all of your existing labs to end.\n","copied":"Copied","no_resource":"Error retrieving resource.","no_support":"No Support","mac_press":"Press ⌘-C to copy","thanks_review":"Thanks for reviewing this lab.","windows_press":"Press Ctrl-C to copy","days":"days"} );
+  ql.labRun.init();
+  ql.initHeader();
+  ql.navigation.init();
+  ql.navPanel.init();
+  ql.navigation.init();
+  
+  });
+</script>
+<style>
+  .mdl-layout__container {
+    position: static
+  }
+</style>
+</body>
+</html>

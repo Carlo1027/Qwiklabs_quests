@@ -1,0 +1,646 @@
+<!DOCTYPE html>
+<html lang='es'>
+<head>
+<meta content='[]' name='active-experiments'>
+<meta content='{&quot;userId&quot;:2485272}' name='help-api-product-data'>
+<meta name="csrf-param" content="authenticity_token" />
+<meta name="csrf-token" content="Z4KR9unOUkySjq+BhAwG7RMXwI84XbChtwBiQOKFamCTt3EVKgub5aYwU/2rqCeMhKiLC2G7OXlcQL+D3m1zOA==" />
+<title>Baseline Infrastructure: Lab de desafío | Qwiklabs</title>
+<meta content='width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=0' name='viewport'>
+<meta content='En este Lab de desafío, se probarán sus habilidades y su conocimiento de los labs de la Quest Baseline: Infrastructure.  Debe estar familiarizado con el contenido de los labs antes de realizar este.' name='description'>
+<meta content='Qwiklabs' name='author'>
+<meta content='1rRsY0INj8RvwB5EF5pwdxt2A2P9aDgAlsICaJ0d5w0' name='google-site-verification'>
+<meta content='Baseline Infrastructure: Lab de desafío | Qwiklabs' property='og:title'>
+<meta content='website' property='og:type'>
+<meta content='/favicon-144.png' property='og:image'>
+<meta content='Qwiklabs' property='og:site_name'>
+<meta content='En este Lab de desafío, se probarán sus habilidades y su conocimiento de los labs de la Quest Baseline: Infrastructure.  Debe estar familiarizado con el contenido de los labs antes de realizar este.' property='og:description'>
+<meta content='/qwiklabs_logo_900x887.png' property='og:logo' size='900x887'>
+<meta content='/qwiklabs_logo_994x187.png' property='og:logo' size='994x187'>
+<meta content='#3681E4' property='msapplication-TileColor'>
+<meta content='/favicon-144.png' property='msapplication-TileImage'>
+<link href='/favicon-32.png' rel='shortcut icon'>
+<link color='#3681E4' href='/favicon-svg.svg' rel='mask-icon'>
+<link href='/favicon-180.png' rel='apple-touch-icon-precomposed'>
+<link rel="stylesheet" media="screen" href="https://fonts.googleapis.com/css?family=Oswald:400|Roboto+Mono:400,700|Roboto:300,400,500,700|Google+Sans:300,400,500,700|Google+Sans+Display:400|Material+Icons|Google+Material+Icons" />
+
+<link rel="stylesheet" media="screen" href="https://cdn.qwiklabs.com/assets/application_old/locales/es-7c4d85e3db7c28c14f71b18551da7ddc227e8f9b85777ece770fcbd96d9ef753.css" />
+<!--[if lt IE 9]>
+<script src='http://html5shim.googlecode.com/svn/trunk/html5.js' type='text/javascript'></script>
+<![endif]-->
+<!--[endif]>  <![endif]-->
+<script>
+//<![CDATA[
+window.gon={};gon.current_user={"firstname":"Carlo Andr\u00e9","lastname":"Castro Galindo","fullname":"Carlo Andr\u00e9 Castro Galindo","company":"Coursera","email":"carlocastrogalindo@gmail.com","origin":"googlecoursera-run, lti-coursera","subscriptions":1,"id":"eb3f0602d940d94d2eaeef36f2aa2e77","qlCreatedAt":"2020-02-28 17:36:48 UTC","optIn":false};gon.segment="j4Im8pqIko0Lxq4wVVZWMPMM0EroHUvb";gon.deployment="run";
+//]]>
+</script>
+<script type='application/ld+json'>
+{
+  "@context": "http://schema.org",
+  "@type": "WebSite",
+  "url": "https://www.qwiklabs.com/",
+  "potentialAction": {
+    "@type": "SearchAction",
+    "target": "https://www.qwiklabs.com/catalog?keywords={search_term_string}",
+    "query-input": "required name=search_term_string"
+  }
+}
+</script>
+<script id='ze-snippet' src='https://static.zdassets.com/ekr/snippet.js?key=511e4158-0aec-4e3c-b2e6-4daa1769f51e'></script>
+
+
+
+<link rel="stylesheet" media="all" href="https://cdn.qwiklabs.com/assets/application-4c3d1e8bc7757ea71809ef44e35c5d8018fb66ce6a4a777389558445ba2ce8a2.css" />
+<script>
+  EVENT_SOURCE_BASE_URL = "https://run.qwiklabs.com/nchan-sub?id=";
+</script>
+<script src="https://cdn.qwiklabs.com/polyfills/webcomponents-loader.js"></script>
+<script src="https://cdn.qwiklabs.com/assets/hallofmirrors/hallofmirrors__es_419-53722a8c29aa90d0fbab9b3c73008da3dadf74f9c7e6e4d2cb1df2c62c3fb110.js"></script>
+<script src="https://www.youtube.com/iframe_api"></script>
+<script src="https://cdn.qwiklabs.com/assets/vendor-45d462772c30000424907184f70c7157e95fb6227698d1671c5051818a6f60d8.js"></script>
+<script src="https://cdn.qwiklabs.com/assets/application-7c67c1d428839917a0992758b33da63184c69efa420e5939804ea34d54147a97.js"></script>
+</head>
+<body class='focuses focuses-show lab-show l-full no-nav'>
+<div class='header-container light-theme'>
+<div class='header'>
+<a class='mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect header__button header__button--nav header__nav-panel-button js-nav-toggle'>
+<i class='material-icons'>menu</i>
+</a>
+<div class='header__title'>
+<a class="mdl-button mdl-js-button mdl-button--icon mdl-js-ripple-effect header__button header__button--nav" href="https://www.qwiklabs.com/quests/33?locale=es"><ql-icon>arrow_back</ql-icon></a>
+
+<h1 class='headline-5'>
+Baseline Infrastructure: Lab de desafío
+</h1>
+</div>
+<div class='header__actions'>
+<a class='mdl-button mdl-js-button mdl-button--icon mdl-js-ripple-effect header__button header__button--action header__button--search js-header-search-bar-button'>
+<i class='material-icons'>search</i>
+</a>
+<a class="mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect" id="toggle-lab-control-panel" href="javascript:;"><i class='material-icons'>description</i>
+</a><div class='mdl-tooltip js-tooltip' data-mdl-for='toggle-lab-control-panel'>
+Activar o desactivar panel del lab
+</div>
+<a class="mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect js-favorite-button favorite-button" id="CatalogItem-10379-favorite-button" data-type="CatalogItem" data-id="10379" data-name="Baseline Infrastructure: Lab de desafío" href="/favorite.json?item_id=10379&amp;item_type=CatalogItem&amp;locale=es"><i class='material-icons'>favorite_border</i>
+</a><div class='mdl-tooltip js-tooltip' for='CatalogItem-10379-favorite-button'>
+Agregar a favoritos
+</div>
+
+
+<ql-help context="lab" productdata="{&quot;userId&quot;:2485272}" data-analytics-action="opened_help" data-analytics-label="lab"></ql-help>
+<a class='header-my-account-button mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect js-my-account-button'>
+<img class="avatar " alt="avatar image" src="https://secure.gravatar.com/avatar/be719396bbcc1e8bcb204a54e1920c54.png?s=80&amp;d=mm" />
+</a>
+<div class='header-my-account-menu js-my-account-menu'>
+<div class='card elevation-2 no-padding'>
+<div class='my-account-menu__top'>
+<img class="avatar " alt="avatar image" src="https://secure.gravatar.com/avatar/be719396bbcc1e8bcb204a54e1920c54.png?s=80&amp;d=mm" />
+<div class='my-account-menu__info'>
+<h4 class='subtitle-headline-1'>
+Carlo André Castro Galindo
+</h4>
+<p class='body-2 text--gray'>
+<span>carlocastrogalindo@gmail.com</span>
+</p>
+<a class="button" href="/my_account/profile?locale=es">Mi cuenta</a>
+</div>
+</div>
+<div class='my-account-menu__bottom'>
+<a class="text--green subtitle-headline-2" href="/my_account/credits?locale=es">Suscripción mensual
+</a><a data-analytics-action="clicked_sign_out" class="button button--hairline" rel="nofollow" data-method="delete" href="/users/sign_out?locale=es">Salir</a>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+<div class='header__search-bar js-header-search-bar'>
+<form id="catalog-search-mobile" onsubmit="ql.catalogSearchFilter(); return false;" action="/searches/elasticsearch" accept-charset="UTF-8" method="post"><input name="utf8" type="hidden" value="&#x2713;" /><input type="hidden" name="authenticity_token" value="47tXRrX28WjCo1+HKGKKXLBZgxMk1VeR4tXFbNcUXrwXjreldjM4wfYdo/sHxqs9J+bIl30z3kkJlRiv6/xH5A==" />
+<input type="text" name="keywords" id="keywords" placeholder="Buscar" maxlength="255" aria-label="catalog search bar" />
+</form>
+
+<a class='mdl-button mdl-js-button mdl-button--icon mdl-js-ripple-effect header__button'>
+<i class='material-icons'>close</i>
+</a>
+</div>
+</div>
+
+<nav class='nav-bar'>
+<a class="nav-bar__item js-navigation-button" href="/?locale=es"><ql-icon class='nav-bar__item__icon'>
+home
+</ql-icon>
+<span class='nav-bar__item__label'>
+Página principal
+</span>
+</a>
+<a class="nav-bar__item js-navigation-button  active" aria-current="page" href="/catalog?locale=es"><ql-icon class='nav-bar__item__icon'>
+school
+</ql-icon>
+<span class='nav-bar__item__label'>
+Catálogo
+</span>
+</a>
+<a class="nav-bar__item js-navigation-button" href="/my_learning?locale=es"><ql-icon class='nav-bar__item__icon'>
+event_note
+</ql-icon>
+<span class='nav-bar__item__label'>
+Mi aprendizaje
+</span>
+</a>
+</nav>
+
+<nav class='nav-panel js-nav-panel'>
+<div class='nav-panel__logo'>
+<div class='logo logo--blue'></div>
+</div>
+<a title="Página principal" tabindex="-1" class="nav-panel__item js-navigation-button" href="/?locale=es"><ql-icon class='nav-panel__item__icon'>
+home
+</ql-icon>
+<div class='nav-panel__item__label'>
+Página principal
+</div>
+</a>
+<a title="Catálogo" tabindex="-1" class="nav-panel__item js-navigation-button active" aria-current="page" href="/catalog?locale=es"><ql-icon class='nav-panel__item__icon'>
+school
+</ql-icon>
+<div class='nav-panel__item__label'>
+Catálogo
+</div>
+</a>
+<a title="Mi aprendizaje" tabindex="-1" class="nav-panel__item js-navigation-button" href="/my_learning?locale=es"><ql-icon class='nav-panel__item__icon'>
+event_note
+</ql-icon>
+<div class='nav-panel__item__label'>
+Mi aprendizaje
+</div>
+</a>
+<div class='nav-panel__spacer'></div>
+<a title="Profile" tabindex="-1" class="nav-panel__item js-navigation-button" href="/my_account/profile?locale=es"><ql-icon class='nav-panel__item__icon'>
+account_circle
+</ql-icon>
+<div class='nav-panel__item__label'>
+Profile
+</div>
+</a>
+<a title="Credits &amp; Subscriptions" tabindex="-1" class="nav-panel__item js-navigation-button" href="/my_account/credits?locale=es"><ql-icon class='nav-panel__item__icon'>
+money
+</ql-icon>
+<div class='nav-panel__item__label'>
+Credits &amp; Subscriptions
+</div>
+</a>
+<a title="Security" tabindex="-1" class="nav-panel__item js-navigation-button" href="/my_account/security?locale=es"><ql-icon class='nav-panel__item__icon'>
+security
+</ql-icon>
+<div class='nav-panel__item__label'>
+Security
+</div>
+</a>
+<div class='nav-panel__spacer'></div>
+<a class="nav-panel__item" tabindex="-1" href="#"><ql-help>
+<div class='nav-panel__help-item'>
+<ql-icon class='nav-panel__item__icon'>help</ql-icon>
+<div class='nav-panel__item__label'>Help</div>
+</div>
+</ql-help>
+</a><div class='nav-panel__small-links'>
+<a tabindex="-1" href="/privacy_policy?locale=es">Privacidad</a>
+<a tabindex="-1" href="/terms_of_service?locale=es">Condiciones</a>
+</div>
+</nav>
+<div class='nav-panel__overlay js-nav-toggle'></div>
+
+<main class='js-main'>
+<span class='hidden' id='flash-sibling-before'></span>
+
+<div class='l-main-wrapper' id='main-wrapper'>
+
+
+
+
+
+
+
+<div class='js-lab-state' data-analytics-payload='{&quot;label&quot;:&quot;Baseline Infrastructure: Lab de desafío&quot;,&quot;lab_name&quot;:&quot;Baseline Infrastructure: Lab de desafío&quot;,&quot;classroom_name&quot;:null,&quot;deployment&quot;:&quot;run&quot;}' data-focus-id='10379' data-lab-billing-limit='0.0' data-lab-duration='3600' data-parent='catalog' data-payment-required></div>
+<ql-lab-control-panel class='js-lab-control-panel l-lab-control-panel' connectionDetails='[]' connectionFiles='[]' labControlButton='{&quot;disabled&quot;:false,&quot;pending&quot;:false,&quot;running&quot;:false}' labTimer='{&quot;ticking&quot;:false,&quot;secondsRemaining&quot;:3600}' studentResources='[]'></ql-lab-control-panel>
+<div class='l-lab-main-body'>
+<div class='js-lab-content lab-content'>
+<div class='alert alert--fake js-alert'>
+<p class='alert__message js-alert-message'></p>
+<a class='alert__close js-alert-close'>
+<i class='fa fa-times'></i>
+</a>
+<iframe class='l-ie-iframe-fix'></iframe>
+</div>
+<div class='lab-content__markdown-wrapper'>
+<div class='lab-preamble'>
+<h1 class='lab-preamble__title'>
+Baseline Infrastructure: Lab de desafío
+</h1>
+<div class='lab-preamble__details subtitle-headline-1'>
+<span>1 hora </span>
+<span>9 créditos</span>
+<div class='lab__rating'>
+<a href="/focuses/10379/reviews?locale=es&amp;parent=catalog"><div class='rateit' data-rateit-readonly='true' data-rateit-value='4.3294'></div>
+
+</a><a data-target='#lab-review-modal' data-toggle='modal'>
+Calificar lab
+</a>
+</div>
+</div>
+</div>
+
+<div class='lab-content__inner-wrapper'>
+<div class='js-markdown-instructions lab-content__markdown markdown-lab-instructions' id='markdown-lab-instructions'>
+
+
+
+<h2 id="step1">GSP315</h2>
+<p><img alt="Labs de autoaprendizaje de Google Cloud" src="https://cdn.qwiklabs.com/GMOHykaqmlTHiqEeQXTySaMXYPHeIvaqa2qHEzw6Occ%3D"></p>
+
+<h2 id="step2">Descripción general</h2>
+<p>Debe completar una serie de tareas dentro de un período asignado. En lugar de seguir instrucciones paso a paso, se le presentarán una situación y un conjunto de tareas, y deberá descifrar cómo completarlas por su cuenta. Un sistema de puntuación automatizado (que se muestra en esta página) proporcionará comentarios acerca de si completó las tareas correctamente.</p>
+<p>Debe completar todas las tareas dentro del período establecido para obtener una puntuación del 100%.</p>
+<p>Cuando realice un Lab de desafío, no se le explicarán conceptos de GCP. A fin de desarrollar la solución para el desafío que se le presenta, use las habilidades que aprendió en los demás labs de la Quest que incluye este Lab de desafío.  Se espera que amplíe sus habilidades adquiridas y que cambie los valores predeterminados, pero no se le explicarán conceptos nuevos.</p>
+<p>Se recomienda este lab solamente a los estudiantes que hayan completado los labs de la Quest <a href="https://google.qwiklabs.com/quests/33">Baseline: Infrastructure</a>.</p>
+<ql-warningbox>Asegúrese de revisar los labs de la Quest Baseline: Infrastructure antes de comenzar este.</ql-warningbox>
+<p>¿Está listo para el desafío?</p>
+<h3>Configuración</h3>
+<h4>Antes de hacer clic en el botón Comenzar lab</h4>
+<p>Lea estas instrucciones. Los labs tienen un tiempo límite; no puede ponerlos en pausa. El cronómetro, que comienza a funcionar cuando hace clic en Comenzar lab, indica por cuánto tiempo estarán los recursos en la nube a su disposición.</p>
+<p>Este lab práctico de Qwiklabs le permitirá llevar a cabo las actividades correspondientes en un entorno de nube real, no en uno de simulación o demostración. Para ello, recibe nuevas credenciales temporales que utilizará para acceder a Google Cloud Platform durante el transcurso del lab.</p>
+<h4>Lo que necesita</h4>
+<p>Para completar este lab, necesitará lo siguiente:</p>
+<ul>
+<li>Acceso a un navegador de Internet estándar. Se recomienda el navegador Chrome</li>
+<li>Tiempo para completar el lab</li>
+</ul>
+<p><strong><em>Nota</em></strong>: Si ya tiene un proyecto o una cuenta personal de GCP, no los use para este lab.</p>
+
+<h2 id="step3">Situación del desafío</h2>
+<p>Recién comienza a desempeñarse en su función como ingeniero junior de servicios de nube para Jooli Inc. Hasta ahora, estuvo ayudando a los equipos a crear y administrar recursos de Google Cloud Platform.</p>
+<p>Se espera que tenga las habilidades y el conocimiento para realizar estas tareas, por lo que no recibirá guías paso a paso.</p>
+<h3>Su desafío</h3>
+<p>Se le solicitó ayudar a un equipo de desarrollo recién formado con el trabajo inicial de un nuevo proyecto, llamado Recuerdos, el cual consiste en almacenar y organizar fotos. Se le pidió que asista al equipo de Recuerdos con la configuración inicial del entorno de desarrollo de la aplicación. Recibe una solicitud en la que se le indica que debe completar las siguientes tareas:</p>
+<ul>
+<li>Crear un depósito para almacenar fotos</li>
+<li>Crear un tema de Pub/Sub para que lo utilice la Cloud Function que usted genere</li>
+<li>Crear una Cloud Function</li>
+<li>Quitar el acceso del ingeniero anterior de servicios de nube para que ya no pueda ingresar al proyecto Recuerdos</li>
+</ul>
+<p>Estas son algunas pautas de Jooli Inc. que debe seguir:</p>
+<ul>
+<li>Crear todos los recursos en la región <b>us-east1</b> y en la zona <b>us-east1-b</b>, a menos que se indique lo contrario</li>
+<li>Utilizar las VPC del proyecto</li>
+<li>Normalmente, la asignación de nombres se realiza de la siguiente manera: <i>equipo-recurso</i>; p. ej., una instancia podría llamarse <b>kraken-webserver1</b>
+</li>
+<li>Asignar tamaños de recursos rentables. Tenga cuidado porque los proyectos se supervisan y el uso excesivo de recursos dará como resultado la finalización del proyecto que los contiene, es decir, posiblemente el suyo. Esta es la orientación que el equipo de supervisión está dispuesto a compartir: a menos que se indique lo contrario, utilice <b>f1-micro</b> para VM pequeñas de Linux y <b>n1-standard-1</b> para Windows o demás aplicaciones, como los nodos de Kubernetes</li>
+</ul>
+<p>A continuación, se describe cada tarea en detalle. ¡Buena suerte!</p>
+<h4>Tarea 1: Cree un depósito</h4>
+<p>Debe crear un depósito para almacenar las fotos.</p>
+<p>Haga clic en <em>Revisar mi progreso</em> para verificar el objetivo.
+<ql-activity-tracking step="1">
+Crear un depósito
+</ql-activity-tracking></p>
+<ql-warningbox>Si no obtiene una marca de verificación verde, haga clic en el menú desplegable Puntuación, en la esquina superior derecha, y seleccione Ejecutar paso para los casos relevantes.  Verá una ventana emergente con una sugerencia.</ql-warningbox>
+<h4>Tarea 2: Cree un tema de Pub/Sub</h4>
+<p>Cree un tema de Pub/Sub para que la Cloud Function envíe mensajes.</p>
+<p>Haga clic en <em>Revisar mi progreso</em> para verificar el objetivo.
+<ql-activity-tracking step="2">
+Crear un tema de Pub/Sub
+</ql-activity-tracking></p>
+<ql-warningbox>Si no obtiene una marca de verificación verde, haga clic en el menú desplegable Puntuación, en la esquina superior derecha, y seleccione Ejecutar paso para los casos relevantes.  Verá una ventana emergente con una sugerencia.</ql-warningbox>
+<h4>Tarea 3: Cree la Cloud Function de la miniatura</h4>
+<p>Cree una Cloud Function que se ejecute cada vez que se agregue un objeto al depósito configurado en la tarea 1.  La función se escribe en Node.js 8.  Asegúrese de configurar la <strong>Función que se ejecutará</strong> en <code>thumbnail</code>.</p>
+<p>En la línea 15 de index.js, reemplace el texto <strong>REPLACE_WITH_YOUR_TOPIC</strong> con el tema creado en la tarea 2.</p>
+<p>index.js:</p>
+<pre><code class="language-js prettyprint">/* globals exports, require */&#x000A;//jshint strict: false&#x000A;//jshint esversion: 6&#x000A;"use strict";&#x000A;const crc32 = require("fast-crc32c");&#x000A;const gcs = require("@google-cloud/storage")();&#x000A;const PubSub = require("@google-cloud/pubsub");&#x000A;const imagemagick = require("imagemagick-stream");&#x000A;&#x000A;exports.thumbnail = (event, context) =&gt; {&#x000A;  const fileName = event.name;&#x000A;  const bucketName = event.bucket;&#x000A;  const size = "64x64"&#x000A;  const bucket = gcs.bucket(bucketName);&#x000A;  const topicName = "REPLACE_WITH_YOUR_TOPIC";&#x000A;  const pubsub = new PubSub();&#x000A;  if ( fileName.search("64x64_thumbnail") == -1 ){&#x000A;    // doesn't have a thumbnail, get the filename extension&#x000A;    var filename_split = fileName.split('.');&#x000A;    var filename_ext = filename_split[filename_split.length - 1];&#x000A;    var filename_without_ext = fileName.substring(0, fileName.length - filename_ext.length );&#x000A;    if (filename_ext.toLowerCase() == 'png' || filename_ext.toLowerCase() == 'jpg'){&#x000A;      // only support png and jpg at this point&#x000A;      console.log(`Processing Original: gs://${bucketName}/${fileName}`);&#x000A;      const gcsObject = bucket.file(fileName);&#x000A;      let newFilename = filename_without_ext + size + '_thumbnail.' + filename_ext;&#x000A;      let gcsNewObject = bucket.file(newFilename);&#x000A;      let srcStream = gcsObject.createReadStream();&#x000A;      let dstStream = gcsNewObject.createWriteStream();&#x000A;      let resize = imagemagick().resize(size).quality(90);&#x000A;      srcStream.pipe(resize).pipe(dstStream);&#x000A;      return new Promise((resolve, reject) =&gt; {&#x000A;        dstStream&#x000A;          .on("error", (err) =&gt; {&#x000A;            console.log(`Error: ${err}`);&#x000A;            reject(err);&#x000A;          })&#x000A;          .on("finish", () =&gt; {&#x000A;            console.log(`Success: ${fileName} → ${newFilename}`);&#x000A;              // set the content-type&#x000A;              gcsNewObject.setMetadata(&#x000A;              {&#x000A;                contentType: 'image/'+ filename_ext.toLowerCase()&#x000A;              }, function(err, apiResponse) {});&#x000A;              pubsub&#x000A;                .topic(topicName)&#x000A;                .publisher()&#x000A;                .publish(Buffer.from(newFilename))&#x000A;                .then(messageId =&gt; {&#x000A;                  console.log(`Message ${messageId} published.`);&#x000A;                })&#x000A;                .catch(err =&gt; {&#x000A;                  console.error('ERROR:', err);&#x000A;                });&#x000A;&#x000A;          });&#x000A;      });&#x000A;    }&#x000A;    else {&#x000A;      console.log(`gs://${bucketName}/${fileName} is not an image I can handle`);&#x000A;    }&#x000A;  }&#x000A;  else {&#x000A;    console.log(`gs://${bucketName}/${fileName} already has a thumbnail`);&#x000A;  }&#x000A;};&#x000A;</code></pre>
+<p>package.json:</p>
+<pre><code class="language-js prettyprint">{&#x000A;  "name": "thumbnails",&#x000A;  "version": "1.0.0",&#x000A;  "description": "Create Thumbnail of uploaded image",&#x000A;  "scripts": {&#x000A;    "start": "node index.js"&#x000A;  },&#x000A;  "dependencies": {&#x000A;    "@google-cloud/storage": "1.5.1",&#x000A;    "@google-cloud/pubsub": "^0.18.0",&#x000A;    "fast-crc32c": "1.0.4",&#x000A;    "imagemagick-stream": "4.1.1"&#x000A;  },&#x000A;  "devDependencies": {},&#x000A;  "engines": {&#x000A;    "node": "&gt;=4.3.2"&#x000A;  }&#x000A;}&#x000A;</code></pre>
+<ql-infobox>
+Debe subir una imagen JPG o PNG al depósito y, luego, verificaremos que se haya creado la miniatura.  Utilice cualquier imagen JPG o PNG, o bien esta imagen <code>https://storage.googleapis.com/cloud-training/gsp315/map.jpg</code>, que debe descargar en su máquina para luego subirla al depósito.  Al cabo de unos instantes, aparecerá una imagen en miniatura (seleccione <b>ACTUALIZAR DEPÓSITO</b>).
+</ql-infobox>
+<p>Haga clic en <em>Revisar mi progreso</em> para verificar el objetivo.
+<ql-activity-tracking step="3">
+Verificar que la Cloud Function haya funcionado
+</ql-activity-tracking></p>
+<ql-warningbox>Si no obtiene una marca de verificación verde, haga clic en el menú desplegable Puntuación, en la esquina superior derecha, y seleccione Ejecutar paso para los casos relevantes.  Verá una ventana emergente con una sugerencia.</ql-warningbox>
+<h4>Tarea 4: Quite al ingeniero anterior de servicios de nube</h4>
+<p>Verá que hay dos usuarios: uno corresponde a su cuenta (con la función Propietario) y el otro, al ingeniero anterior de servicios de nube (con la función Visualizador).  Nos gusta mantener normas de seguridad estrictas, así que quite el acceso del ingeniero anterior de servicios de nube para que ya no pueda ingresar al proyecto.</p>
+<p>Haga clic en <em>Revisar mi progreso</em> para verificar el objetivo.
+<ql-activity-tracking step="4">
+Quitar al ingeniero anterior de servicios de nube
+</ql-activity-tracking></p>
+<ql-warningbox>Si no obtiene una marca de verificación verde, haga clic en el menú desplegable Puntuación, en la esquina superior derecha, y seleccione Ejecutar paso para los casos relevantes.  Verá una ventana emergente con una sugerencia.</ql-warningbox>
+<h2 id="step4">¡Felicitaciones!</h2>
+<p><img alt="Baseline_Infrastructure_125.png" src="https://cdn.qwiklabs.com/6EiXINl%2FCnCMQyRdF%2Fs34InkRozTg%2FhSEqCQ4CD4nf4%3D"></p>
+<h3>Finalice su Quest</h3>
+<p>Este lab de autoaprendizaje forma parte de la Quest <a href="https://google.qwiklabs.com/quests/33">Baseline: Infrastructure</a> de Qwiklabs. Una Quest es una serie de labs relacionados que forman una ruta de aprendizaje.  Si completa esta Quest, obtendrá la insignia que se muestra arriba como reconocimiento de su logro. Puede hacer públicas sus insignias y agregar un vínculo a ellas en su currículum en línea o en sus cuentas de redes sociales. Inscríbase en una Quest y obtenga un crédito inmediato de finalización si realizó este lab.  <a href="https://google.qwiklabs.com/catalog">Consulte otras Quests de Qwiklabs disponibles</a>.</p>
+<h3>Realice su próximo lab</h3>
+<p>Este lab también forma parte de una serie llamada Labs de desafío. Estos labs están diseñados para evaluar su conocimiento y sus habilidades de Google Cloud. Busque "Lab de desafío" en el <a href="https://google.qwiklabs.com/catalog">catálogo de labs</a> y demuestre que puede resolverlo.</p>
+<h3>Google Cloud Training &amp; Certification</h3>
+<p>Aproveche al máximo las tecnologías de Google Cloud. <a href="https://cloud.google.com/training/courses">Nuestras clases</a> incluyen habilidades técnicas y recomendaciones para ayudarlo a ponerse en marcha rápidamente y a seguir aprendiendo. Para que pueda realizar nuestros cursos cuando más le convenga, ofrecemos distintos tipos de capacitación de nivel básico a avanzado: según demanda, presenciales y virtuales. Las <a href="https://cloud.google.com/certification/">certificaciones</a> lo ayudan a validar y demostrar sus habilidades y experiencia en las tecnologías de Google Cloud.</p>
+
+<h5>Última actualización del manual: 14 de febrero de 2020</h5>
+<h5>Prueba más reciente del lab: 13 de febrero de 2020</h5>
+<p>Copyright 2020 Google LLC. All rights reserved. Google y el logotipo de Google son marcas de Google LLC. Los demás nombres de productos y empresas pueden ser marcas de las respectivas empresas a las que estén asociados.</p>
+
+
+
+</div>
+<div class='js-lab-content-outline lab-content__outline'>
+<a href='#step1'>GSP315</a><a href='#step2'>Descripción general</a><a href='#step3'>Situación del desafío</a><a href='#step4'>¡Felicitaciones!</a>
+</div>
+</div>
+
+</div>
+
+<div class='lab-content__markdown-wrapper'>
+<div class='lab-content__markdown'>
+<div class='lab-content__recommendation'>
+<!-- # TODO: Change classes so that this doesn't stack vertically -->
+<section class='upcoming-cards'>
+<h2 class='headline-3'>Continuar Quest</h2>
+<div class='content-card-grid'>
+<div class='card-content-wrapper js-content-card' data-id='700' data-level='Introductory' data-name='Cloud Storage: Qwik Start - CLI/SDK' data-type='Lab'>
+<a class="card card--content elevation-0 content-lab" href="/focuses/569?locale=es&amp;parent=catalog"><div class='card__image'>
+<div class='card__image__inner' style='background-image: url(https://cdn.qwiklabs.com/assets/fractal0-8ca42d5686105a4c14126a9aa4e917b00cbebee8ad55d56a66712c5dbafa0b52.jpg)'></div>
+</div>
+<div class='card__body'>
+<div class='overline card--content__type'>
+Lab práctico
+</div>
+<h3 class='card--content__title'>
+Cloud Storage: Qwik Start - CLI/SDK
+</h3>
+<p class='card--content__description body-1'>
+En este lab práctico, aprenderá a ejecutar tareas básicas en Cloud Storage mediante la herramienta de línea de comandos gsutil. Para comenzar, mire este video breve: Google Cloud Storage: Massive Scalability Plus More.
+</p>
+</div>
+<div class='card__footer'>
+<div class='card__footer__left'>
+<span>Introductory</span>
+</div>
+<div class='card__footer__right'>
+<div class='rateit' data-rateit-readonly='true' data-rateit-value='4.4481'></div>
+</div>
+</div>
+</a></div>
+
+</div>
+</section>
+
+</div>
+</div>
+</div>
+
+</div>
+</div>
+<div class='lab-assessment__tab js-lab-assessment-tab'>
+<h5 class='small-label'>
+Puntuación
+</h5>
+<h3 class='js-lab-assessment-total-score'>
+&mdash;/100
+</h3>
+<iframe class='l-ie-iframe-fix'></iframe>
+</div>
+<div class='lab-assessment__panel js-lab-assessment-panel'>
+<!-- / If lab_instance has is started and assessment is generated, use -->
+<!-- / lab_instance.assessment, otherwise use lab.assessment_manual -->
+<div class='lab-assessment__step'>
+<p class='lab-assessment__step__title'>
+Create a bucket
+</p>
+<p class='button button--assessment js-show-run-step-button' step_no='1'>
+Ejecutar paso
+</p>
+<p class='lab-assessment__step__score'>
+<span class='js-assessment-step-score-1'>
+</span>
+/ 25
+</p>
+</div>
+
+<div class='lab-assessment__step'>
+<p class='lab-assessment__step__title'>
+Create a Pub/Sub topic
+</p>
+<p class='button button--assessment js-show-run-step-button' step_no='2'>
+Ejecutar paso
+</p>
+<p class='lab-assessment__step__score'>
+<span class='js-assessment-step-score-2'>
+</span>
+/ 25
+</p>
+</div>
+
+<div class='lab-assessment__step'>
+<p class='lab-assessment__step__title'>
+Create the Cloud Function
+</p>
+<p class='button button--assessment js-show-run-step-button' step_no='3'>
+Ejecutar paso
+</p>
+<p class='lab-assessment__step__score'>
+<span class='js-assessment-step-score-3'>
+</span>
+/ 30
+</p>
+</div>
+
+<div class='lab-assessment__step'>
+<p class='lab-assessment__step__title'>
+Remove the previous cloud engineer
+</p>
+<p class='button button--assessment js-show-run-step-button' step_no='4'>
+Ejecutar paso
+</p>
+<p class='lab-assessment__step__score'>
+<span class='js-assessment-step-score-4'>
+</span>
+/ 20
+</p>
+</div>
+
+<iframe class='l-ie-iframe-fix'></iframe>
+</div>
+<div class='lab-introduction js-lab-introduction is-hidden'>
+<div class='lab-introduction__inner'>
+<h1 class='headline-1'>Le damos la bienvenida a su primer lab.</h1>
+<ql-icon-button class='js-skip-button'>close</ql-icon-button>
+<div class='lab-introduction__video'>
+<iframe allow='autoplay; encrypted-media' allowfullscreen frameborder='0' id='lab-introduction' src='https://www.youtube.com/embed/TGUtGKD-B-Q?enablejsapi=1&amp;rel=0&amp;showinfo=0'></iframe>
+</div>
+<a class='js-skip-button button button--outline'>Omitir este video</a>
+</div>
+</div>
+
+
+
+</div>
+</main>
+<div class='modal fade' id='lab-details-modal'>
+<div class='modal-container'>
+<div class='mdl-shadow--24dp modal-content'>
+<div class='modal-body'>
+<p class='l-mbm'>
+En este Lab de desafío, se probarán sus habilidades y su conocimiento de los labs de la Quest Baseline: Infrastructure.  Debe estar familiarizado con el contenido de los labs antes de realizar este.
+</p>
+<p>
+Este lab se incluye en la Quest
+<a href="/quests/33?locale=es">Baseline: Infrastructure</a>.
+Si completa este lab, recibirá el crédito correspondiente cuando se inscriba en esta Quest.
+</p>
+<p class='small-label l-mbs'>
+<strong>
+Duración:
+</strong>
+0 min de configuración
+&middot;
+Acceso por 60 min
+&middot;
+60 min para completar
+</p>
+<p class='small-label l-mbs'>
+<span><strong>Niveles: </strong>expert</span>
+</p>
+<p class='small-label'>
+<strong>
+Vínculo permanente:
+</strong>
+<a href="https://www.qwiklabs.com/catalog_lab/2467">https://www.qwiklabs.com/catalog_lab/2467</a>
+</p>
+</div>
+<div class='modal-actions'>
+<a class='mdl-button mdl-button--primary mdl-js-button mdl-js-ripple-effect' data-dismiss='modal'>
+Got It
+</a>
+</div>
+
+
+</div>
+</div>
+<iframe class='l-ie-iframe-fix'></iframe>
+</div>
+<div class='modal fade' id='lab-review-modal'>
+<div class='modal-container'>
+<div class='mdl-shadow--24dp modal-content'>
+<form class="simple_form js-lab-review-form" id="edit_lab_review_5338572" action="/lab_reviews/5338572?locale=es" accept-charset="UTF-8" data-remote="true" method="post"><input name="utf8" type="hidden" value="&#x2713;" /><input type="hidden" name="_method" value="patch" /><div class='modal-body'>
+<p class='label'>
+¿Qué tan satisfecho está con este lab?*
+</p>
+<div class='rateit js-rateit' data-rateit-max='5' data-rateit-min='0' data-rateit-resetable='false' data-rateit-step='1' data-rateit-value='5'></div>
+<div class='l-mtm'>
+
+<div class="control-group hidden lab_review_user_id"><div class="controls"><input class="hidden" type="hidden" value="2485272" name="lab_review[user_id]" id="lab_review_user_id" /></div></div>
+<div class="control-group hidden lab_review_classroom_id"><div class="controls"><input class="hidden" type="hidden" name="lab_review[classroom_id]" id="lab_review_classroom_id" /></div></div>
+<div class="control-group hidden lab_review_lab_id"><div class="controls"><input class="hidden" type="hidden" value="2467" name="lab_review[lab_id]" id="lab_review_lab_id" /></div></div>
+<div class="control-group hidden lab_review_focus_id"><div class="controls"><input class="hidden" type="hidden" name="lab_review[focus_id]" id="lab_review_focus_id" /></div></div>
+<div class="control-group hidden lab_review_rating"><div class="controls"><input class="hidden js-rating-input" type="hidden" value="2" name="lab_review[rating]" id="lab_review_rating" /></div></div>
+<div class="control-group text optional lab_review_comment"><label class="text optional control-label" for="lab_review_comment">Comentario</label><div class="controls"><textarea class="text optional" name="lab_review[comment]" id="lab_review_comment">
+</textarea></div></div>
+</div>
+</div>
+<div class='modal-actions'>
+<a class='mdl-button mdl-button--primary mdl-js-button mdl-js-ripple-effect' data-dismiss='modal'>
+Cancel
+</a>
+<input type="submit" name="commit" value="Enviar" disabled="disabled" class="btn mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--primary" id="submit" data-disabled="false" data-disable-with="Enviar" />
+</div>
+</form>
+
+</div>
+</div>
+<iframe class='l-ie-iframe-fix'></iframe>
+</div>
+<div class='modal fade' id='lab-access-modal'>
+<div class='modal-container'>
+<div class='mdl-shadow--24dp modal-content'>
+<a class='lab-access-modal-close' data-analytics-action='dismissed_lab_payment_modal' data-dismiss='modal'>
+<i class='material-icons'>close</i>
+</a>
+<form class="js-lab-access-form" action="/lab_onetime_coupons/activate?locale=es&amp;parent=catalog" accept-charset="UTF-8" data-remote="true" method="post"><input name="utf8" type="hidden" value="&#x2713;" />
+<div class='modal-body'>
+<div class='lab-access-modal'>
+<input type="hidden" name="id" id="id" value="10379" />
+<input type="hidden" name="user_id" id="user_id" value="2485272" />
+<input type="hidden" name="launch_with_credits" id="launch_with_credits" value="0" class="js-launch-with-credits-input" />
+<input type="hidden" name="launch_with_subs" id="launch_with_subs" value="0" class="js-launch-with-subscription-input" />
+<div class='lab-access-modal__method'>
+<p>
+Este lab cuesta
+9 créditos.
+</p>
+<p>
+Tiene un paquete con suscripción válida. ¿Desea cargar este lab a su suscripción?
+</p>
+<a class='button js-launch-with-subscription-button js-lab-access-modal-button' data-analytics-action='clicked_launch_with_subscription_button'>
+Usar suscripción
+</a>
+</div>
+<div class='lab-access-modal__method'>
+<p>
+Ingrese el código de acceso del lab:
+</p>
+<div class='lab-access-modal__code js-access-code'>
+<input type="text" name="uuid_1" id="uuid_1" value="" maxlength="4" placeholder="1234" />
+<input type="text" name="uuid_2" id="uuid_2" value="" maxlength="4" placeholder="1234" />
+<input type="text" name="uuid_3" id="uuid_3" value="" maxlength="4" placeholder="1234" />
+<input type="text" name="uuid_4" id="uuid_4" value="" maxlength="4" placeholder="1234" />
+</div>
+<a class='button js-launch-with-access-code-button js-lab-access-modal-button' data-analytics-action='clicked_launch_with_access_code_button'>
+Iniciar con el código de acceso
+</a>
+</div>
+</div>
+</div>
+</form>
+
+
+
+</div>
+</div>
+<iframe class='l-ie-iframe-fix'></iframe>
+</div>
+
+<script>
+  $( function() {
+    ql.initMaterialInputs();
+    initChosen();
+    initSearch();
+    initTabs();
+    ql.list.init();
+    ql.favoriting.init();
+    ql.header.myAccount.init();
+    initTooltips();
+    ql.autocomplete.init();
+    ql.modals.init();
+    ql.toggleButtons.init();
+    ql.analytics.init();
+    initLabContent( );
+  ql.labOutline.links.init();
+  ql.labOutline.layout.init();
+  initLabReviewModal();
+  initLabAccessModal();
+  ql.labAssessment.init();
+  ql.labIntroduction.init( true );
+  ql.labData.init();
+  initLabTranslations( {"are_you_sure":"¿Se completó el proceso? Si finaliza el lab, perderá todo su trabajo. Es posible que no pueda reiniciar el lab si existe un límite de cuota. ¿Está seguro de que desea finalizar el lab?","in_progress":"*En curso*","ending":"*Finalizando*","starting":"*Iniciando. Espere*","end_concurrent_labs":"Lo sentimos; solo puede ejecutar un lab a la vez. Para iniciar este lab, confirme que desea finalizar todos sus labs activos.","copied":"Copiado","no_resource":"Se produjo un error durante la recuperación del recurso.","no_support":"No hay asistencia disponible","mac_press":"Presione ⌘ + C para copiar","thanks_review":"Gracias por calificar este lab.","windows_press":"Presione Ctrl + C para copiar","days":"días"} );
+  ql.labRun.init();
+  ql.initHeader();
+  ql.navigation.init();
+  ql.navPanel.init();
+  ql.navigation.init();
+  
+  });
+</script>
+<style>
+  .mdl-layout__container {
+    position: static
+  }
+</style>
+</body>
+</html>

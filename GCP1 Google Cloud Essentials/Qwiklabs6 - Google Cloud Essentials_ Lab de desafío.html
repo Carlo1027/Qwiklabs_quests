@@ -1,0 +1,638 @@
+<!DOCTYPE html>
+<html lang='es'>
+<head>
+<meta content='[]' name='active-experiments'>
+<meta content='{&quot;userId&quot;:2485272}' name='help-api-product-data'>
+<meta name="csrf-param" content="authenticity_token" />
+<meta name="csrf-token" content="VIr/iib/x1qm925jknbfFK+uULnN+A/RJq5bXoTTsfqgvx9p5ToO85JJkh+90v51OBEbPZQehgnN7oaduDuoog==" />
+<title>Google Cloud Essentials: Lab de desafío | Qwiklabs</title>
+<meta content='width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=0' name='viewport'>
+<meta content='Este Lab de desafío prueba sus habilidades y su conocimiento de los labs en la Quest GCP Essentials.  Debe conocer el contenido de los labs antes de realizar este.' name='description'>
+<meta content='Qwiklabs' name='author'>
+<meta content='1rRsY0INj8RvwB5EF5pwdxt2A2P9aDgAlsICaJ0d5w0' name='google-site-verification'>
+<meta content='Google Cloud Essentials: Lab de desafío | Qwiklabs' property='og:title'>
+<meta content='website' property='og:type'>
+<meta content='/favicon-144.png' property='og:image'>
+<meta content='Qwiklabs' property='og:site_name'>
+<meta content='Este Lab de desafío prueba sus habilidades y su conocimiento de los labs en la Quest GCP Essentials.  Debe conocer el contenido de los labs antes de realizar este.' property='og:description'>
+<meta content='/qwiklabs_logo_900x887.png' property='og:logo' size='900x887'>
+<meta content='/qwiklabs_logo_994x187.png' property='og:logo' size='994x187'>
+<meta content='#3681E4' property='msapplication-TileColor'>
+<meta content='/favicon-144.png' property='msapplication-TileImage'>
+<link href='/favicon-32.png' rel='shortcut icon'>
+<link color='#3681E4' href='/favicon-svg.svg' rel='mask-icon'>
+<link href='/favicon-180.png' rel='apple-touch-icon-precomposed'>
+<link rel="stylesheet" media="screen" href="https://fonts.googleapis.com/css?family=Oswald:400|Roboto+Mono:400,700|Roboto:300,400,500,700|Google+Sans:300,400,500,700|Google+Sans+Display:400|Material+Icons|Google+Material+Icons" />
+
+<link rel="stylesheet" media="screen" href="https://cdn.qwiklabs.com/assets/application_old/locales/es-7c4d85e3db7c28c14f71b18551da7ddc227e8f9b85777ece770fcbd96d9ef753.css" />
+<!--[if lt IE 9]>
+<script src='http://html5shim.googlecode.com/svn/trunk/html5.js' type='text/javascript'></script>
+<![endif]-->
+<!--[endif]>  <![endif]-->
+<script>
+//<![CDATA[
+window.gon={};gon.current_user={"firstname":"Carlo Andr\u00e9","lastname":"Castro Galindo","fullname":"Carlo Andr\u00e9 Castro Galindo","company":"Coursera","email":"carlocastrogalindo@gmail.com","origin":"googlecoursera-run, lti-coursera","subscriptions":1,"id":"eb3f0602d940d94d2eaeef36f2aa2e77","qlCreatedAt":"2020-02-28 17:36:48 UTC","optIn":false};gon.segment="j4Im8pqIko0Lxq4wVVZWMPMM0EroHUvb";gon.deployment="run";
+//]]>
+</script>
+<script type='application/ld+json'>
+{
+  "@context": "http://schema.org",
+  "@type": "WebSite",
+  "url": "https://www.qwiklabs.com/",
+  "potentialAction": {
+    "@type": "SearchAction",
+    "target": "https://www.qwiklabs.com/catalog?keywords={search_term_string}",
+    "query-input": "required name=search_term_string"
+  }
+}
+</script>
+<script id='ze-snippet' src='https://static.zdassets.com/ekr/snippet.js?key=511e4158-0aec-4e3c-b2e6-4daa1769f51e'></script>
+
+
+
+<link rel="stylesheet" media="all" href="https://cdn.qwiklabs.com/assets/application-4c3d1e8bc7757ea71809ef44e35c5d8018fb66ce6a4a777389558445ba2ce8a2.css" />
+<script>
+  EVENT_SOURCE_BASE_URL = "https://run.qwiklabs.com/nchan-sub?id=";
+</script>
+<script src="https://cdn.qwiklabs.com/polyfills/webcomponents-loader.js"></script>
+<script src="https://cdn.qwiklabs.com/assets/hallofmirrors/hallofmirrors__es_419-53722a8c29aa90d0fbab9b3c73008da3dadf74f9c7e6e4d2cb1df2c62c3fb110.js"></script>
+<script src="https://www.youtube.com/iframe_api"></script>
+<script src="https://cdn.qwiklabs.com/assets/vendor-45d462772c30000424907184f70c7157e95fb6227698d1671c5051818a6f60d8.js"></script>
+<script src="https://cdn.qwiklabs.com/assets/application-7c67c1d428839917a0992758b33da63184c69efa420e5939804ea34d54147a97.js"></script>
+</head>
+<body class='focuses focuses-show lab-show l-full no-nav'>
+<div class='header-container light-theme'>
+<div class='header'>
+<a class='mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect header__button header__button--nav header__nav-panel-button js-nav-toggle'>
+<i class='material-icons'>menu</i>
+</a>
+<div class='header__title'>
+<a class="mdl-button mdl-js-button mdl-button--icon mdl-js-ripple-effect header__button header__button--nav" href="https://www.qwiklabs.com/quests/23?locale=es"><ql-icon>arrow_back</ql-icon></a>
+
+<h1 class='headline-5'>
+Google Cloud Essentials: Lab de desafío
+</h1>
+</div>
+<div class='header__actions'>
+<a class='mdl-button mdl-js-button mdl-button--icon mdl-js-ripple-effect header__button header__button--action header__button--search js-header-search-bar-button'>
+<i class='material-icons'>search</i>
+</a>
+<a class="mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect" id="toggle-lab-control-panel" href="javascript:;"><i class='material-icons'>description</i>
+</a><div class='mdl-tooltip js-tooltip' data-mdl-for='toggle-lab-control-panel'>
+Activar o desactivar panel del lab
+</div>
+<a class="mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect js-favorite-button favorite-button" id="CatalogItem-10258-favorite-button" data-type="CatalogItem" data-id="10258" data-name="Google Cloud Essentials: Lab de desafío" href="/favorite.json?item_id=10258&amp;item_type=CatalogItem&amp;locale=es"><i class='material-icons'>favorite_border</i>
+</a><div class='mdl-tooltip js-tooltip' for='CatalogItem-10258-favorite-button'>
+Agregar a favoritos
+</div>
+
+
+<ql-help context="lab" productdata="{&quot;userId&quot;:2485272}" data-analytics-action="opened_help" data-analytics-label="lab"></ql-help>
+<a class='header-my-account-button mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect js-my-account-button'>
+<img class="avatar " alt="avatar image" src="https://secure.gravatar.com/avatar/be719396bbcc1e8bcb204a54e1920c54.png?s=80&amp;d=mm" />
+</a>
+<div class='header-my-account-menu js-my-account-menu'>
+<div class='card elevation-2 no-padding'>
+<div class='my-account-menu__top'>
+<img class="avatar " alt="avatar image" src="https://secure.gravatar.com/avatar/be719396bbcc1e8bcb204a54e1920c54.png?s=80&amp;d=mm" />
+<div class='my-account-menu__info'>
+<h4 class='subtitle-headline-1'>
+Carlo André Castro Galindo
+</h4>
+<p class='body-2 text--gray'>
+<span>carlocastrogalindo@gmail.com</span>
+</p>
+<a class="button" href="/my_account/profile?locale=es">Mi cuenta</a>
+</div>
+</div>
+<div class='my-account-menu__bottom'>
+<a class="text--green subtitle-headline-2" href="/my_account/credits?locale=es">Suscripción mensual
+</a><a data-analytics-action="clicked_sign_out" class="button button--hairline" rel="nofollow" data-method="delete" href="/users/sign_out?locale=es">Salir</a>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+<div class='header__search-bar js-header-search-bar'>
+<form id="catalog-search-mobile" onsubmit="ql.catalogSearchFilter(); return false;" action="/searches/elasticsearch" accept-charset="UTF-8" method="post"><input name="utf8" type="hidden" value="&#x2713;" /><input type="hidden" name="authenticity_token" value="F6QO7uSjotNp4Ac+MM216hg3xwW7O/8FTZpGmZ0+1Y3jke4NJ2Zrel1e+0IfaZSLj4iMgeLddt2m2ptaodbM1Q==" />
+<input type="text" name="keywords" id="keywords" placeholder="Buscar" maxlength="255" aria-label="catalog search bar" />
+</form>
+
+<a class='mdl-button mdl-js-button mdl-button--icon mdl-js-ripple-effect header__button'>
+<i class='material-icons'>close</i>
+</a>
+</div>
+</div>
+
+<nav class='nav-bar'>
+<a class="nav-bar__item js-navigation-button" href="/?locale=es"><ql-icon class='nav-bar__item__icon'>
+home
+</ql-icon>
+<span class='nav-bar__item__label'>
+Página principal
+</span>
+</a>
+<a class="nav-bar__item js-navigation-button  active" aria-current="page" href="/catalog?locale=es"><ql-icon class='nav-bar__item__icon'>
+school
+</ql-icon>
+<span class='nav-bar__item__label'>
+Catálogo
+</span>
+</a>
+<a class="nav-bar__item js-navigation-button" href="/my_learning?locale=es"><ql-icon class='nav-bar__item__icon'>
+event_note
+</ql-icon>
+<span class='nav-bar__item__label'>
+Mi aprendizaje
+</span>
+</a>
+</nav>
+
+<nav class='nav-panel js-nav-panel'>
+<div class='nav-panel__logo'>
+<div class='logo logo--blue'></div>
+</div>
+<a title="Página principal" tabindex="-1" class="nav-panel__item js-navigation-button" href="/?locale=es"><ql-icon class='nav-panel__item__icon'>
+home
+</ql-icon>
+<div class='nav-panel__item__label'>
+Página principal
+</div>
+</a>
+<a title="Catálogo" tabindex="-1" class="nav-panel__item js-navigation-button active" aria-current="page" href="/catalog?locale=es"><ql-icon class='nav-panel__item__icon'>
+school
+</ql-icon>
+<div class='nav-panel__item__label'>
+Catálogo
+</div>
+</a>
+<a title="Mi aprendizaje" tabindex="-1" class="nav-panel__item js-navigation-button" href="/my_learning?locale=es"><ql-icon class='nav-panel__item__icon'>
+event_note
+</ql-icon>
+<div class='nav-panel__item__label'>
+Mi aprendizaje
+</div>
+</a>
+<div class='nav-panel__spacer'></div>
+<a title="Profile" tabindex="-1" class="nav-panel__item js-navigation-button" href="/my_account/profile?locale=es"><ql-icon class='nav-panel__item__icon'>
+account_circle
+</ql-icon>
+<div class='nav-panel__item__label'>
+Profile
+</div>
+</a>
+<a title="Credits &amp; Subscriptions" tabindex="-1" class="nav-panel__item js-navigation-button" href="/my_account/credits?locale=es"><ql-icon class='nav-panel__item__icon'>
+money
+</ql-icon>
+<div class='nav-panel__item__label'>
+Credits &amp; Subscriptions
+</div>
+</a>
+<a title="Security" tabindex="-1" class="nav-panel__item js-navigation-button" href="/my_account/security?locale=es"><ql-icon class='nav-panel__item__icon'>
+security
+</ql-icon>
+<div class='nav-panel__item__label'>
+Security
+</div>
+</a>
+<div class='nav-panel__spacer'></div>
+<a class="nav-panel__item" tabindex="-1" href="#"><ql-help>
+<div class='nav-panel__help-item'>
+<ql-icon class='nav-panel__item__icon'>help</ql-icon>
+<div class='nav-panel__item__label'>Help</div>
+</div>
+</ql-help>
+</a><div class='nav-panel__small-links'>
+<a tabindex="-1" href="/privacy_policy?locale=es">Privacidad</a>
+<a tabindex="-1" href="/terms_of_service?locale=es">Condiciones</a>
+</div>
+</nav>
+<div class='nav-panel__overlay js-nav-toggle'></div>
+
+<main class='js-main'>
+<span class='hidden' id='flash-sibling-before'></span>
+
+<div class='l-main-wrapper' id='main-wrapper'>
+
+
+
+
+
+
+
+<div class='js-lab-state' data-analytics-payload='{&quot;label&quot;:&quot;Google Cloud Essentials: Lab de desafío&quot;,&quot;lab_name&quot;:&quot;Google Cloud Essentials: Lab de desafío&quot;,&quot;classroom_name&quot;:null,&quot;deployment&quot;:&quot;run&quot;}' data-focus-id='10258' data-lab-billing-limit='0.0' data-lab-duration='3600' data-parent='catalog' data-payment-required></div>
+<ql-lab-control-panel class='js-lab-control-panel l-lab-control-panel' connectionDetails='[]' connectionFiles='[]' labControlButton='{&quot;disabled&quot;:false,&quot;pending&quot;:false,&quot;running&quot;:false}' labTimer='{&quot;ticking&quot;:false,&quot;secondsRemaining&quot;:3600}' studentResources='[]'></ql-lab-control-panel>
+<div class='l-lab-main-body'>
+<div class='js-lab-content lab-content'>
+<div class='alert alert--fake js-alert'>
+<p class='alert__message js-alert-message'></p>
+<a class='alert__close js-alert-close'>
+<i class='fa fa-times'></i>
+</a>
+<iframe class='l-ie-iframe-fix'></iframe>
+</div>
+<div class='lab-content__markdown-wrapper'>
+<div class='lab-preamble'>
+<h1 class='lab-preamble__title'>
+Google Cloud Essentials: Lab de desafío
+</h1>
+<div class='lab-preamble__details subtitle-headline-1'>
+<span>1 hora </span>
+<span>5 créditos</span>
+<div class='lab__rating'>
+<a href="/focuses/10258/reviews?locale=es&amp;parent=catalog"><div class='rateit' data-rateit-readonly='true' data-rateit-value='3.7833'></div>
+
+</a><a data-target='#lab-review-modal' data-toggle='modal'>
+Calificar lab
+</a>
+</div>
+</div>
+</div>
+
+<div class='lab-content__inner-wrapper'>
+<div class='js-markdown-instructions lab-content__markdown markdown-lab-instructions' id='markdown-lab-instructions'>
+
+
+
+<h2 id="step1">GSP313</h2>
+<p><img alt="Labs de autoaprendizaje de Google Cloud" src="https://cdn.qwiklabs.com/GMOHykaqmlTHiqEeQXTySaMXYPHeIvaqa2qHEzw6Occ%3D"></p>
+
+<h2 id="step2">Descripción general</h2>
+<p>Debe completar una serie de tareas dentro de un período asignado. En lugar de seguir instrucciones paso a paso, se le presentarán una situación y un conjunto de tareas, y deberá descifrar cómo completarlas por su cuenta. Un sistema de puntuación automatizado (que se muestra en esta página) proporcionará comentarios acerca de si completó las tareas correctamente.</p>
+<p>Debe completar todas las tareas dentro del período establecido para obtener una puntuación del 100%.</p>
+<p>Cuando realice un Lab de desafío, no se le explicarán conceptos de GCP. A fin de desarrollar la solución para el desafío que se le presenta, use las habilidades que aprendió en los demás labs de la Quest que incluye este Lab de desafío.  Se espera que amplíe sus habilidades adquiridas y que cambie los valores predeterminados, pero no se le explicarán nuevos conceptos.</p>
+<p>Se recomienda este lab solamente a los estudiantes que completaron los labs de la Quest <a href="https://google.qwiklabs.com/quests/23">GCP Essentials</a>. ¿Está listo para el desafío?</p>
+<ql-warningbox>Asegúrese de revisar los labs de la Quest GCP Essentials antes de comenzar este lab.</ql-warningbox>
+<p>Temas evaluados:</p>
+<ul>
+<li>Crear una instancia</li>
+<li>Crear un clúster de Kubernetes de 3 nodos y ejecutar un servicio simple</li>
+<li>Crear un balanceador de cargas HTTP(s) frente a dos servidores web</li>
+</ul>
+<h3>Configuración</h3>
+<h4>Antes de hacer clic en el botón Comenzar lab</h4>
+<p>Lea estas instrucciones. Los labs tienen un tiempo límite; no puede ponerlos en pausa. El cronómetro, que comienza a funcionar cuando hace clic en Comenzar lab, indica por cuánto tiempo estarán los recursos en la nube a su disposición.</p>
+<p>Este lab práctico de Qwiklabs le permitirá llevar a cabo las actividades correspondientes en un entorno de nube real, no en uno de simulación o demostración. Para ello, recibe nuevas credenciales temporales que utilizará para acceder a Google Cloud Platform durante el transcurso del lab.</p>
+<h4>Lo que necesita</h4>
+<p>Para completar este lab, necesitará lo siguiente:</p>
+<ul>
+<li>Acceso a un navegador de Internet estándar. Se recomienda el navegador Chrome</li>
+<li>Tiempo para completar el lab</li>
+</ul>
+<p><strong><em>Nota</em></strong>: Si ya tiene un proyecto o una cuenta personal de GCP, no los use para este lab.</p>
+
+<h2 id="step3">Situación del desafío</h2>
+<p>Comenzó una nueva función como ingeniero junior de servicios de nube para Jooli Inc. Se espera que ayude a administrar la infraestructura en Jooli. Entre sus tareas frecuentes se encuentra aprovisionar recursos para los proyectos.</p>
+<p>Se espera que tenga las habilidades y el conocimiento para realizar estas tareas, así que no espere que se le proporcionen guías paso a paso.</p>
+<p>Estas son algunas pautas de Jooli Inc. que debe seguir:</p>
+<ul>
+<li>Crear todos los recursos en la región o zona predeterminada, a menos que se indique lo contrario</li>
+<li>Normalmente, la asignación de nombres se realiza de la siguiente manera: <i>equipo-recurso</i>; p. ej., una instancia podría llamarse <b>nucleus-webserver1</b>
+</li>
+<li>Asignar tamaños de recursos rentables (tenga cuidado porque los proyectos se supervisan y el uso excesivo de recursos dará como resultado la finalización del proyecto que los contiene, es decir, posiblemente el suyo; esta es la orientación que el equipo de supervisión está dispuesto a compartir; a menos que se indique algo diferente, utilice <b>f1-micro</b> para VM pequeñas de Linux y <b>n1-standard-1</b> para Windows u otras aplicaciones, como los nodos de Kubernetes)</li>
+</ul>
+<h3>Su desafío</h3>
+<p>En cuanto se sienta en su escritorio y abre su laptop nueva, recibe varias solicitudes del equipo de Nucleus. Lea cada descripción y, luego, cree los recursos.</p>
+<h4>Tarea 1: Cree una instancia jumphost para el proyecto</h4>
+<p>Utilizaremos esta instancia para realizar el mantenimiento del proyecto.</p>
+<p>Asegúrese de seguir estos pasos:</p>
+<ul>
+<li>nombrar la instancia <code>nucleus-jumphost</code>
+</li>
+<li>usar el tipo de máquina de f1-micro</li>
+<li>usar el tipo de imagen predeterminado (Debian Linux)</li>
+</ul>
+<p>Haga clic en <em>Revisar mi progreso</em> para verificar el objetivo.
+<ql-activity-tracking step="1">
+Crear una instancia jumphost para el proyecto
+</ql-activity-tracking></p>
+<ql-warningbox>Si no obtiene una marca de verificación verde, haga clic en el menú desplegable Puntuación, en la parte superior derecha, y haga clic en Ejecutar paso para el que corresponda.  Verá una ventana emergente con una sugerencia.</ql-warningbox>
+<h4>Tarea 2: Cree un clúster de servicio de Kubernetes</h4>
+<p>El equipo está compilando una aplicación que utilizará un servicio. Este servicio se ejecutará en Kubernetes. Realice lo siguiente:</p>
+<ul>
+<li>Cree un clúster para alojar el servicio.</li>
+<li>Utilice el contenedor hello-app de Docker ('gcr.io/google-samples/hello-app: 2.0') como un marcador de posición. El equipo reemplazará el contenedor con su propio trabajo más tarde.</li>
+<li>Exponga la aplicación en el puerto 8080.</li>
+</ul>
+<p>Haga clic en <em>Revisar mi progreso</em> para verificar el objetivo.
+<ql-activity-tracking step="2">
+Crear un clúster de Kubernetes
+</ql-activity-tracking></p>
+<ql-warningbox>Si no obtiene una marca de verificación verde, haga clic en el menú desplegable Puntuación, en la parte superior derecha, y haga clic en Ejecutar paso para el que corresponda.  Verá una ventana emergente con una sugerencia.</ql-warningbox>
+<h4>Tarea 3: Configure un balanceador de cargas HTTP</h4>
+<p>Entregaremos el sitio a través de servidores web Nginx, pero queremos asegurarnos de que tenemos un entorno tolerante a errores. Por este motivo, cree un balanceador de cargas HTTP con un grupo de instancias administradas de <b>dos servidores web Nginx</b>. Use el siguiente código para configurar los servidores web. El equipo reemplazará esto con su propia configuración más adelante.</p>
+<pre><code>cat &lt;&lt; EOF &gt; startup.sh&#x000A;#! /bin/bash&#x000A;apt-get update&#x000A;apt-get install -y nginx&#x000A;service nginx start&#x000A;sed -i -- 's/nginx/Google Cloud Platform - '"\$HOSTNAME"'/' /var/www/html/index.nginx-debian.html&#x000A;EOF&#x000A;</code></pre>
+<p>Realice lo siguiente:</p>
+<ul>
+<li>Cree una plantilla de instancias.</li>
+<li>Cree un grupo de destino.</li>
+<li>Cree un grupo de instancias administradas.</li>
+<li>Cree una regla de firewall para permitir el tráfico (80/TCP).</li>
+<li>Cree una verificación de estado.</li>
+<li>Cree un servicio de backend y conecte el grupo de instancias administradas.</li>
+<li>Cree un mapa de URL y un Proxy HTTP de destino para enrutar las solicitudes a su mapa de URL.</li>
+<li>Cree una regla de reenvío.</li>
+</ul>
+<p>Haga clic en <em>Revisar mi progreso</em> para verificar el objetivo.
+<ql-activity-tracking step="3">
+Crear el sitio web detrás del balanceador de cargas HTTP
+</ql-activity-tracking></p>
+<ql-warningbox>Si no obtiene una marca de verificación verde, haga clic en el menú desplegable Puntuación, en la parte superior derecha, y haga clic en Ejecutar paso para el que corresponda.  Verá una ventana emergente con una sugerencia.</ql-warningbox>
+<h2 id="step4">¡Felicitaciones!</h2>
+<p><img alt="GCP_Essentials_125x135_new.png" src="https://cdn.qwiklabs.com/ykt8NTzPWC6%2BW8mAljshFqjsAPrZ8bElG7SLw4kSrtU%3D"></p>
+<h3>Finalice su Quest</h3>
+<p>Este lab de autoaprendizaje forma parte de la Quest <a href="https://google.qwiklabs.com/authoring/learning_paths/23">GCP Essentials</a> de Qwiklabs. Una Quest es una serie de labs relacionados que forman una ruta de aprendizaje. Si completa esta Quest, obtendrá la insignia que se muestra arriba como reconocimiento de su logro. Puede hacer públicas sus insignias y agregar vínculos a ellas en su currículum en línea o en sus cuentas de redes sociales.  Inscríbase en una Quest y obtenga un crédito inmediato de finalización luego de haber realizado este lab.  <a href="http://google.qwiklabs.com/catalog">Consulte otras Quests de Qwiklabs disponibles</a>.</p>
+<h3>Realice su próximo lab</h3>
+<p>Este lab también forma parte de una serie llamada Labs de desafío. Estos labs están diseñados para evaluar su conocimiento y sus habilidades de Google Cloud. Busque "Lab de desafío" en el <a href="https://google.qwiklabs.com/catalog">catálogo de labs</a> y demuestre que puede resolverlo.</p>
+<h3>Google Cloud Training &amp; Certification</h3>
+<p>Aproveche al máximo las tecnologías de Google Cloud. <a href="https://cloud.google.com/training/courses">Nuestras clases</a> incluyen habilidades técnicas y recomendaciones para ayudarlo a ponerse en marcha rápidamente y a seguir aprendiendo. Para que pueda realizar nuestros cursos cuando más le convenga, ofrecemos distintos tipos de capacitación de nivel básico a avanzado: según demanda, presenciales y virtuales. Las <a href="https://cloud.google.com/certification/">certificaciones</a> lo ayudan a validar y demostrar sus habilidades y experiencia en las tecnologías de Google Cloud.</p>
+
+<h5>Última actualización del manual: 18 de febrero de 2020</h5>
+<h5>Prueba más reciente del lab: 17 de febrero de 2020</h5>
+<p>Copyright 2020 Google LLC. All rights reserved. Google y el logotipo de Google son marcas de Google LLC. Los demás nombres de productos y empresas pueden ser marcas de las respectivas empresas a las que estén asociados.</p>
+
+
+
+</div>
+<div class='js-lab-content-outline lab-content__outline'>
+<a href='#step1'>GSP313</a><a href='#step2'>Descripción general</a><a href='#step3'>Situación del desafío</a><a href='#step4'>¡Felicitaciones!</a>
+</div>
+</div>
+
+</div>
+
+<div class='lab-content__markdown-wrapper'>
+<div class='lab-content__markdown'>
+<div class='lab-content__recommendation'>
+<!-- # TODO: Change classes so that this doesn't stack vertically -->
+<section class='upcoming-cards'>
+<h2 class='headline-3'>Continuar Quest</h2>
+<div class='content-card-grid'>
+<div class='card-content-wrapper js-content-card' data-id='759' data-level='Introductory' data-name='Compute Engine: Qwik Start - Windows' data-type='Lab'>
+<a class="card card--content elevation-0 content-lab" href="/focuses/560?locale=es&amp;parent=catalog"><div class='card__image'>
+<div class='card__image__inner' style='background-image: url(https://cdn.qwiklabs.com/assets/fractal3-aaa9ba81223b511f2592cade38ffee5a74965dee87a9280e1ce3a7a96fdc91f1.jpg)'></div>
+</div>
+<div class='card__body'>
+<div class='overline card--content__type'>
+Lab práctico
+</div>
+<h3 class='card--content__title'>
+Compute Engine: Qwik Start - Windows
+</h3>
+<p class='card--content__description body-1'>
+Google Compute Engine permite crear y ejecutar máquinas virtuales en la infraestructura de Google.  En este lab, creará una instancia de Windows Server en Google Compute Engine y accederá a ella mediante RDP. Para obtener un avance sobre este tema, mire el video breve Launch a Windows Server Instance, GCP Essentials.
+</p>
+</div>
+<div class='card__footer'>
+<div class='card__footer__left'>
+<span>Introductory</span>
+</div>
+<div class='card__footer__right'>
+<div class='rateit' data-rateit-readonly='true' data-rateit-value='4.3937'></div>
+</div>
+</div>
+</a></div>
+
+</div>
+</section>
+
+</div>
+</div>
+</div>
+
+</div>
+</div>
+<div class='lab-assessment__tab js-lab-assessment-tab'>
+<h5 class='small-label'>
+Puntuación
+</h5>
+<h3 class='js-lab-assessment-total-score'>
+&mdash;/100
+</h3>
+<iframe class='l-ie-iframe-fix'></iframe>
+</div>
+<div class='lab-assessment__panel js-lab-assessment-panel'>
+<!-- / If lab_instance has is started and assessment is generated, use -->
+<!-- / lab_instance.assessment, otherwise use lab.assessment_manual -->
+<div class='lab-assessment__step'>
+<p class='lab-assessment__step__title'>
+Create a project jumphost instance (zone: us-east1-b)
+</p>
+<p class='button button--assessment js-show-run-step-button' step_no='1'>
+Ejecutar paso
+</p>
+<p class='lab-assessment__step__score'>
+<span class='js-assessment-step-score-1'>
+</span>
+/ 20
+</p>
+</div>
+
+<div class='lab-assessment__step'>
+<p class='lab-assessment__step__title'>
+Create a Kubernetes service cluster
+</p>
+<p class='button button--assessment js-show-run-step-button' step_no='2'>
+Ejecutar paso
+</p>
+<p class='lab-assessment__step__score'>
+<span class='js-assessment-step-score-2'>
+</span>
+/ 20
+</p>
+</div>
+
+<div class='lab-assessment__step'>
+<p class='lab-assessment__step__title'>
+Create the web server frontend
+</p>
+<p class='button button--assessment js-show-run-step-button' step_no='3'>
+Ejecutar paso
+</p>
+<p class='lab-assessment__step__score'>
+<span class='js-assessment-step-score-3'>
+</span>
+/ 60
+</p>
+</div>
+
+<iframe class='l-ie-iframe-fix'></iframe>
+</div>
+<div class='lab-introduction js-lab-introduction is-hidden'>
+<div class='lab-introduction__inner'>
+<h1 class='headline-1'>Le damos la bienvenida a su primer lab.</h1>
+<ql-icon-button class='js-skip-button'>close</ql-icon-button>
+<div class='lab-introduction__video'>
+<iframe allow='autoplay; encrypted-media' allowfullscreen frameborder='0' id='lab-introduction' src='https://www.youtube.com/embed/TGUtGKD-B-Q?enablejsapi=1&amp;rel=0&amp;showinfo=0'></iframe>
+</div>
+<a class='js-skip-button button button--outline'>Omitir este video</a>
+</div>
+</div>
+
+
+
+</div>
+</main>
+<div class='modal fade' id='lab-details-modal'>
+<div class='modal-container'>
+<div class='mdl-shadow--24dp modal-content'>
+<div class='modal-body'>
+<p class='l-mbm'>
+Este Lab de desafío prueba sus habilidades y su conocimiento de los labs en la Quest GCP Essentials.  Debe conocer el contenido de los labs antes de realizar este.
+</p>
+<p>
+Este lab se incluye en las siguientes Quests:
+<a href="/quests/23?locale=es">GCP Essentials</a>, <a href="/quests/24?locale=es">Cloud Architecture</a>.
+Si completa este lab, recibirá crédito por él cuando se inscriba en una de estas Quests.
+</p>
+<p class='small-label l-mbs'>
+<strong>
+Duración:
+</strong>
+1 min de configuración
+&middot;
+Acceso por 60 min
+&middot;
+60 min para completar
+</p>
+<p class='small-label l-mbs'>
+<span><strong>Niveles: </strong>fundamental</span>
+</p>
+<p class='small-label'>
+<strong>
+Vínculo permanente:
+</strong>
+<a href="https://www.qwiklabs.com/catalog_lab/2443">https://www.qwiklabs.com/catalog_lab/2443</a>
+</p>
+</div>
+<div class='modal-actions'>
+<a class='mdl-button mdl-button--primary mdl-js-button mdl-js-ripple-effect' data-dismiss='modal'>
+Got It
+</a>
+</div>
+
+
+</div>
+</div>
+<iframe class='l-ie-iframe-fix'></iframe>
+</div>
+<div class='modal fade' id='lab-review-modal'>
+<div class='modal-container'>
+<div class='mdl-shadow--24dp modal-content'>
+<form class="simple_form js-lab-review-form" id="edit_lab_review_5314227" action="/lab_reviews/5314227?locale=es" accept-charset="UTF-8" data-remote="true" method="post"><input name="utf8" type="hidden" value="&#x2713;" /><input type="hidden" name="_method" value="patch" /><div class='modal-body'>
+<p class='label'>
+¿Qué tan satisfecho está con este lab?*
+</p>
+<div class='rateit js-rateit' data-rateit-max='5' data-rateit-min='0' data-rateit-resetable='false' data-rateit-step='1' data-rateit-value='5'></div>
+<div class='l-mtm'>
+
+<div class="control-group hidden lab_review_user_id"><div class="controls"><input class="hidden" type="hidden" value="2485272" name="lab_review[user_id]" id="lab_review_user_id" /></div></div>
+<div class="control-group hidden lab_review_classroom_id"><div class="controls"><input class="hidden" type="hidden" name="lab_review[classroom_id]" id="lab_review_classroom_id" /></div></div>
+<div class="control-group hidden lab_review_lab_id"><div class="controls"><input class="hidden" type="hidden" value="2443" name="lab_review[lab_id]" id="lab_review_lab_id" /></div></div>
+<div class="control-group hidden lab_review_focus_id"><div class="controls"><input class="hidden" type="hidden" name="lab_review[focus_id]" id="lab_review_focus_id" /></div></div>
+<div class="control-group hidden lab_review_rating"><div class="controls"><input class="hidden js-rating-input" type="hidden" value="2" name="lab_review[rating]" id="lab_review_rating" /></div></div>
+<div class="control-group text optional lab_review_comment"><label class="text optional control-label" for="lab_review_comment">Comentario</label><div class="controls"><textarea class="text optional" name="lab_review[comment]" id="lab_review_comment">
+</textarea></div></div>
+</div>
+</div>
+<div class='modal-actions'>
+<a class='mdl-button mdl-button--primary mdl-js-button mdl-js-ripple-effect' data-dismiss='modal'>
+Cancel
+</a>
+<input type="submit" name="commit" value="Enviar" disabled="disabled" class="btn mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--primary" id="submit" data-disabled="false" data-disable-with="Enviar" />
+</div>
+</form>
+
+</div>
+</div>
+<iframe class='l-ie-iframe-fix'></iframe>
+</div>
+<div class='modal fade' id='lab-access-modal'>
+<div class='modal-container'>
+<div class='mdl-shadow--24dp modal-content'>
+<a class='lab-access-modal-close' data-analytics-action='dismissed_lab_payment_modal' data-dismiss='modal'>
+<i class='material-icons'>close</i>
+</a>
+<form class="js-lab-access-form" action="/lab_onetime_coupons/activate?locale=es&amp;parent=catalog" accept-charset="UTF-8" data-remote="true" method="post"><input name="utf8" type="hidden" value="&#x2713;" />
+<div class='modal-body'>
+<div class='lab-access-modal'>
+<input type="hidden" name="id" id="id" value="10258" />
+<input type="hidden" name="user_id" id="user_id" value="2485272" />
+<input type="hidden" name="launch_with_credits" id="launch_with_credits" value="0" class="js-launch-with-credits-input" />
+<input type="hidden" name="launch_with_subs" id="launch_with_subs" value="0" class="js-launch-with-subscription-input" />
+<div class='lab-access-modal__method'>
+<p>
+Este lab cuesta
+5 créditos.
+</p>
+<p>
+Tiene un paquete con suscripción válida. ¿Desea cargar este lab a su suscripción?
+</p>
+<a class='button js-launch-with-subscription-button js-lab-access-modal-button' data-analytics-action='clicked_launch_with_subscription_button'>
+Usar suscripción
+</a>
+</div>
+<div class='lab-access-modal__method'>
+<p>
+Ingrese el código de acceso del lab:
+</p>
+<div class='lab-access-modal__code js-access-code'>
+<input type="text" name="uuid_1" id="uuid_1" value="" maxlength="4" placeholder="1234" />
+<input type="text" name="uuid_2" id="uuid_2" value="" maxlength="4" placeholder="1234" />
+<input type="text" name="uuid_3" id="uuid_3" value="" maxlength="4" placeholder="1234" />
+<input type="text" name="uuid_4" id="uuid_4" value="" maxlength="4" placeholder="1234" />
+</div>
+<a class='button js-launch-with-access-code-button js-lab-access-modal-button' data-analytics-action='clicked_launch_with_access_code_button'>
+Iniciar con el código de acceso
+</a>
+</div>
+</div>
+</div>
+</form>
+
+
+
+</div>
+</div>
+<iframe class='l-ie-iframe-fix'></iframe>
+</div>
+
+<script>
+  $( function() {
+    ql.initMaterialInputs();
+    initChosen();
+    initSearch();
+    initTabs();
+    ql.list.init();
+    ql.favoriting.init();
+    ql.header.myAccount.init();
+    initTooltips();
+    ql.autocomplete.init();
+    ql.modals.init();
+    ql.toggleButtons.init();
+    ql.analytics.init();
+    initLabContent( );
+  ql.labOutline.links.init();
+  ql.labOutline.layout.init();
+  initLabReviewModal();
+  initLabAccessModal();
+  ql.labAssessment.init();
+  ql.labIntroduction.init( true );
+  ql.labData.init();
+  initLabTranslations( {"are_you_sure":"¿Se completó el proceso? Si finaliza el lab, perderá todo su trabajo. Es posible que no pueda reiniciar el lab si existe un límite de cuota. ¿Está seguro de que desea finalizar el lab?","in_progress":"*En curso*","ending":"*Finalizando*","starting":"*Iniciando. Espere*","end_concurrent_labs":"Lo sentimos; solo puede ejecutar un lab a la vez. Para iniciar este lab, confirme que desea finalizar todos sus labs activos.","copied":"Copiado","no_resource":"Se produjo un error durante la recuperación del recurso.","no_support":"No hay asistencia disponible","mac_press":"Presione ⌘ + C para copiar","thanks_review":"Gracias por calificar este lab.","windows_press":"Presione Ctrl + C para copiar","days":"días"} );
+  ql.labRun.init();
+  ql.initHeader();
+  ql.navigation.init();
+  ql.navPanel.init();
+  ql.navigation.init();
+  
+  });
+</script>
+<style>
+  .mdl-layout__container {
+    position: static
+  }
+</style>
+</body>
+</html>

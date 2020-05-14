@@ -1,0 +1,765 @@
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+<meta content='[]' name='active-experiments'>
+<meta content='{&quot;userId&quot;:2485272}' name='help-api-product-data'>
+<meta name="csrf-param" content="authenticity_token" />
+<meta name="csrf-token" content="oDE1fztWtfBjdQr3jPbPhQP/yttrwyOOxCmx+JIwH8dUBNWc+JN8WVfL9oujUu7klECBXzIlqlYvaWw7rtgGnw==" />
+<title>Kubernetes in Google Cloud: Challenge Lab | Qwiklabs</title>
+<meta content='width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=0' name='viewport'>
+<meta content='This challenge lab tests your skills and knowledge from the labs in the Kubernetes in Google Cloud quest.  You should be familiar with the content of the labs before attempting this lab.' name='description'>
+<meta content='Qwiklabs' name='author'>
+<meta content='1rRsY0INj8RvwB5EF5pwdxt2A2P9aDgAlsICaJ0d5w0' name='google-site-verification'>
+<meta content='Kubernetes in Google Cloud: Challenge Lab | Qwiklabs' property='og:title'>
+<meta content='website' property='og:type'>
+<meta content='/favicon-144.png' property='og:image'>
+<meta content='Qwiklabs' property='og:site_name'>
+<meta content='This challenge lab tests your skills and knowledge from the labs in the Kubernetes in Google Cloud quest.  You should be familiar with the content of the labs before attempting this lab.' property='og:description'>
+<meta content='/qwiklabs_logo_900x887.png' property='og:logo' size='900x887'>
+<meta content='/qwiklabs_logo_994x187.png' property='og:logo' size='994x187'>
+<meta content='#3681E4' property='msapplication-TileColor'>
+<meta content='/favicon-144.png' property='msapplication-TileImage'>
+<link href='/favicon-32.png' rel='shortcut icon'>
+<link color='#3681E4' href='/favicon-svg.svg' rel='mask-icon'>
+<link href='/favicon-180.png' rel='apple-touch-icon-precomposed'>
+<link rel="stylesheet" media="screen" href="https://fonts.googleapis.com/css?family=Oswald:400|Roboto+Mono:400,700|Roboto:300,400,500,700|Google+Sans:300,400,500,700|Google+Sans+Display:400|Material+Icons|Google+Material+Icons" />
+
+
+<!--[if lt IE 9]>
+<script src='http://html5shim.googlecode.com/svn/trunk/html5.js' type='text/javascript'></script>
+<![endif]-->
+<!--[endif]>  <![endif]-->
+<script>
+//<![CDATA[
+window.gon={};gon.current_user={"firstname":"Carlo Andr\u00e9","lastname":"Castro Galindo","fullname":"Carlo Andr\u00e9 Castro Galindo","company":"Coursera","email":"carlocastrogalindo@gmail.com","origin":"googlecoursera-run, lti-coursera","subscriptions":1,"id":"eb3f0602d940d94d2eaeef36f2aa2e77","qlCreatedAt":"2020-02-28 17:36:48 UTC","optIn":false};gon.segment="j4Im8pqIko0Lxq4wVVZWMPMM0EroHUvb";gon.deployment="run";
+//]]>
+</script>
+<script type='application/ld+json'>
+{
+  "@context": "http://schema.org",
+  "@type": "WebSite",
+  "url": "https://www.qwiklabs.com/",
+  "potentialAction": {
+    "@type": "SearchAction",
+    "target": "https://www.qwiklabs.com/catalog?keywords={search_term_string}",
+    "query-input": "required name=search_term_string"
+  }
+}
+</script>
+<script id='ze-snippet' src='https://static.zdassets.com/ekr/snippet.js?key=511e4158-0aec-4e3c-b2e6-4daa1769f51e'></script>
+
+
+
+<link rel="stylesheet" media="all" href="https://cdn.qwiklabs.com/assets/application-4c3d1e8bc7757ea71809ef44e35c5d8018fb66ce6a4a777389558445ba2ce8a2.css" />
+<script>
+  EVENT_SOURCE_BASE_URL = "https://run.qwiklabs.com/nchan-sub?id=";
+</script>
+<script src="https://cdn.qwiklabs.com/polyfills/webcomponents-loader.js"></script>
+<script src="https://cdn.qwiklabs.com/assets/hallofmirrors/hallofmirrors-c2758d00524eb85dbbfd8ffdc020394cdc6d014970338c95837b835747eb8f6c.js"></script>
+<script src="https://www.youtube.com/iframe_api"></script>
+<script src="https://cdn.qwiklabs.com/assets/vendor-45d462772c30000424907184f70c7157e95fb6227698d1671c5051818a6f60d8.js"></script>
+<script src="https://cdn.qwiklabs.com/assets/application-7c67c1d428839917a0992758b33da63184c69efa420e5939804ea34d54147a97.js"></script>
+</head>
+<body class='focuses focuses-show lab-show l-full no-nav'>
+<div class='header-container light-theme'>
+<div class='header'>
+<a class='mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect header__button header__button--nav header__nav-panel-button js-nav-toggle'>
+<i class='material-icons'>menu</i>
+</a>
+<div class='header__title'>
+<a class="mdl-button mdl-js-button mdl-button--icon mdl-js-ripple-effect header__button header__button--nav" href="https://www.qwiklabs.com/quests/29"><ql-icon>arrow_back</ql-icon></a>
+
+<h1 class='headline-5'>
+Kubernetes in Google Cloud: Challenge Lab
+</h1>
+</div>
+<div class='header__actions'>
+<a class='mdl-button mdl-js-button mdl-button--icon mdl-js-ripple-effect header__button header__button--action header__button--search js-header-search-bar-button'>
+<i class='material-icons'>search</i>
+</a>
+<a class="mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect" id="toggle-lab-control-panel" href="javascript:;"><i class='material-icons'>description</i>
+</a><div class='mdl-tooltip js-tooltip' data-mdl-for='toggle-lab-control-panel'>
+Toggle Lab Panel
+</div>
+<a class="mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect js-favorite-button favorite-button" id="CatalogItem-10457-favorite-button" data-type="CatalogItem" data-id="10457" data-name="Kubernetes in Google Cloud: Challenge Lab" href="/favorite.json?item_id=10457&amp;item_type=CatalogItem"><i class='material-icons'>favorite_border</i>
+</a><div class='mdl-tooltip js-tooltip' for='CatalogItem-10457-favorite-button'>
+Add to favorites
+</div>
+
+
+<ql-help context="lab" productdata="{&quot;userId&quot;:2485272}" data-analytics-action="opened_help" data-analytics-label="lab"></ql-help>
+<a class='header-my-account-button mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect js-my-account-button'>
+<img class="avatar " alt="avatar image" src="https://secure.gravatar.com/avatar/be719396bbcc1e8bcb204a54e1920c54.png?s=80&amp;d=mm" />
+</a>
+<div class='header-my-account-menu js-my-account-menu'>
+<div class='card elevation-2 no-padding'>
+<div class='my-account-menu__top'>
+<img class="avatar " alt="avatar image" src="https://secure.gravatar.com/avatar/be719396bbcc1e8bcb204a54e1920c54.png?s=80&amp;d=mm" />
+<div class='my-account-menu__info'>
+<h4 class='subtitle-headline-1'>
+Carlo André Castro Galindo
+</h4>
+<p class='body-2 text--gray'>
+<span>carlocastrogalindo@gmail.com</span>
+</p>
+<a class="button" href="/my_account/profile">My Account</a>
+</div>
+</div>
+<div class='my-account-menu__bottom'>
+<a class="text--green subtitle-headline-2" href="/my_account/credits">Monthly Subscription
+</a><a data-analytics-action="clicked_sign_out" class="button button--hairline" rel="nofollow" data-method="delete" href="/users/sign_out">Sign Out</a>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+<div class='header__search-bar js-header-search-bar'>
+<form id="catalog-search-mobile" onsubmit="ql.catalogSearchFilter(); return false;" action="/searches/elasticsearch" accept-charset="UTF-8" method="post"><input name="utf8" type="hidden" value="&#x2713;" /><input type="hidden" name="authenticity_token" value="LkefQLHBQZk8nCRvLKK/ZlLlQJzk+t+r/6CccuvSqgTacn+jcgSIMAgi2BMDBp4HxVoLGL0cVnMU4EGx1zqzXA==" />
+<input type="text" name="keywords" id="keywords" placeholder="Search" maxlength="255" aria-label="catalog search bar" />
+</form>
+
+<a class='mdl-button mdl-js-button mdl-button--icon mdl-js-ripple-effect header__button'>
+<i class='material-icons'>close</i>
+</a>
+</div>
+</div>
+
+<nav class='nav-bar'>
+<a class="nav-bar__item js-navigation-button" href="/"><ql-icon class='nav-bar__item__icon'>
+home
+</ql-icon>
+<span class='nav-bar__item__label'>
+Home
+</span>
+</a>
+<a class="nav-bar__item js-navigation-button  active" aria-current="page" href="/catalog"><ql-icon class='nav-bar__item__icon'>
+school
+</ql-icon>
+<span class='nav-bar__item__label'>
+Catalog
+</span>
+</a>
+<a class="nav-bar__item js-navigation-button" href="/my_learning"><ql-icon class='nav-bar__item__icon'>
+event_note
+</ql-icon>
+<span class='nav-bar__item__label'>
+My Learning
+</span>
+</a>
+</nav>
+
+<nav class='nav-panel js-nav-panel'>
+<div class='nav-panel__logo'>
+<div class='logo logo--blue'></div>
+</div>
+<a title="Home" tabindex="-1" class="nav-panel__item js-navigation-button" href="/"><ql-icon class='nav-panel__item__icon'>
+home
+</ql-icon>
+<div class='nav-panel__item__label'>
+Home
+</div>
+</a>
+<a title="Catalog" tabindex="-1" class="nav-panel__item js-navigation-button active" aria-current="page" href="/catalog"><ql-icon class='nav-panel__item__icon'>
+school
+</ql-icon>
+<div class='nav-panel__item__label'>
+Catalog
+</div>
+</a>
+<a title="My Learning" tabindex="-1" class="nav-panel__item js-navigation-button" href="/my_learning"><ql-icon class='nav-panel__item__icon'>
+event_note
+</ql-icon>
+<div class='nav-panel__item__label'>
+My Learning
+</div>
+</a>
+<div class='nav-panel__spacer'></div>
+<a title="Profile" tabindex="-1" class="nav-panel__item js-navigation-button" href="/my_account/profile"><ql-icon class='nav-panel__item__icon'>
+account_circle
+</ql-icon>
+<div class='nav-panel__item__label'>
+Profile
+</div>
+</a>
+<a title="Credits &amp; Subscriptions" tabindex="-1" class="nav-panel__item js-navigation-button" href="/my_account/credits"><ql-icon class='nav-panel__item__icon'>
+money
+</ql-icon>
+<div class='nav-panel__item__label'>
+Credits &amp; Subscriptions
+</div>
+</a>
+<a title="Security" tabindex="-1" class="nav-panel__item js-navigation-button" href="/my_account/security"><ql-icon class='nav-panel__item__icon'>
+security
+</ql-icon>
+<div class='nav-panel__item__label'>
+Security
+</div>
+</a>
+<div class='nav-panel__spacer'></div>
+<a class="nav-panel__item" tabindex="-1" href="#"><ql-help>
+<div class='nav-panel__help-item'>
+<ql-icon class='nav-panel__item__icon'>help</ql-icon>
+<div class='nav-panel__item__label'>Help</div>
+</div>
+</ql-help>
+</a><div class='nav-panel__small-links'>
+<a tabindex="-1" href="/privacy_policy">Privacy</a>
+<a tabindex="-1" href="/terms_of_service">Terms</a>
+</div>
+</nav>
+<div class='nav-panel__overlay js-nav-toggle'></div>
+
+<main class='js-main'>
+<span class='hidden' id='flash-sibling-before'></span>
+
+<div class='l-main-wrapper' id='main-wrapper'>
+
+
+
+
+
+
+
+<div class='js-lab-state' data-analytics-payload='{&quot;label&quot;:&quot;Kubernetes in Google Cloud: Challenge Lab&quot;,&quot;lab_name&quot;:&quot;Kubernetes in Google Cloud: Challenge Lab&quot;,&quot;classroom_name&quot;:null,&quot;deployment&quot;:&quot;run&quot;}' data-focus-id='10457' data-lab-billing-limit='0.0' data-lab-duration='3600' data-parent='catalog' data-payment-required></div>
+<ql-lab-control-panel class='js-lab-control-panel l-lab-control-panel' connectionDetails='[]' connectionFiles='[]' labControlButton='{&quot;disabled&quot;:false,&quot;pending&quot;:false,&quot;running&quot;:false}' labTimer='{&quot;ticking&quot;:false,&quot;secondsRemaining&quot;:3600}' studentResources='[]'></ql-lab-control-panel>
+<div class='l-lab-main-body'>
+<div class='js-lab-content lab-content'>
+<div class='alert alert--fake js-alert'>
+<p class='alert__message js-alert-message'></p>
+<a class='alert__close js-alert-close'>
+<i class='fa fa-times'></i>
+</a>
+<iframe class='l-ie-iframe-fix'></iframe>
+</div>
+<div class='lab-content__markdown-wrapper'>
+<div class='lab-preamble'>
+<h1 class='lab-preamble__title'>
+Kubernetes in Google Cloud: Challenge Lab
+</h1>
+<div class='lab-preamble__details subtitle-headline-1'>
+<span>1 hour </span>
+<span>9 Credits</span>
+<div class='lab__rating'>
+<a href="/focuses/10457/reviews?parent=catalog"><div class='rateit' data-rateit-readonly='true' data-rateit-value='3.1207'></div>
+
+</a><a data-target='#lab-review-modal' data-toggle='modal'>
+Rate Lab
+</a>
+</div>
+</div>
+</div>
+
+<div class='lab-content__inner-wrapper'>
+<div class='js-markdown-instructions lab-content__markdown markdown-lab-instructions' id='markdown-lab-instructions'>
+
+
+
+<h2 id="step1">GSP318</h2>
+<p><img alt="Google Cloud Self-Paced Labs" src="https://cdn.qwiklabs.com/GMOHykaqmlTHiqEeQXTySaMXYPHeIvaqa2qHEzw6Occ%3D"></p>
+
+<h2 id="step2">Overview</h2>
+<p>You must complete a series of tasks within the allocated time period. Instead of following step-by-step instructions, you'll be given a scenario and a set of tasks - you figure out how to complete it on your own! An automated scoring system (shown on this page) will provide feedback on whether you have completed your tasks correctly.</p>
+<p>To score 100% you must complete all tasks within the time period!</p>
+<p>When you take a Challenge Lab, you will not be taught GCP concepts. To build the solution to the challenge presented, use skills learned from the labs in the quest this challenge lab is part of.  You will be expected to extend your learned skills; you will be expected to change default values, but new concepts will not be introduced.</p>
+<p>This lab is only recommended for students who have completed the labs in the <a href="https://google.qwiklabs.com/quests/24">Cloud Architecture</a> Quest.</p>
+<ql-warningbox>Please make sure you review the labs in the Cloud Architecture quest before starting this lab!</ql-warningbox>
+<p>Topics tested:</p>
+<ul>
+<li>Creating Docker images on a host.</li>
+<li>Running Docker containers on a host.</li>
+<li>Storing Docker images in the Google Container Repository (GCR).</li>
+<li>Deploying GCR images on Kubernetes.</li>
+<li>Pushing updates onto Kubernetes.</li>
+<li>Automating deployments to Kubernetes using Jenkins.</li>
+</ul>
+<p>Are you up for the challenge?</p>
+<h3>Setup</h3>
+<h4>Before you click the Start Lab button</h4>
+<p>Read these instructions. Labs are timed and you cannot pause them. The timer, which starts when you click Start Lab, shows how long Cloud resources will be made available to you.</p>
+<p>This Qwiklabs hands-on lab lets you do the lab activities yourself in a real cloud environment, not in a simulation or demo environment. It does so by giving you new, temporary credentials that you use to sign in and access the Google Cloud Platform for the duration of the lab.</p>
+<h4>What you need</h4>
+<p>To complete this lab, you need:</p>
+<ul>
+<li>Access to a standard internet browser (Chrome browser recommended).</li>
+<li>Time to complete the lab.</li>
+</ul>
+<p><strong>Note:</strong> If you already have your own personal GCP account or project, do not use it for this lab.</p>
+<p><strong>Note:</strong> If you are using a Pixelbook please open an Incognito window to run this lab.</p>
+
+<h2 id="step3">Challenge scenario</h2>
+<p>You have just completed training on containers and their creation and management and now you need to demonstrate to the Jooli Inc. development team your new skills. You have to help with some of their initial work on a new project around an application environment utilizing Kubernetes. Some of the work was already done for you, but other parts require your expert skills.</p>
+<p>You are expected to create container images, store the images in a repository, and configure a Jenkins CI/CD pipeline to automate the build for the product. Your know that Kurt, your supervisor, will ask you to complete these tasks:</p>
+<ul>
+<li>Create a Docker image and store the Dockerfile.</li>
+<li>Test the created Docker image.</li>
+<li>Push the Docker image into the Container Repository.</li>
+<li>Use the image to create and expose a deployment in Kubernetes</li>
+<li>Update the image and push a change to the deployment.</li>
+<li>Create a pipeline in Jenkins to deploy a new version of your image when the source code changes.</li>
+</ul>
+<p>Some Jooli Inc. standards you should follow:</p>
+<ul>
+<li>
+<p>Create all resources in the <code>us-east1</code> region and <code>us-east1-b</code> zone, unless otherwise directed.</p>
+</li>
+<li>
+<p>Use the project VPCs.</p>
+</li>
+<li>
+<p>Naming is normally <em>team-resource</em>, e.g. an instance could be named <strong>kraken-webserver1</strong>.</p>
+</li>
+<li>
+<p>Allocate cost effective resource sizes. Projects are monitored and excessive resource use will result in the containing project's termination (and possibly yours), so beware. This is the guidance the monitoring team is willing to share: unless directed, use <code>n1-standard-1</code>.</p>
+</li>
+</ul>
+<h3>Your challenge</h3>
+<p>As soon as you sit down at your desk and open your new laptop you receive the following request to complete these tasks. Good luck!</p>
+<ql-warningbox>Do not wait for the lab to provision! You can work through tasks 1-3 before you need the provisioning to be finished. Just ensure the workstation exists before starting Task 1.</ql-warningbox>
+<h2 id="step4">Task 1: Create a Docker image and store the Dockerfile</h2>
+<p>Open Cloud Shell and run <code>source &lt;(gsutil cat gs://cloud-training/gsp318/marking/setup_marking.sh)</code>.  This command will install marking scripts you can use to help check your progress.</p>
+<p>Use Cloud Shell to clone the <code>valkyrie-app</code> source code repository (it is in your project).</p>
+<p>The app source code is in <code>valkyrie-app/source</code>.  Create <code>valkyrie-app/Dockerfile</code> and add the configuration below.</p>
+<pre><code>FROM golang:1.10&#x000A;WORKDIR /go/src/app&#x000A;COPY source .&#x000A;RUN go install -v&#x000A;ENTRYPOINT ["app","-single=true","-port=8080"]&#x000A;</code></pre>
+<p>Use <code>valkyrie-app/Dockerfile</code> to create a Docker image called <strong>valkyrie-app</strong> with the tag <strong>v0.0.1</strong></p>
+<p>Once you have created the Docker image, and before clicking <strong>Check my progress</strong>, run <code>step1.sh</code> to perform the local check of your work.  After you get a successful response from the local marking you can check your progress.</p>
+<p>Click <em>Check my progress</em> to verify the objective.
+<ql-activity-tracking step="1">
+Create a Docker image and store the Dockerfile
+</ql-activity-tracking></p>
+<ql-warningbox>If you don't get a green check mark, please click on the Score fly-out on the top right and click Run Step on the relevant step.  You will see a hint pop up giving you advice.</ql-warningbox>
+
+<h2 id="step5">Task 2: Test the created Docker image</h2>
+<p>Launch a container using the image <strong>valkyrie-app:v0.0.1</strong>.  You need to map the host’s port 8080 to port 8080 on the container.  Add <code>&amp;</code> to the end of
+the command to cause the container to run in the background.</p>
+<p>When your container is running you will see the page by <strong>Web Preview</strong>.</p>
+<p>Once you have your container running, and before clicking <strong>Check my progress</strong>, run <code>step2.sh</code> to perform the local check of your work.  After you get a successful response from the local marking you can check your progress.</p>
+<p>Click <em>Check my progress</em> to verify the objective.
+<ql-activity-tracking step="2">
+Test the created Docker image
+</ql-activity-tracking></p>
+<ql-warningbox>If you don't get a green check mark, please click on the Score fly-out on the top right and click Run Step on the relevant step.  You will see a hint pop up giving you advice.</ql-warningbox>
+
+<h2 id="step6">Task 3: Push the Docker image in the Container Repository</h2>
+<p>Push the Docker image <strong>valkyrie-app:v0.0.1</strong> into the Container Registry.</p>
+<p>Make sure you re-tag the container to <strong>gcr.io/YOUR_PROJECT/valkyrie-app:v0.0.1</strong>.</p>
+<p>Click <em>Check my progress</em> to verify the objective.
+<ql-activity-tracking step="3">
+Push the Docker image in the Google Container Repository
+</ql-activity-tracking></p>
+<ql-warningbox>If you don't get a green check mark, please click on the Score fly-out on the top right and click Run Step on the relevant step.  You will see a hint pop up giving you advice.</ql-warningbox>
+
+<h2 id="step7">Task 4: Create and expose a deployment in Kubernetes</h2>
+<p>Kurt created the <code>deployment.yaml</code> and <code>service.yaml</code> to deploy your new container image to a Kubernetes cluster (called valkyrie-dev).  The two files are in <code>valkyrie-app/k8s</code>.</p>
+<p>Remember you need to get the Kubernetes credentials before you deploy the image onto the Kubernetes cluster.</p>
+<p>Before you create the deployments make sure you check the <code>deployment.yaml</code> and <code>service.yaml</code> files. Kurt thinks they need some values set (he thinks he left some placeholder values).</p>
+<p>You can check the load balancer once it’s available.</p>
+<p>Click <em>Check my progress</em> to verify the objective.
+<ql-activity-tracking step="4">
+Create and expose a deployment in Kubernetes
+</ql-activity-tracking></p>
+<ql-warningbox>If you don't get a green check mark, please click on the Score fly-out on the top right and click Run Step on the relevant step.  You will see a hint pop up giving you advice.</ql-warningbox>
+
+<h2 id="step8">Task 5: Update the deployment with a new version of valkyrie-app</h2>
+<p>Before deploying the new code, increase the replicas from 1 to 3 to ensure you don't cause an outage.</p>
+<p>Click <em>Check my progress</em> to verify the objective.
+<ql-activity-tracking step="5">
+Increase the replicas from 1 to 3
+</ql-activity-tracking></p>
+<ql-warningbox>If you don't get a green check mark, please click on the Score fly-out on the top right and click Run Step on the relevant step.  You will see a hint pop up giving you advice.</ql-warningbox>
+
+<p>Kurt made changes to the source code (he put the changes in a branch called <strong>kurt-dev</strong>). You need to merge <strong>kurt-dev</strong> into <strong>master</strong> (you should use <code>git merge origin/kurt-dev</code>).</p>
+<p>Build the new code as version v0.0.2 of valkyrie-app, push the updated image to the Container Repository, and then redeploy to the valkyrie-dev cluster.  You will know you have the new v0.0.2 version because the titles for the cards will be green.</p>
+<p>Click <em>Check my progress</em> to verify the objective.
+<ql-activity-tracking step="6">
+Update the deployment with a new version of valkyrie-app
+</ql-activity-tracking></p>
+<ql-warningbox>If you don't get a green check mark, please click on the Score fly-out on the top right and click Run Step on the relevant step.  You will see a hint pop up giving you advice.</ql-warningbox>
+
+<h2 id="step9">Task 6: Create a pipeline in Jenkins to deploy your app</h2>
+<p>This process of building the container and pushing to the container repository can be automated using Jenkins.  There is a Jenkins deployment in your <code>valkyrie-dev</code> cluster - connect to Jenkins and configure a job to build when you push a change to the source code.</p>
+<p>Remember with Jenkins:</p>
+<ul>
+<li>
+<p>Get the password with <code>printf $(kubectl get secret cd-jenkins -o jsonpath="{.data.jenkins-admin-password}" | base64 --decode);echo</code>.</p>
+</li>
+<li>
+<p>Connect to the Jenkins console using the commands below (but make sure you don't have a running container <code>docker ps</code>; if you do, kill it):</p>
+</li>
+</ul>
+<pre><code>export POD_NAME=$(kubectl get pods --namespace default -l "app.kubernetes.io/component=jenkins-master" -l "app.kubernetes.io/instance=cd" -o jsonpath="{.items[0].metadata.name}")&#x000A;kubectl port-forward $POD_NAME 8080:8080 &gt;&gt; /dev/null &amp;&#x000A;</code></pre>
+<ul>
+<li>Setup your credentials to use <strong>Google Service Account from metadata</strong>.</li>
+<li>Create a pipeline job that points to your <code>*/master</code> branch on your source code.</li>
+</ul>
+<p>Make two changes to your files before you commit and build:</p>
+<ul>
+<li>Edit <code>valkyrie-app/Jenkinsfile</code> and change YOUR_PROJECT to your actual project id.</li>
+<li>Edit <code>valkyrie-app/source/html.go</code> and change the two occurrences of green to orange.</li>
+</ul>
+<p>Use <code>git</code> to:</p>
+<ul>
+<li>Add all the changes then commit those changes to the master branch.</li>
+<li>Push the changes back to the repository.</li>
+</ul>
+<p>When you are ready, manually trigger a build (the initial build will take some time, so just monitor the process).  The build will replace the running containers with containers with different tags; you will see orange colored headings.</p>
+<p>Click <em>Check my progress</em> to verify the objective.
+<ql-activity-tracking step="7">
+Create a pipeline in Jenkins to deploy your app
+</ql-activity-tracking></p>
+<ql-warningbox>If you don't get a green check mark, please click on the Score fly-out on the top right and click Run Step on the relevant step.  You will see a hint pop up giving you advice.</ql-warningbox>
+
+<h2 id="step10">Congratulations!</h2>
+<p><img alt="6d0798e24a18671b.png" src="https://cdn.qwiklabs.com/2LSNdbBU3lu0UqtX1hUrMEip%2BbKsc9ecpQe%2BXtIL9qY%3D"></p>
+<h3>Finish Your Quest</h3>
+<p>This self-paced lab is part of the Qwiklabs <a href="https://google.qwiklabs.com/quests/29">Kubernetes in Google Cloud</a> Quest. A Quest is a series of related labs that form a learning path. Completing this Quest earns you the badge above, to recognize your achievement. You can make your badge public and link to them in your online resume or social media account.  <a href="https://google.qwiklabs.com/quests/29/enroll">Enroll in this Quest</a> and get immediate completion credit if you've taken this lab.  <a href="https://google.qwiklabs.com/catalog">See other available Qwiklabs Quests</a>.</p>
+<h3>Take your next lab</h3>
+<p>This lab is also part of a series of labs called Challenge Labs. These labs are designed test your Google Cloud knowledge and skill. Search for "Challenge Lab" in the  <a href="https://google.qwiklabs.com/catalog">lab catalog</a> and challenge yourself!</p>
+<h3>Google Cloud Training &amp; Certification</h3>
+<p>...helps you make the most of Google Cloud technologies. <a href="https://cloud.google.com/training/courses">Our classes</a> include technical skills and best practices to help you get up to speed quickly and continue your learning journey. We offer fundamental to advanced level training, with on-demand, live, and virtual options to suit your busy schedule. <a href="https://cloud.google.com/certification/">Certifications</a> help you validate and prove your skill and expertise in Google Cloud technologies.</p>
+
+<h5>Manual Last Updated March 18, 2020</h5>
+<h5>Lab Last Tested March 18, 2020</h5>
+<p>Copyright 2020 Google LLC All rights reserved. Google and the Google logo are trademarks of Google LLC. All other company and product names may be trademarks of the respective companies with which they are associated.</p>
+
+
+
+</div>
+<div class='js-lab-content-outline lab-content__outline'>
+<a href='#step1'>GSP318</a><a href='#step2'>Overview</a><a href='#step3'>Challenge scenario</a><a href='#step4'>Task 1: Create a Docker image and store the Dockerfile</a><a href='#step5'>Task 2: Test the created Docker image</a><a href='#step6'>Task 3: Push the Docker image in the Container Repository</a><a href='#step7'>Task 4: Create and expose a deployment in Kubernetes</a><a href='#step8'>Task 5: Update the deployment with a new version of valkyrie-app</a><a href='#step9'>Task 6: Create a pipeline in Jenkins to deploy your app</a><a href='#step10'>Congratulations!</a>
+</div>
+</div>
+
+</div>
+
+<div class='lab-content__markdown-wrapper'>
+<div class='lab-content__markdown'>
+<div class='lab-content__recommendation'>
+<!-- # TODO: Change classes so that this doesn't stack vertically -->
+<section class='upcoming-cards'>
+<h2 class='headline-3'>Continue questing</h2>
+<div class='content-card-grid'>
+<div class='card-content-wrapper js-content-card' data-id='2524' data-level='Expert' data-name='Kubernetes in Google Cloud: Challenge Lab' data-type='Lab'>
+<a class="card card--content elevation-0 content-lab" href="/focuses/10457?parent=catalog"><div class='card__image'>
+<div class='card__image__inner' style='background-image: url(https://cdn.qwiklabs.com/assets/fractal4-1d205807c54d90fe4382315dbfc0dd665ddb825bbc90f3ca5db7d7170fa0df1b.jpg)'></div>
+</div>
+<div class='card__body'>
+<div class='overline card--content__type'>
+Hands-On Lab
+</div>
+<h3 class='card--content__title'>
+Kubernetes in Google Cloud: Challenge Lab
+</h3>
+<p class='card--content__description body-1'>
+This challenge lab tests your skills and knowledge from the labs in the Kubernetes in Google Cloud quest.  You should be familiar with the content of the labs before attempting this lab.
+</p>
+</div>
+<div class='card__footer'>
+<div class='card__footer__left'>
+<span>Expert</span>
+</div>
+<div class='card__footer__right'>
+<div class='rateit' data-rateit-readonly='true' data-rateit-value='3.1207'></div>
+</div>
+</div>
+</a></div>
+
+</div>
+</section>
+
+</div>
+</div>
+</div>
+
+</div>
+</div>
+<div class='lab-assessment__tab js-lab-assessment-tab'>
+<h5 class='small-label'>
+Score
+</h5>
+<h3 class='js-lab-assessment-total-score'>
+&mdash;/100
+</h3>
+<iframe class='l-ie-iframe-fix'></iframe>
+</div>
+<div class='lab-assessment__panel js-lab-assessment-panel'>
+<!-- / If lab_instance has is started and assessment is generated, use -->
+<!-- / lab_instance.assessment, otherwise use lab.assessment_manual -->
+<div class='lab-assessment__step'>
+<p class='lab-assessment__step__title'>
+Create a Docker image and store the Dockerfile
+</p>
+<p class='button button--assessment js-show-run-step-button' step_no='1'>
+Run Step
+</p>
+<p class='lab-assessment__step__score'>
+<span class='js-assessment-step-score-1'>
+</span>
+/ 10
+</p>
+</div>
+
+<div class='lab-assessment__step'>
+<p class='lab-assessment__step__title'>
+Test the created Docker image
+</p>
+<p class='button button--assessment js-show-run-step-button' step_no='2'>
+Run Step
+</p>
+<p class='lab-assessment__step__score'>
+<span class='js-assessment-step-score-2'>
+</span>
+/ 10
+</p>
+</div>
+
+<div class='lab-assessment__step'>
+<p class='lab-assessment__step__title'>
+Push the Docker image in the Google Container Repository
+</p>
+<p class='button button--assessment js-show-run-step-button' step_no='3'>
+Run Step
+</p>
+<p class='lab-assessment__step__score'>
+<span class='js-assessment-step-score-3'>
+</span>
+/ 10
+</p>
+</div>
+
+<div class='lab-assessment__step'>
+<p class='lab-assessment__step__title'>
+Create and expose a deployment in Kubernetes
+</p>
+<p class='button button--assessment js-show-run-step-button' step_no='4'>
+Run Step
+</p>
+<p class='lab-assessment__step__score'>
+<span class='js-assessment-step-score-4'>
+</span>
+/ 20
+</p>
+</div>
+
+<div class='lab-assessment__step'>
+<p class='lab-assessment__step__title'>
+Increase the replicas from 1 to 3
+</p>
+<p class='button button--assessment js-show-run-step-button' step_no='5'>
+Run Step
+</p>
+<p class='lab-assessment__step__score'>
+<span class='js-assessment-step-score-5'>
+</span>
+/ 10
+</p>
+</div>
+
+<div class='lab-assessment__step'>
+<p class='lab-assessment__step__title'>
+Update the deployment with a new version of valkyrie-app
+</p>
+<p class='button button--assessment js-show-run-step-button' step_no='6'>
+Run Step
+</p>
+<p class='lab-assessment__step__score'>
+<span class='js-assessment-step-score-6'>
+</span>
+/ 20
+</p>
+</div>
+
+<div class='lab-assessment__step'>
+<p class='lab-assessment__step__title'>
+Create a pipeline in Jenkins to deploy your app
+</p>
+<p class='button button--assessment js-show-run-step-button' step_no='7'>
+Run Step
+</p>
+<p class='lab-assessment__step__score'>
+<span class='js-assessment-step-score-7'>
+</span>
+/ 20
+</p>
+</div>
+
+<iframe class='l-ie-iframe-fix'></iframe>
+</div>
+<div class='lab-introduction js-lab-introduction is-hidden'>
+<div class='lab-introduction__inner'>
+<h1 class='headline-1'>Welcome to Your First Lab!</h1>
+<ql-icon-button class='js-skip-button'>close</ql-icon-button>
+<div class='lab-introduction__video'>
+<iframe allow='autoplay; encrypted-media' allowfullscreen frameborder='0' id='lab-introduction' src='https://www.youtube.com/embed/yF7EDXKTmoQ?enablejsapi=1&amp;rel=0&amp;showinfo=0'></iframe>
+</div>
+<a class='js-skip-button button button--outline'>Skip this video</a>
+</div>
+</div>
+
+
+
+</div>
+</main>
+<div class='modal fade' id='lab-details-modal'>
+<div class='modal-container'>
+<div class='mdl-shadow--24dp modal-content'>
+<div class='modal-body'>
+<p class='l-mbm'>
+This challenge lab tests your skills and knowledge from the labs in the Kubernetes in Google Cloud quest.  You should be familiar with the content of the labs before attempting this lab.
+</p>
+<p>
+This lab is included in the quest
+<a href="/quests/29">Kubernetes in Google Cloud</a>.
+If you complete this lab you&#39;ll receive credit for it when you enroll in this quest.
+</p>
+<p class='small-label l-mbs'>
+<strong>
+Duration:
+</strong>
+6m setup
+&middot;
+60m access
+&middot;
+60m completion
+</p>
+<p class='small-label l-mbs'>
+<span><strong>Levels: </strong>expert</span>
+</p>
+<p class='small-label'>
+<strong>
+Permalink:
+</strong>
+<a href="https://www.qwiklabs.com/catalog_lab/2524">https://www.qwiklabs.com/catalog_lab/2524</a>
+</p>
+</div>
+<div class='modal-actions'>
+<a class='mdl-button mdl-button--primary mdl-js-button mdl-js-ripple-effect' data-dismiss='modal'>
+Got It
+</a>
+</div>
+
+
+</div>
+</div>
+<iframe class='l-ie-iframe-fix'></iframe>
+</div>
+<div class='modal fade' id='lab-review-modal'>
+<div class='modal-container'>
+<div class='mdl-shadow--24dp modal-content'>
+<form class="simple_form js-lab-review-form" id="new_lab_review" action="/lab_reviews" accept-charset="UTF-8" data-remote="true" method="post"><input name="utf8" type="hidden" value="&#x2713;" /><div class='modal-body'>
+<p class='label'>
+How satisfied are you with this lab?*
+</p>
+<div class='rateit js-rateit' data-rateit-max='5' data-rateit-min='0' data-rateit-resetable='false' data-rateit-step='1' data-rateit-value='0'></div>
+<div class='l-mtm'>
+
+<div class="control-group hidden lab_review_user_id"><div class="controls"><input class="hidden" type="hidden" value="2485272" name="lab_review[user_id]" id="lab_review_user_id" /></div></div>
+<div class="control-group hidden lab_review_classroom_id"><div class="controls"><input class="hidden" type="hidden" name="lab_review[classroom_id]" id="lab_review_classroom_id" /></div></div>
+<div class="control-group hidden lab_review_lab_id"><div class="controls"><input class="hidden" type="hidden" value="2524" name="lab_review[lab_id]" id="lab_review_lab_id" /></div></div>
+<div class="control-group hidden lab_review_focus_id"><div class="controls"><input class="hidden" type="hidden" name="lab_review[focus_id]" id="lab_review_focus_id" /></div></div>
+<div class="control-group hidden lab_review_rating"><div class="controls"><input class="hidden js-rating-input" type="hidden" name="lab_review[rating]" id="lab_review_rating" /></div></div>
+<div class="control-group text optional lab_review_comment"><label class="text optional control-label" for="lab_review_comment">Comment</label><div class="controls"><textarea class="text optional" name="lab_review[comment]" id="lab_review_comment">
+</textarea></div></div>
+</div>
+</div>
+<div class='modal-actions'>
+<a class='mdl-button mdl-button--primary mdl-js-button mdl-js-ripple-effect' data-dismiss='modal'>
+Cancel
+</a>
+<input type="submit" name="commit" value="Submit" disabled="disabled" class="btn mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--primary" id="submit" data-disabled="false" data-disable-with="Submit" />
+</div>
+</form>
+
+</div>
+</div>
+<iframe class='l-ie-iframe-fix'></iframe>
+</div>
+<div class='modal fade' id='lab-access-modal'>
+<div class='modal-container'>
+<div class='mdl-shadow--24dp modal-content'>
+<a class='lab-access-modal-close' data-analytics-action='dismissed_lab_payment_modal' data-dismiss='modal'>
+<i class='material-icons'>close</i>
+</a>
+<form class="js-lab-access-form" action="/lab_onetime_coupons/activate?parent=catalog" accept-charset="UTF-8" data-remote="true" method="post"><input name="utf8" type="hidden" value="&#x2713;" />
+<div class='modal-body'>
+<div class='lab-access-modal'>
+<input type="hidden" name="id" id="id" value="10457" />
+<input type="hidden" name="user_id" id="user_id" value="2485272" />
+<input type="hidden" name="launch_with_credits" id="launch_with_credits" value="0" class="js-launch-with-credits-input" />
+<input type="hidden" name="launch_with_subs" id="launch_with_subs" value="0" class="js-launch-with-subscription-input" />
+<div class='lab-access-modal__method'>
+<p>
+This lab costs
+9 Credits.
+</p>
+<p>
+You have a valid subscription package. Would you like to charge this lab to your subscription?
+
+</p>
+<a class='button js-launch-with-subscription-button js-lab-access-modal-button' data-analytics-action='clicked_launch_with_subscription_button'>
+Use Subscription
+</a>
+</div>
+<div class='lab-access-modal__method'>
+<p>
+Enter Lab Access Code:
+</p>
+<div class='lab-access-modal__code js-access-code'>
+<input type="text" name="uuid_1" id="uuid_1" value="" maxlength="4" placeholder="1234" />
+<input type="text" name="uuid_2" id="uuid_2" value="" maxlength="4" placeholder="1234" />
+<input type="text" name="uuid_3" id="uuid_3" value="" maxlength="4" placeholder="1234" />
+<input type="text" name="uuid_4" id="uuid_4" value="" maxlength="4" placeholder="1234" />
+</div>
+<a class='button js-launch-with-access-code-button js-lab-access-modal-button' data-analytics-action='clicked_launch_with_access_code_button'>
+Launch with Access Code
+</a>
+</div>
+</div>
+</div>
+</form>
+
+
+
+</div>
+</div>
+<iframe class='l-ie-iframe-fix'></iframe>
+</div>
+
+<script>
+  $( function() {
+    ql.initMaterialInputs();
+    initChosen();
+    initSearch();
+    initTabs();
+    ql.list.init();
+    ql.favoriting.init();
+    ql.header.myAccount.init();
+    initTooltips();
+    ql.autocomplete.init();
+    ql.modals.init();
+    ql.toggleButtons.init();
+    ql.analytics.init();
+    initLabContent( );
+  ql.labOutline.links.init();
+  ql.labOutline.layout.init();
+  initLabReviewModal();
+  initLabAccessModal();
+  ql.labAssessment.init();
+  ql.labIntroduction.init( true );
+  ql.labData.init();
+  initLabTranslations( {"are_you_sure":"All done? If you end this lab, you will lose all your work. You may not be able to restart the lab if there is a quota limit. Are you sure you want to end this lab?\n","in_progress":"*In Progress*","ending":"*Ending*","starting":"*Starting, please wait*","end_concurrent_labs":"Sorry, you can only run one lab at a time. To start this lab, please confirm that you want all of your existing labs to end.\n","copied":"Copied","no_resource":"Error retrieving resource.","no_support":"No Support","mac_press":"Press ⌘-C to copy","thanks_review":"Thanks for reviewing this lab.","windows_press":"Press Ctrl-C to copy","days":"days"} );
+  ql.labRun.init();
+  ql.initHeader();
+  ql.navigation.init();
+  ql.navPanel.init();
+  ql.navigation.init();
+  
+  });
+</script>
+<style>
+  .mdl-layout__container {
+    position: static
+  }
+</style>
+</body>
+</html>

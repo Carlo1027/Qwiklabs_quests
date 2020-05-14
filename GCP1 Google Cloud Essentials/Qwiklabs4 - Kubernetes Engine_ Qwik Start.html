@@ -1,0 +1,769 @@
+<!DOCTYPE html>
+<html lang='es'>
+<head>
+<meta content='[]' name='active-experiments'>
+<meta content='{&quot;userId&quot;:2485272}' name='help-api-product-data'>
+<meta name="csrf-param" content="authenticity_token" />
+<meta name="csrf-token" content="RIDf4rw5vqpma4OK8djBebvMZsqwfjU8c8OHSCmyl7SwtT8Bf/x3A1LVf/befOAYLHMtTumYvOSYg1qLFVqO7A==" />
+<title>Kubernetes Engine: Qwik Start | Qwiklabs</title>
+<meta content='width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=0' name='viewport'>
+<meta content='Google Kubernetes Engine proporciona un entorno administrado para implementar, administrar y escalar sus aplicaciones en contenedores con la infraestructura de Google.  Este lab práctico muestra cómo implementar una aplicación en contenedores con Kubernetes Engine. Mire este breve video: &amp;lt;A HREF=&quot;https://youtu.be/u9nsngvmMK4&quot;&amp;gt;Manage Containerized Apps with Kubernetes Engine&amp;lt;/A&amp;gt;.' name='description'>
+<meta content='Qwiklabs' name='author'>
+<meta content='1rRsY0INj8RvwB5EF5pwdxt2A2P9aDgAlsICaJ0d5w0' name='google-site-verification'>
+<meta content='Kubernetes Engine: Qwik Start | Qwiklabs' property='og:title'>
+<meta content='website' property='og:type'>
+<meta content='/favicon-144.png' property='og:image'>
+<meta content='Qwiklabs' property='og:site_name'>
+<meta content='Google Kubernetes Engine proporciona un entorno administrado para implementar, administrar y escalar sus aplicaciones en contenedores con la infraestructura de Google.  Este lab práctico muestra cómo implementar una aplicación en contenedores con Kubernetes Engine. Mire este breve video: &amp;lt;A HREF=&quot;https://youtu.be/u9nsngvmMK4&quot;&amp;gt;Manage Containerized Apps with Kubernetes Engine&amp;lt;/A&amp;gt;.' property='og:description'>
+<meta content='/qwiklabs_logo_900x887.png' property='og:logo' size='900x887'>
+<meta content='/qwiklabs_logo_994x187.png' property='og:logo' size='994x187'>
+<meta content='#3681E4' property='msapplication-TileColor'>
+<meta content='/favicon-144.png' property='msapplication-TileImage'>
+<link href='/favicon-32.png' rel='shortcut icon'>
+<link color='#3681E4' href='/favicon-svg.svg' rel='mask-icon'>
+<link href='/favicon-180.png' rel='apple-touch-icon-precomposed'>
+<link rel="stylesheet" media="screen" href="https://fonts.googleapis.com/css?family=Oswald:400|Roboto+Mono:400,700|Roboto:300,400,500,700|Google+Sans:300,400,500,700|Google+Sans+Display:400|Material+Icons|Google+Material+Icons" />
+
+<link rel="stylesheet" media="screen" href="https://cdn.qwiklabs.com/assets/application_old/locales/es-7c4d85e3db7c28c14f71b18551da7ddc227e8f9b85777ece770fcbd96d9ef753.css" />
+<!--[if lt IE 9]>
+<script src='http://html5shim.googlecode.com/svn/trunk/html5.js' type='text/javascript'></script>
+<![endif]-->
+<!--[endif]>  <![endif]-->
+<script>
+//<![CDATA[
+window.gon={};gon.current_user={"firstname":"Carlo Andr\u00e9","lastname":"Castro Galindo","fullname":"Carlo Andr\u00e9 Castro Galindo","company":"Coursera","email":"carlocastrogalindo@gmail.com","origin":"googlecoursera-run, lti-coursera","subscriptions":1,"id":"eb3f0602d940d94d2eaeef36f2aa2e77","qlCreatedAt":"2020-02-28 17:36:48 UTC","optIn":false};gon.segment="j4Im8pqIko0Lxq4wVVZWMPMM0EroHUvb";gon.deployment="run";
+//]]>
+</script>
+<script type='application/ld+json'>
+{
+  "@context": "http://schema.org",
+  "@type": "WebSite",
+  "url": "https://www.qwiklabs.com/",
+  "potentialAction": {
+    "@type": "SearchAction",
+    "target": "https://www.qwiklabs.com/catalog?keywords={search_term_string}",
+    "query-input": "required name=search_term_string"
+  }
+}
+</script>
+<script id='ze-snippet' src='https://static.zdassets.com/ekr/snippet.js?key=511e4158-0aec-4e3c-b2e6-4daa1769f51e'></script>
+
+
+
+<link rel="stylesheet" media="all" href="https://cdn.qwiklabs.com/assets/application-4c3d1e8bc7757ea71809ef44e35c5d8018fb66ce6a4a777389558445ba2ce8a2.css" />
+<script>
+  EVENT_SOURCE_BASE_URL = "https://run.qwiklabs.com/nchan-sub?id=";
+</script>
+<script src="https://cdn.qwiklabs.com/polyfills/webcomponents-loader.js"></script>
+<script src="https://cdn.qwiklabs.com/assets/hallofmirrors/hallofmirrors__es_419-53722a8c29aa90d0fbab9b3c73008da3dadf74f9c7e6e4d2cb1df2c62c3fb110.js"></script>
+<script src="https://www.youtube.com/iframe_api"></script>
+<script src="https://cdn.qwiklabs.com/assets/vendor-45d462772c30000424907184f70c7157e95fb6227698d1671c5051818a6f60d8.js"></script>
+<script src="https://cdn.qwiklabs.com/assets/application-7c67c1d428839917a0992758b33da63184c69efa420e5939804ea34d54147a97.js"></script>
+</head>
+<body class='focuses focuses-show lab-show l-full no-nav'>
+<div class='header-container light-theme'>
+<div class='header'>
+<a class='mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect header__button header__button--nav header__nav-panel-button js-nav-toggle'>
+<i class='material-icons'>menu</i>
+</a>
+<div class='header__title'>
+<a class="mdl-button mdl-js-button mdl-button--icon mdl-js-ripple-effect header__button header__button--nav" href="https://www.qwiklabs.com/quests/23?locale=es"><ql-icon>arrow_back</ql-icon></a>
+
+<h1 class='headline-5'>
+Kubernetes Engine: Qwik Start
+</h1>
+</div>
+<div class='header__actions'>
+<a class='mdl-button mdl-js-button mdl-button--icon mdl-js-ripple-effect header__button header__button--action header__button--search js-header-search-bar-button'>
+<i class='material-icons'>search</i>
+</a>
+<a class="mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect" id="toggle-lab-control-panel" href="javascript:;"><i class='material-icons'>description</i>
+</a><div class='mdl-tooltip js-tooltip' data-mdl-for='toggle-lab-control-panel'>
+Activar o desactivar panel del lab
+</div>
+<a class="mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect js-favorite-button favorite-button" id="CatalogItem-878-favorite-button" data-type="CatalogItem" data-id="878" data-name="Kubernetes Engine: Qwik Start" href="/favorite.json?item_id=878&amp;item_type=CatalogItem&amp;locale=es"><i class='material-icons'>favorite_border</i>
+</a><div class='mdl-tooltip js-tooltip' for='CatalogItem-878-favorite-button'>
+Agregar a favoritos
+</div>
+
+
+<ql-help context="lab" productdata="{&quot;userId&quot;:2485272}" data-analytics-action="opened_help" data-analytics-label="lab"></ql-help>
+<a class='header-my-account-button mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect js-my-account-button'>
+<img class="avatar " alt="avatar image" src="https://secure.gravatar.com/avatar/be719396bbcc1e8bcb204a54e1920c54.png?s=80&amp;d=mm" />
+</a>
+<div class='header-my-account-menu js-my-account-menu'>
+<div class='card elevation-2 no-padding'>
+<div class='my-account-menu__top'>
+<img class="avatar " alt="avatar image" src="https://secure.gravatar.com/avatar/be719396bbcc1e8bcb204a54e1920c54.png?s=80&amp;d=mm" />
+<div class='my-account-menu__info'>
+<h4 class='subtitle-headline-1'>
+Carlo André Castro Galindo
+</h4>
+<p class='body-2 text--gray'>
+<span>carlocastrogalindo@gmail.com</span>
+</p>
+<a class="button" href="/my_account/profile?locale=es">Mi cuenta</a>
+</div>
+</div>
+<div class='my-account-menu__bottom'>
+<a class="text--green subtitle-headline-2" href="/my_account/credits?locale=es">Suscripción mensual
+</a><a data-analytics-action="clicked_sign_out" class="button button--hairline" rel="nofollow" data-method="delete" href="/users/sign_out?locale=es">Salir</a>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+<div class='header__search-bar js-header-search-bar'>
+<form id="catalog-search-mobile" onsubmit="ql.catalogSearchFilter(); return false;" action="/searches/elasticsearch" accept-charset="UTF-8" method="post"><input name="utf8" type="hidden" value="&#x2713;" /><input type="hidden" name="authenticity_token" value="lC+50gjCP5l+J7bKupXINAbiyQGeVopWMhC94E1T9JJgGlkxywf2MEqZSraVMelVkV2ChcewA47ZUGAjcbvtyg==" />
+<input type="text" name="keywords" id="keywords" placeholder="Buscar" maxlength="255" aria-label="catalog search bar" />
+</form>
+
+<a class='mdl-button mdl-js-button mdl-button--icon mdl-js-ripple-effect header__button'>
+<i class='material-icons'>close</i>
+</a>
+</div>
+</div>
+
+<nav class='nav-bar'>
+<a class="nav-bar__item js-navigation-button" href="/?locale=es"><ql-icon class='nav-bar__item__icon'>
+home
+</ql-icon>
+<span class='nav-bar__item__label'>
+Página principal
+</span>
+</a>
+<a class="nav-bar__item js-navigation-button  active" aria-current="page" href="/catalog?locale=es"><ql-icon class='nav-bar__item__icon'>
+school
+</ql-icon>
+<span class='nav-bar__item__label'>
+Catálogo
+</span>
+</a>
+<a class="nav-bar__item js-navigation-button" href="/my_learning?locale=es"><ql-icon class='nav-bar__item__icon'>
+event_note
+</ql-icon>
+<span class='nav-bar__item__label'>
+Mi aprendizaje
+</span>
+</a>
+</nav>
+
+<nav class='nav-panel js-nav-panel'>
+<div class='nav-panel__logo'>
+<div class='logo logo--blue'></div>
+</div>
+<a title="Página principal" tabindex="-1" class="nav-panel__item js-navigation-button" href="/?locale=es"><ql-icon class='nav-panel__item__icon'>
+home
+</ql-icon>
+<div class='nav-panel__item__label'>
+Página principal
+</div>
+</a>
+<a title="Catálogo" tabindex="-1" class="nav-panel__item js-navigation-button active" aria-current="page" href="/catalog?locale=es"><ql-icon class='nav-panel__item__icon'>
+school
+</ql-icon>
+<div class='nav-panel__item__label'>
+Catálogo
+</div>
+</a>
+<a title="Mi aprendizaje" tabindex="-1" class="nav-panel__item js-navigation-button" href="/my_learning?locale=es"><ql-icon class='nav-panel__item__icon'>
+event_note
+</ql-icon>
+<div class='nav-panel__item__label'>
+Mi aprendizaje
+</div>
+</a>
+<div class='nav-panel__spacer'></div>
+<a title="Profile" tabindex="-1" class="nav-panel__item js-navigation-button" href="/my_account/profile?locale=es"><ql-icon class='nav-panel__item__icon'>
+account_circle
+</ql-icon>
+<div class='nav-panel__item__label'>
+Profile
+</div>
+</a>
+<a title="Credits &amp; Subscriptions" tabindex="-1" class="nav-panel__item js-navigation-button" href="/my_account/credits?locale=es"><ql-icon class='nav-panel__item__icon'>
+money
+</ql-icon>
+<div class='nav-panel__item__label'>
+Credits &amp; Subscriptions
+</div>
+</a>
+<a title="Security" tabindex="-1" class="nav-panel__item js-navigation-button" href="/my_account/security?locale=es"><ql-icon class='nav-panel__item__icon'>
+security
+</ql-icon>
+<div class='nav-panel__item__label'>
+Security
+</div>
+</a>
+<div class='nav-panel__spacer'></div>
+<a class="nav-panel__item" tabindex="-1" href="#"><ql-help>
+<div class='nav-panel__help-item'>
+<ql-icon class='nav-panel__item__icon'>help</ql-icon>
+<div class='nav-panel__item__label'>Help</div>
+</div>
+</ql-help>
+</a><div class='nav-panel__small-links'>
+<a tabindex="-1" href="/privacy_policy?locale=es">Privacidad</a>
+<a tabindex="-1" href="/terms_of_service?locale=es">Condiciones</a>
+</div>
+</nav>
+<div class='nav-panel__overlay js-nav-toggle'></div>
+
+<main class='js-main'>
+<span class='hidden' id='flash-sibling-before'></span>
+
+<div class='l-main-wrapper' id='main-wrapper'>
+
+
+
+
+
+
+
+<div class='js-lab-state' data-analytics-payload='{&quot;label&quot;:&quot;Kubernetes Engine: Qwik Start&quot;,&quot;lab_name&quot;:&quot;Kubernetes Engine: Qwik Start&quot;,&quot;classroom_name&quot;:null,&quot;deployment&quot;:&quot;run&quot;}' data-focus-id='878' data-lab-billing-limit='0.0' data-lab-duration='1800' data-parent='catalog' data-payment-required></div>
+<ql-lab-control-panel class='js-lab-control-panel l-lab-control-panel' connectionDetails='[]' connectionFiles='[]' labControlButton='{&quot;disabled&quot;:false,&quot;pending&quot;:false,&quot;running&quot;:false}' labTimer='{&quot;ticking&quot;:false,&quot;secondsRemaining&quot;:1800}' studentResources='[]'></ql-lab-control-panel>
+<div class='l-lab-main-body'>
+<div class='js-lab-content lab-content'>
+<div class='alert alert--fake js-alert'>
+<p class='alert__message js-alert-message'></p>
+<a class='alert__close js-alert-close'>
+<i class='fa fa-times'></i>
+</a>
+<iframe class='l-ie-iframe-fix'></iframe>
+</div>
+<div class='lab-content__markdown-wrapper'>
+<div class='lab-preamble'>
+<h1 class='lab-preamble__title'>
+Kubernetes Engine: Qwik Start
+</h1>
+<div class='lab-preamble__details subtitle-headline-1'>
+<span>30 minutos</span>
+<span>1 crédito</span>
+<div class='lab__rating'>
+<a href="/focuses/878/reviews?locale=es&amp;parent=catalog"><div class='rateit' data-rateit-readonly='true' data-rateit-value='4.4569'></div>
+
+</a><a data-target='#lab-review-modal' data-toggle='modal'>
+Calificar lab
+</a>
+</div>
+</div>
+</div>
+
+<div class='lab-content__inner-wrapper'>
+<div class='js-markdown-instructions lab-content__markdown markdown-lab-instructions' id='markdown-lab-instructions'>
+
+
+
+<h2 id="step1">GSP100</h2>
+<p><img alt="Labs de autoaprendizaje de Google Cloud" src="https://cdn.qwiklabs.com/GMOHykaqmlTHiqEeQXTySaMXYPHeIvaqa2qHEzw6Occ%3D"></p>
+
+<h2 id="step2">Descripción general</h2>
+<p><a href="https://cloud.google.com/kubernetes-engine/" target="_blank">Google Kubernetes Engine</a> (GKE) proporciona un entorno administrado para implementar, administrar y escalar sus aplicaciones en contenedores con la infraestructura de Google. El entorno de Kubernetes Engine consta de varias máquinas (específicamente, instancias de <a href="https://cloud.google.com/compute" target="_blank">Google Compute Engine</a>) que se agrupan para formar un <a href="https://cloud.google.com/kubernetes-engine/docs/concepts/cluster-architecture" target="_blank">clúster de contenedores</a>. En este lab, adquirirá experiencia práctica en la creación de contenedores y la implementación de aplicaciones con GKE.</p>
+<h3>Organización de un clúster con Kubernetes Engine</h3>
+<p>Los clústeres de Kubernetes Engine funcionan con el sistema de administración de código abierto de <a href="https://kubernetes.io/" target="_blank">Kubernetes</a>. Este proporciona los mecanismos a través de los cuales interactúa con su clúster de contenedores. Los comandos y recursos de Kubernetes se usan para implementar y administrar aplicaciones, realizar tareas administrativas, establecer políticas y supervisar el estado de las cargas de trabajo implementadas.</p>
+<p>Kubernetes se basa en los mismos principios de diseño que se utilizan para ejecutar algunos servicios populares de Google y ofrece los mismos beneficios: administración automática, supervisión y sondeos de funcionamiento de los contenedores de aplicaciones, ajuste de escala automático, actualizaciones progresivas y mucho más. Cuando ejecuta sus aplicaciones en un clúster de contenedores, está utilizando tecnología basada en la experiencia de más de 10 años que Google tiene ejecutando cargas de trabajo de producción en contenedores.</p>
+<h3>Kubernetes en Google Cloud Platform</h3>
+<p>Cuando ejecuta un clúster de Kubernetes Engine, también obtiene el beneficio de las funciones avanzadas de administración de clústeres que proporciona Google Cloud Platform, Las siguientes son algunas de ellas:</p>
+<ul>
+<li>
+<a href="https://cloud.google.com/compute/docs/load-balancing-and-autoscaling" target="_blank">Balanceo de cargas</a> para instancias de Compute Engine</li>
+<li>
+<a href="https://cloud.google.com/kubernetes-engine/docs/node-pools" target="_blank">Grupos de nodos</a> para designar subconjuntos de nodos dentro de un clúster y así obtener flexibilidad adicional</li>
+<li>
+<a href="https://cloud.google.com/kubernetes-engine/docs/cluster-autoscaler" target="_blank">Ajuste de escala automático</a> del recuento de instancias de nodos del clúster</li>
+<li>
+<a href="https://cloud.google.com/kubernetes-engine/docs/node-auto-upgrade" target="_blank">Actualizaciones automáticas</a> para el software de nodo del clúster</li>
+<li>
+<a href="https://cloud.google.com/kubernetes-engine/docs/how-to/node-auto-repair" target="_blank">Reparación automática de los nodos</a> para mantenerlos disponibles y en buen estado</li>
+<li>
+<a href="https://cloud.google.com/kubernetes-engine/docs/how-to/logging" target="_blank">Registros y supervisión</a> con Stackdriver para obtener una mayor visibilidad del clúster</li>
+</ul>
+<p>Ahora que tiene un conocimiento básico de Kubernetes, aprenderá cómo implementar una aplicación en contenedores con Kubernetes Engine en menos de 30 minutos. Desplácese hacia abajo y siga los pasos que se muestran a continuación para configurar el entorno de su lab.</p>
+<h2 id="step3">Configuración y requisitos</h2>
+<h3><strong>Configuración de Qwiklabs</strong></h3>
+<h4>Antes de hacer clic en el botón Comenzar lab</h4>
+<p>Lea estas instrucciones. Los labs tienen un tiempo límite; no puede ponerlos en pausa. El cronómetro, que comienza a funcionar cuando hace clic en Comenzar lab, indica por cuánto tiempo estarán los recursos en la nube a su disposición.</p>
+<p>Este lab práctico de Qwiklabs le permitirá llevar a cabo las actividades correspondientes en un entorno de nube real, no en uno de simulación o demostración. Para ello, recibe nuevas credenciales temporales que utilizará para acceder a Google Cloud Platform durante el transcurso del lab.</p>
+<h4>Lo que necesita</h4>
+<p>Para completar este lab, necesitará lo siguiente:</p>
+<ul>
+<li>Acceso a un navegador de Internet estándar. Se recomienda el navegador Chrome</li>
+<li>Tiempo para completar el lab</li>
+</ul>
+<p><strong><em>Nota</em></strong>: Si ya tiene un proyecto o una cuenta personal de GCP, no los use para este lab.</p>
+
+<h3><strong>Google Cloud Platform Console</strong></h3>
+<h4>Cómo iniciar su lab y acceder a Console</h4>
+<ol>
+<li>
+<p>Haga clic en el botón <strong>Comenzar lab</strong>. Si debe pagar por el lab, se abrirá una ventana emergente para que seleccione su forma de pago.
+En la parte izquierda, verá un panel con las credenciales temporales que debe usar para este lab.</p>
+<p><img alt="Abrir Google Console" src="https://cdn.qwiklabs.com/%2FtHp4GI5VSDyTtdqi3qDFtevuY014F88%2BFow%2FadnRgE%3D"></p>
+</li>
+<li>
+<p>Copie el nombre de usuario y, luego, haga clic en <strong>Abrir Google Console</strong>.
+El lab inicia los recursos y abre otra pestaña que muestra la página <strong>Seleccione una cuenta</strong>.</p>
+<p><strong><em>Sugerencia</em></strong>: Abra las pestañas en ventanas separadas, una junto a la otra.</p>
+</li>
+<li>
+<p>En la página Seleccione una cuenta, haga clic en <strong>Usar otra cuenta</strong>.</p>
+<p><img alt="Elegir una cuenta" src="https://cdn.qwiklabs.com/eQ6xPnPn13GjiJP3RWlHWwiMjhooHxTNvzfg1AL2WPw%3D"></p>
+</li>
+<li>
+<p>Se abrirá la página de acceso. Pegue el nombre de usuario que copió del panel Detalles de conexión. Luego, copie y pegue la contraseña.</p>
+<p><strong><em>Importante</em></strong>: Debe usar las credenciales del panel Detalles de conexión. No use sus credenciales de Qwiklabs. Si tiene una cuenta propia de GCP, no la use para este lab (evite incurrir en cargos).</p>
+</li>
+<li>
+<p>Avance por las siguientes páginas haciendo clic en ellas:</p>
+<ul>
+<li>Acepte los Términos y Condiciones.</li>
+<li>No agregue opciones de recuperación o autenticación de dos factores (esta es una cuenta temporal).</li>
+<li>No se registre para obtener pruebas gratuitas.</li>
+</ul>
+</li>
+</ol>
+<p>Después de un momento, se abrirá GCP Console en esta pestaña.</p>
+<aside>
+<b>Nota:</b> Para ver el menú con una lista de productos y servicios de GCP, haga clic en <b>Menú de navegación</b>, en la esquina superior izquierda, junto a "Google Cloud Platform".
+<img alt="Menú de Cloud Console" src="https://cdn.qwiklabs.com/9vT7xPlxoNP%2FPsK0J8j0ZPFB4HnnpaIJVCDByaBrSHg%3D">
+</aside>
+
+<h3>Active Google Cloud Shell</h3>
+<p>Google Cloud Shell es una máquina virtual que cuenta con herramientas de desarrollo. Ofrece un directorio principal persistente de 5 GB y se ejecuta en Google Cloud.
+	Google Cloud Shell proporciona acceso de línea de comandos a sus recursos de GCP.</p>
+<ol>
+<li>
+<p>En GCP Console, en la barra de herramientas superior derecha, haga clic en el botón <strong>Abrir Cloud Shell</strong>.</p>
+<p><img alt="Ícono de Cloud Shell" src="https://cdn.qwiklabs.com/vdY5e%2Fan9ZGXw5a%2FZMb1agpXhRGozsOadHURcR8thAQ%3D"></p>
+</li>
+<li>
+<p>Haga clic en <strong>Continue</strong> (Continuar):</p>
+<p><img alt="cloudshell_continue" src="https://cdn.qwiklabs.com/lr3PBRjWIrJ%2BMQnE8kCkOnRQQVgJnWSg4UWk16f0s%2FA%3D"></p>
+</li>
+</ol>
+<p>Toma unos minutos aprovisionar y conectarse con el entorno. Cuando está conectado, ya está autenticado y el proyecto está configurado en su <strong> PROJECT_ID </strong>. Por ejemplo:</p>
+<p><img alt="Terminal de Cloud Shell" src="https://cdn.qwiklabs.com/hmMK0W41Txk%2B20bQyuDP9g60vCdBajIS%2B52iI2f4bYk%3D"></p>
+<p><strong>gcloud</strong> es la herramienta de línea de comandos para Google Cloud Platform. Viene preinstalada en Cloud Shell y es compatible con la función “tab-completion”.</p>
+<p>Puede mostrar el nombre de la cuenta activa con este comando:</p>
+<pre><code>gcloud auth list&#x000A;</code></pre>
+<p>Resultado:</p>
+<pre><code class="language-output prettyprint">Credentialed accounts:&#x000A;- &lt;myaccount&gt;@&lt;mydomain&gt;.com (active)&#x000A;	</code></pre>
+<p>Resultado de ejemplo:</p>
+<pre><code class="language-Output prettyprint">Credentialed accounts:&#x000A;- google1623327_student@qwiklabs.net&#x000A;	</code></pre>
+<p>Puede mostrar el ID del proyecto con este comando:</p>
+<pre><code>gcloud config list project&#x000A;	</code></pre>
+<p>Resultado:</p>
+<pre><code class="language-output prettyprint">[core]&#x000A;project = &lt;project_ID&gt;&#x000A;	</code></pre>
+<p>Resultado de ejemplo:</p>
+<pre><code class="language-Output prettyprint">[core]&#x000A;project = qwiklabs-gcp-44776a13dea667a6&#x000A;	</code></pre>
+<aside>
+	  La documentación completa de <strong>gcloud</strong> está disponible en <a href="https://cloud.google.com/sdk/gcloud">Descripción general de gcloud en Google Cloud</a>.
+
+	</aside>
+
+<h2 id="step4">Configure una zona de procesamiento predeterminada</h2>
+<p>Una <a href="https://cloud.google.com/compute/docs/regions-zones/#available" target="_blank">zona de procesamiento</a> es una ubicación regional aproximada en la que residen sus clústeres y sus respectivos recursos. Por ejemplo, <code>us-central1-a</code> es una zona de la región <code>us-central1</code>.</p>
+<p>Inicie una nueva sesión en Cloud Shell y ejecute el siguiente comando para configurar su zona de procesamiento predeterminada en <code>us-central1-a</code>:</p>
+<pre><code>gcloud config set compute/zone us-central1-a&#x000A;</code></pre>
+<p>Recibirá el siguiente resultado:</p>
+<pre><code class="language-output prettyprint">Updated property [compute/zone].&#x000A;</code></pre>
+<h2 id="step5">Cree un clúster de Kubernetes Engine</h2>
+<p>Un <a href="https://cloud.google.com/kubernetes-engine/docs/concepts/cluster-architecture" target="_blank">clúster</a> consta de, al menos, una máquina de <em>instancia principal del clúster</em> y varias máquinas trabajadoras, llamadas <em>nodos</em>. Los nodos son <a href="https://cloud.google.com/compute/docs/instances/">instancias de máquinas virtuales (VM) de Compute Engine</a> que ejecutan los procesos de Kubernetes necesarios para que sean parte del clúster.</p>
+<p>Para crear un clúster, ejecute el siguiente comando. Para ello, reemplace <code>[CLUSTER-NAME]</code> por el nombre que eligió para el clúster (por ejemplo, <code>my-cluster</code>). Los nombres de los clústeres deben comenzar con una letra y terminar con un carácter alfanumérico, y no pueden tener más de 40 caracteres.</p>
+<pre><code>gcloud container clusters create [CLUSTER-NAME]&#x000A;</code></pre>
+<p>Puede omitir cualquier advertencia en el resultado. Podría llevar varios minutos terminar de crear el clúster. Algunos segundos después, debería obtener un resultado similar al siguiente:</p>
+<pre><code class="language-output prettyprint">NAME        LOCATION       ...   NODE_VERSION  NUM_NODES  STATUS&#x000A;my-cluster  us-central1-a  ...   1.13.11-gke.9  3          RUNNING&#x000A;</code></pre>
+<p>Haga clic en <strong>Revisar mi progreso</strong> para verificar el objetivo.
+<ql-activity-tracking step="1">
+Crear un clúster de Kubernetes Engine
+</ql-activity-tracking></p>
+<h2 id="step6">Obtenga las credenciales de autenticación para el clúster</h2>
+<p>Después de crear su clúster, debe obtener credenciales de autenticación para interactuar con él.</p>
+<p>Para autenticar el clúster, ejecute el siguiente comando y reemplace <code>[CLUSTER-NAME]</code> por el nombre de su clúster:</p>
+<pre><code>gcloud container clusters get-credentials [CLUSTER-NAME]&#x000A;</code></pre>
+<p>Debería obtener un resultado similar al siguiente:</p>
+<pre><code class="language-output prettyprint">Fetching cluster endpoint and auth data.&#x000A;kubeconfig entry generated for my-cluster.&#x000A;</code></pre>
+<h2 id="step7">Implemente una aplicación en el clúster</h2>
+<p>Ahora que ya creó el clúster, puede implementar una <a href="https://cloud.google.com/kubernetes-engine/docs/concepts/kubernetes-engine-overview" target="_blank">aplicación en contenedores</a> en él. En este lab, ejecutará <code>hello-app</code> en su clúster.</p>
+<p>Kubernetes Engine usa objetos de Kubernetes para crear y administrar los recursos de su clúster. Kubernetes proporciona el objeto de <a href="https://kubernetes.io/docs/concepts/workloads/controllers/deployment/" target="_blank">Implementación</a> para implementar aplicaciones sin estado como servidores web. Los objetos de <a href="https://kubernetes.io/docs/concepts/services-networking/service/" target="_blank">Servicio</a> definen las reglas y el balanceo de cargas para acceder a su aplicación desde Internet.</p>
+<p>Ejecute el siguiente comando <a href="https://kubernetes.io/docs/reference/generated/kubectl/kubectl-commands#create" target="_blank">kubectl create</a> en Cloud Shell para crear un nuevo objeto de Implementación <code>hello-server</code> a partir de la imagen del contenedor <code>hello-app</code>:</p>
+<pre><code>kubectl create deployment hello-server --image=gcr.io/google-samples/hello-app:1.0&#x000A;</code></pre>
+<p>Debería recibir el siguiente resultado:</p>
+<pre><code class="language-output prettyprint">deployment.apps/hello-server created&#x000A;</code></pre>
+<p>Este comando de Kubernetes crea un objeto de Implementación que representa <code>hello-server</code>. En este caso, <code>--image</code> especifica la imagen de contenedor que se desea implementar. El comando obtiene la imagen de ejemplo desde un depósito de <a href="https://cloud.google.com/container-registry/docs" target="_blank">Google Container Registry</a>. <code>gcr.io/google-samples/hello-app:1.0</code> indica la versión específica de la imagen que se desea obtener. Si no se especifica una versión, se usará la más reciente.</p>
+<p>Ahora, cree un Servicio de Kubernetes, que es un recurso de Kubernetes que le permite exponer su aplicación al tráfico externo. Para ello, ejecute el siguiente comando <a href="https://kubernetes.io/docs/reference/generated/kubectl/kubectl-commands#expose" target="_blank">kubectl expose</a>:</p>
+<pre><code>kubectl expose deployment hello-server --type=LoadBalancer --port 8080&#x000A;</code></pre>
+<p>En el ejemplo anterior, se ilustra lo siguiente:</p>
+<ul>
+<li>
+<code>--port</code> especifica el puerto que expone el contenedor.</li>
+<li>
+<code>type="LoadBalancer"</code> crea un balanceador de cargas de Compute Engine para su contenedor.</li>
+</ul>
+<p>Debería recibir el siguiente resultado:</p>
+<pre><code class="language-output prettyprint">service/hello-server exposed&#x000A;</code></pre>
+<p>Haga clic en <strong>Revisar mi progreso</strong> para verificar el objetivo.
+<ql-activity-tracking step="2">
+Crear un nuevo objeto de Implementación - hello-server
+</ql-activity-tracking></p>
+<p>Ejecute <a href="https://kubernetes.io/docs/reference/generated/kubectl/kubectl-commands#get" target="_blank">kubectl get</a> para inspeccionar el objeto de Servicio <code>hello-server</code>:</p>
+<pre><code>kubectl get service&#x000A;</code></pre>
+<p>Debería obtener un resultado similar al siguiente:</p>
+<p><img alt="get_service_output.png" src="https://cdn.qwiklabs.com/lQsiuHvWAOnxttrz%2BrVtQjA56YbwUrpqei8X0XeUfVQ%3D"></p>
+<aside class="special"><p><strong>Nota:</strong> Generar una dirección IP externa puede tardar un minuto. Vuelva a ejecutar el comando anterior si la columna <code>EXTERNAL-IP</code> sigue en estado pendiente.</p>
+</aside>
+<p>Copie la dirección IP externa del Servicio, que aparece en la columna <code>EXTERNAL IP</code> del resultado del comando.</p>
+<p>Para ver la aplicación desde su navegador web, use la dirección IP externa con el puerto expuesto:</p>
+<pre><code>http://[EXTERNAL-IP]:8080&#x000A;</code></pre>
+<p>Su página debería verse de esta manera:</p>
+<p><img alt="output.png" src="https://cdn.qwiklabs.com/Et91dORVgSJkoFOa6UVbdtwzKaFzmliTSYhOrj8ONbw%3D"></p>
+<p>Haga clic en <strong>Revisar mi progreso</strong> para verificar el objetivo.
+<ql-activity-tracking step="3">
+Crear un servicio de Kubernetes
+</ql-activity-tracking></p>
+<h2 id="step8">Limpieza</h2>
+<p>Ejecute lo siguiente para borrar el clúster:</p>
+<pre><code>gcloud container clusters delete [CLUSTER-NAME]&#x000A;</code></pre>
+<p>Cuando se le indique, escriba <strong>Y</strong> para confirmar. Borrar el clúster puede llevar unos minutos. Para obtener más información sobre los clústeres borrados de Google Kubernetes Engine, consulte la <a href="https://cloud.google.com/kubernetes-engine/docs/how-to/deleting-a-cluster">documentación</a>.</p>
+<p>Haga clic en <strong>Revisar mi progreso</strong> para verificar el objetivo.
+<ql-activity-tracking step="4">
+Limpieza: Borrar el clúster
+</ql-activity-tracking></p>
+<h2 id="step9">¡Felicitaciones!</h2>
+<p>Acaba de implementar una aplicación en contenedores en Kubernetes Engine.</p>
+<h3>Finalice su Quest</h3>
+<p><img alt="5edc9b3763bbb596.png" src="https://cdn.qwiklabs.com/6EiXINl%2FCnCMQyRdF%2Fs34InkRozTg%2FhSEqCQ4CD4nf4%3D"> <img alt="GCP_Essentials_125x135_new.png" src="https://cdn.qwiklabs.com/ykt8NTzPWC6%2BW8mAljshFqjsAPrZ8bElG7SLw4kSrtU%3D"> <img alt="vm-migration.png" src="https://cdn.qwiklabs.com/jtreI10xSJWNyf2X%2BVWzvPaytwk%2BQuofNxAN19kcB6s%3D"></p>
+<p>Continúe su Quest <a href="https://google.qwiklabs.com/quests/33" target="_blank">Baseline: Infrastructure</a>, <a href="https://google.qwiklabs.com/quests/23" target="_blank">GCP Essentials</a> o <a href="https://google.qwiklabs.com/quests/87" target="_blank">VM Migration</a>. Una Quest es una serie de labs relacionados que forman una ruta de aprendizaje. Si completa esta Quest, obtendrá la insignia que se muestra arriba como reconocimiento de su logro. Puede hacer públicas sus insignias y agregar vínculos a ellas en su currículum en línea o en sus cuentas de redes sociales.  Inscríbase en una Quest y obtenga un crédito inmediato de finalización luego de haber realizado este lab. <a href="http://google.qwiklabs.com/catalog" target="_blank">Consulte otras Quests de Qwiklabs disponibles</a>.</p>
+<h3>Próximos pasos/Más información</h3>
+<p>Este lab forma parte de una serie llamada Qwik Starts. Estos labs están diseñados para ofrecerle una visión general de las numerosas funciones disponibles en Google Cloud. Busque "Qwik Starts" en el <a href="https://google.qwiklabs.com/catalog" target="_blank">catálogo de labs</a> para elegir el siguiente lab en el que desee participar.</p>
+<h3>Google Cloud Training &amp; Certification</h3>
+<p>Aproveche al máximo las tecnologías de Google Cloud. <a href="https://cloud.google.com/training/courses">Nuestras clases</a> incluyen habilidades técnicas y recomendaciones para ayudarlo a ponerse en marcha rápidamente y a seguir aprendiendo. Para que pueda realizar nuestros cursos cuando más le convenga, ofrecemos distintos tipos de capacitación de nivel básico a avanzado: según demanda, presenciales y virtuales. Las <a href="https://cloud.google.com/certification/">certificaciones</a> lo ayudan a validar y demostrar sus habilidades y experiencia en las tecnologías de Google Cloud.</p>
+
+<h5>Última actualización del manual: 26 de febrero de 2020</h5>
+<h5>Prueba más reciente del lab: 26 de febrero de 2020</h5>
+<p>Copyright 2020 Google LLC. All rights reserved. Google y el logotipo de Google son marcas de Google LLC. Los demás nombres de productos y empresas pueden ser marcas de las respectivas empresas a las que estén asociados.</p>
+
+
+
+</div>
+<div class='js-lab-content-outline lab-content__outline'>
+<a href='#step1'>GSP100</a><a href='#step2'>Descripción general</a><a href='#step3'>Configuración y requisitos</a><a href='#step4'>Configure una zona de procesamiento predeterminada</a><a href='#step5'>Cree un clúster de Kubernetes Engine</a><a href='#step6'>Obtenga las credenciales de autenticación para el clúster</a><a href='#step7'>Implemente una aplicación en el clúster</a><a href='#step8'>Limpieza</a><a href='#step9'>¡Felicitaciones!</a>
+</div>
+</div>
+
+</div>
+
+<div class='lab-content__markdown-wrapper'>
+<div class='lab-content__markdown'>
+<div class='lab-content__recommendation'>
+<!-- # TODO: Change classes so that this doesn't stack vertically -->
+<section class='upcoming-cards'>
+<h2 class='headline-3'>Continuar Quest</h2>
+<div class='content-card-grid'>
+<div class='card-content-wrapper js-content-card' data-id='2524' data-level='Expert' data-name='Kubernetes in Google Cloud: Challenge Lab' data-type='Lab'>
+<a class="card card--content elevation-0 content-lab" href="/focuses/10457?locale=es&amp;parent=catalog"><div class='card__image'>
+<div class='card__image__inner' style='background-image: url(https://cdn.qwiklabs.com/assets/fractal4-1d205807c54d90fe4382315dbfc0dd665ddb825bbc90f3ca5db7d7170fa0df1b.jpg)'></div>
+</div>
+<div class='card__body'>
+<div class='overline card--content__type'>
+Lab práctico
+</div>
+<h3 class='card--content__title'>
+Kubernetes in Google Cloud: Challenge Lab
+</h3>
+<p class='card--content__description body-1'>
+This challenge lab tests your skills and knowledge from the labs in the Kubernetes in Google Cloud quest.  You should be familiar with the content of the labs before attempting this lab.
+</p>
+</div>
+<div class='card__footer'>
+<div class='card__footer__left'>
+<span>Expert</span>
+</div>
+<div class='card__footer__right'>
+<div class='rateit' data-rateit-readonly='true' data-rateit-value='3.1207'></div>
+</div>
+</div>
+</a></div>
+
+<div class='card-content-wrapper js-content-card' data-id='759' data-level='Introductory' data-name='Compute Engine: Qwik Start - Windows' data-type='Lab'>
+<a class="card card--content elevation-0 content-lab" href="/focuses/560?locale=es&amp;parent=catalog"><div class='card__image'>
+<div class='card__image__inner' style='background-image: url(https://cdn.qwiklabs.com/assets/fractal3-aaa9ba81223b511f2592cade38ffee5a74965dee87a9280e1ce3a7a96fdc91f1.jpg)'></div>
+</div>
+<div class='card__body'>
+<div class='overline card--content__type'>
+Lab práctico
+</div>
+<h3 class='card--content__title'>
+Compute Engine: Qwik Start - Windows
+</h3>
+<p class='card--content__description body-1'>
+Google Compute Engine permite crear y ejecutar máquinas virtuales en la infraestructura de Google.  En este lab, creará una instancia de Windows Server en Google Compute Engine y accederá a ella mediante RDP. Para obtener un avance sobre este tema, mire el video breve Launch a Windows Server Instance, GCP Essentials.
+</p>
+</div>
+<div class='card__footer'>
+<div class='card__footer__left'>
+<span>Introductory</span>
+</div>
+<div class='card__footer__right'>
+<div class='rateit' data-rateit-readonly='true' data-rateit-value='4.3937'></div>
+</div>
+</div>
+</a></div>
+
+</div>
+</section>
+
+</div>
+</div>
+</div>
+
+</div>
+</div>
+<div class='lab-assessment__tab js-lab-assessment-tab'>
+<h5 class='small-label'>
+Puntuación
+</h5>
+<h3 class='js-lab-assessment-total-score'>
+&mdash;/100
+</h3>
+<iframe class='l-ie-iframe-fix'></iframe>
+</div>
+<div class='lab-assessment__panel js-lab-assessment-panel'>
+<!-- / If lab_instance has is started and assessment is generated, use -->
+<!-- / lab_instance.assessment, otherwise use lab.assessment_manual -->
+<div class='lab-assessment__step'>
+<p class='lab-assessment__step__title'>
+Creating a Kubernetes Engine cluster
+</p>
+<p class='button button--assessment js-show-run-step-button' step_no='1'>
+Ejecutar paso
+</p>
+<p class='lab-assessment__step__score'>
+<span class='js-assessment-step-score-1'>
+</span>
+/ 25
+</p>
+</div>
+
+<div class='lab-assessment__step'>
+<p class='lab-assessment__step__title'>
+Create a new Deployment - hello-server
+</p>
+<p class='button button--assessment js-show-run-step-button' step_no='2'>
+Ejecutar paso
+</p>
+<p class='lab-assessment__step__score'>
+<span class='js-assessment-step-score-2'>
+</span>
+/ 25
+</p>
+</div>
+
+<div class='lab-assessment__step'>
+<p class='lab-assessment__step__title'>
+Create a Kubernetes Service
+</p>
+<p class='button button--assessment js-show-run-step-button' step_no='3'>
+Ejecutar paso
+</p>
+<p class='lab-assessment__step__score'>
+<span class='js-assessment-step-score-3'>
+</span>
+/ 25
+</p>
+</div>
+
+<div class='lab-assessment__step'>
+<p class='lab-assessment__step__title'>
+Clean up: Delete the cluster
+</p>
+<p class='button button--assessment js-show-run-step-button' step_no='4'>
+Ejecutar paso
+</p>
+<p class='lab-assessment__step__score'>
+<span class='js-assessment-step-score-4'>
+</span>
+/ 25
+</p>
+</div>
+
+<iframe class='l-ie-iframe-fix'></iframe>
+</div>
+<div class='lab-introduction js-lab-introduction is-hidden'>
+<div class='lab-introduction__inner'>
+<h1 class='headline-1'>Le damos la bienvenida a su primer lab.</h1>
+<ql-icon-button class='js-skip-button'>close</ql-icon-button>
+<div class='lab-introduction__video'>
+<iframe allow='autoplay; encrypted-media' allowfullscreen frameborder='0' id='lab-introduction' src='https://www.youtube.com/embed/TGUtGKD-B-Q?enablejsapi=1&amp;rel=0&amp;showinfo=0'></iframe>
+</div>
+<a class='js-skip-button button button--outline'>Omitir este video</a>
+</div>
+</div>
+
+
+
+</div>
+</main>
+<div class='modal fade' id='lab-details-modal'>
+<div class='modal-container'>
+<div class='mdl-shadow--24dp modal-content'>
+<div class='modal-body'>
+<p class='l-mbm'>
+Google Kubernetes Engine proporciona un entorno administrado para implementar, administrar y escalar sus aplicaciones en contenedores con la infraestructura de Google.  Este lab práctico muestra cómo implementar una aplicación en contenedores con Kubernetes Engine. Mire este breve video: <a href="https://youtu.be/u9nsngvmMK4">Manage Containerized Apps with Kubernetes Engine</a>.
+</p>
+<p>
+Este lab se incluye en las siguientes Quests:
+<a href="/quests/23?locale=es">GCP Essentials</a>, <a href="/quests/33?locale=es">Baseline: Infrastructure</a>, <a href="/quests/29?locale=es">Kubernetes en el Google Cloud</a>.
+Si completa este lab, recibirá crédito por él cuando se inscriba en una de estas Quests.
+</p>
+<p class='small-label l-mbs'>
+<strong>
+Duración:
+</strong>
+0 min de configuración
+&middot;
+Acceso por 30 min
+&middot;
+30 min para completar
+</p>
+<p class='small-label l-mbs'>
+<span><strong>Niveles: </strong>introductory</span>
+</p>
+<p class='small-label'>
+<strong>
+Vínculo permanente:
+</strong>
+<a href="https://www.qwiklabs.com/catalog_lab/911">https://www.qwiklabs.com/catalog_lab/911</a>
+</p>
+</div>
+<div class='modal-actions'>
+<a class='mdl-button mdl-button--primary mdl-js-button mdl-js-ripple-effect' data-dismiss='modal'>
+Got It
+</a>
+</div>
+
+
+</div>
+</div>
+<iframe class='l-ie-iframe-fix'></iframe>
+</div>
+<div class='modal fade' id='lab-review-modal'>
+<div class='modal-container'>
+<div class='mdl-shadow--24dp modal-content'>
+<form class="simple_form js-lab-review-form" id="edit_lab_review_5290277" action="/lab_reviews/5290277?locale=es" accept-charset="UTF-8" data-remote="true" method="post"><input name="utf8" type="hidden" value="&#x2713;" /><input type="hidden" name="_method" value="patch" /><div class='modal-body'>
+<p class='label'>
+¿Qué tan satisfecho está con este lab?*
+</p>
+<div class='rateit js-rateit' data-rateit-max='5' data-rateit-min='0' data-rateit-resetable='false' data-rateit-step='1' data-rateit-value='5'></div>
+<div class='l-mtm'>
+
+<div class="control-group hidden lab_review_user_id"><div class="controls"><input class="hidden" type="hidden" value="2485272" name="lab_review[user_id]" id="lab_review_user_id" /></div></div>
+<div class="control-group hidden lab_review_classroom_id"><div class="controls"><input class="hidden" type="hidden" name="lab_review[classroom_id]" id="lab_review_classroom_id" /></div></div>
+<div class="control-group hidden lab_review_lab_id"><div class="controls"><input class="hidden" type="hidden" value="911" name="lab_review[lab_id]" id="lab_review_lab_id" /></div></div>
+<div class="control-group hidden lab_review_focus_id"><div class="controls"><input class="hidden" type="hidden" name="lab_review[focus_id]" id="lab_review_focus_id" /></div></div>
+<div class="control-group hidden lab_review_rating"><div class="controls"><input class="hidden js-rating-input" type="hidden" value="2" name="lab_review[rating]" id="lab_review_rating" /></div></div>
+<div class="control-group text optional lab_review_comment"><label class="text optional control-label" for="lab_review_comment">Comentario</label><div class="controls"><textarea class="text optional" name="lab_review[comment]" id="lab_review_comment">
+</textarea></div></div>
+</div>
+</div>
+<div class='modal-actions'>
+<a class='mdl-button mdl-button--primary mdl-js-button mdl-js-ripple-effect' data-dismiss='modal'>
+Cancel
+</a>
+<input type="submit" name="commit" value="Enviar" disabled="disabled" class="btn mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--primary" id="submit" data-disabled="false" data-disable-with="Enviar" />
+</div>
+</form>
+
+</div>
+</div>
+<iframe class='l-ie-iframe-fix'></iframe>
+</div>
+<div class='modal fade' id='lab-access-modal'>
+<div class='modal-container'>
+<div class='mdl-shadow--24dp modal-content'>
+<a class='lab-access-modal-close' data-analytics-action='dismissed_lab_payment_modal' data-dismiss='modal'>
+<i class='material-icons'>close</i>
+</a>
+<form class="js-lab-access-form" action="/lab_onetime_coupons/activate?locale=es&amp;parent=catalog" accept-charset="UTF-8" data-remote="true" method="post"><input name="utf8" type="hidden" value="&#x2713;" />
+<div class='modal-body'>
+<div class='lab-access-modal'>
+<input type="hidden" name="id" id="id" value="878" />
+<input type="hidden" name="user_id" id="user_id" value="2485272" />
+<input type="hidden" name="launch_with_credits" id="launch_with_credits" value="0" class="js-launch-with-credits-input" />
+<input type="hidden" name="launch_with_subs" id="launch_with_subs" value="0" class="js-launch-with-subscription-input" />
+<div class='lab-access-modal__method'>
+<p>
+Este lab cuesta
+1 crédito.
+</p>
+<p>
+Tiene un paquete con suscripción válida. ¿Desea cargar este lab a su suscripción?
+</p>
+<a class='button js-launch-with-subscription-button js-lab-access-modal-button' data-analytics-action='clicked_launch_with_subscription_button'>
+Usar suscripción
+</a>
+</div>
+<div class='lab-access-modal__method'>
+<p>
+Ingrese el código de acceso del lab:
+</p>
+<div class='lab-access-modal__code js-access-code'>
+<input type="text" name="uuid_1" id="uuid_1" value="" maxlength="4" placeholder="1234" />
+<input type="text" name="uuid_2" id="uuid_2" value="" maxlength="4" placeholder="1234" />
+<input type="text" name="uuid_3" id="uuid_3" value="" maxlength="4" placeholder="1234" />
+<input type="text" name="uuid_4" id="uuid_4" value="" maxlength="4" placeholder="1234" />
+</div>
+<a class='button js-launch-with-access-code-button js-lab-access-modal-button' data-analytics-action='clicked_launch_with_access_code_button'>
+Iniciar con el código de acceso
+</a>
+</div>
+</div>
+</div>
+</form>
+
+
+
+</div>
+</div>
+<iframe class='l-ie-iframe-fix'></iframe>
+</div>
+
+<script>
+  $( function() {
+    ql.initMaterialInputs();
+    initChosen();
+    initSearch();
+    initTabs();
+    ql.list.init();
+    ql.favoriting.init();
+    ql.header.myAccount.init();
+    initTooltips();
+    ql.autocomplete.init();
+    ql.modals.init();
+    ql.toggleButtons.init();
+    ql.analytics.init();
+    initLabContent( );
+  ql.labOutline.links.init();
+  ql.labOutline.layout.init();
+  initLabReviewModal();
+  initLabAccessModal();
+  ql.labAssessment.init();
+  ql.labIntroduction.init( true );
+  ql.labData.init();
+  initLabTranslations( {"are_you_sure":"¿Se completó el proceso? Si finaliza el lab, perderá todo su trabajo. Es posible que no pueda reiniciar el lab si existe un límite de cuota. ¿Está seguro de que desea finalizar el lab?","in_progress":"*En curso*","ending":"*Finalizando*","starting":"*Iniciando. Espere*","end_concurrent_labs":"Lo sentimos; solo puede ejecutar un lab a la vez. Para iniciar este lab, confirme que desea finalizar todos sus labs activos.","copied":"Copiado","no_resource":"Se produjo un error durante la recuperación del recurso.","no_support":"No hay asistencia disponible","mac_press":"Presione ⌘ + C para copiar","thanks_review":"Gracias por calificar este lab.","windows_press":"Presione Ctrl + C para copiar","days":"días"} );
+  ql.labRun.init();
+  ql.initHeader();
+  ql.navigation.init();
+  ql.navPanel.init();
+  ql.navigation.init();
+  
+  });
+</script>
+<style>
+  .mdl-layout__container {
+    position: static
+  }
+</style>
+</body>
+</html>

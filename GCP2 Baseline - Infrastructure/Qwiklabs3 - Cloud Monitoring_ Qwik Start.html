@@ -1,0 +1,945 @@
+<!DOCTYPE html>
+<html lang='es'>
+<head>
+<meta content='[]' name='active-experiments'>
+<meta content='{&quot;userId&quot;:2485272}' name='help-api-product-data'>
+<meta name="csrf-param" content="authenticity_token" />
+<meta name="csrf-token" content="BflJH9tJjtZa2QM8yfpq0Xexylj4WBsxHuCeP5ax6oPxzKn8GIxHf25n/0DmXkuw4A6B3KG+kun1oEP8qlnz2w==" />
+<title>Cloud Monitoring: Qwik Start | Qwiklabs</title>
+<meta content='width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=0' name='viewport'>
+<meta content='En este lab, se muestra cómo supervisar una instancia de máquina virtual (VM) de Google Compute Engine con Cloud Monitoring. Mire estos videos breves: &amp;lt;A HREF=&quot;https://youtu.be/rGMimov8MPg&quot;&amp;gt;Monitor Health of All Your Cloud Apps with Google Cloud monitoring&amp;lt;/A&amp;gt; y &amp;lt;A HREF=&quot;https://youtu.be/ZuUZQfCmA7Y&quot;&amp;gt;Monitor a VM Instance with Cloud monitoring, GCP Essentials&amp;lt;/A&amp;gt;.' name='description'>
+<meta content='Qwiklabs' name='author'>
+<meta content='1rRsY0INj8RvwB5EF5pwdxt2A2P9aDgAlsICaJ0d5w0' name='google-site-verification'>
+<meta content='Cloud Monitoring: Qwik Start | Qwiklabs' property='og:title'>
+<meta content='website' property='og:type'>
+<meta content='/favicon-144.png' property='og:image'>
+<meta content='Qwiklabs' property='og:site_name'>
+<meta content='En este lab, se muestra cómo supervisar una instancia de máquina virtual (VM) de Google Compute Engine con Cloud Monitoring. Mire estos videos breves: &amp;lt;A HREF=&quot;https://youtu.be/rGMimov8MPg&quot;&amp;gt;Monitor Health of All Your Cloud Apps with Google Cloud monitoring&amp;lt;/A&amp;gt; y &amp;lt;A HREF=&quot;https://youtu.be/ZuUZQfCmA7Y&quot;&amp;gt;Monitor a VM Instance with Cloud monitoring, GCP Essentials&amp;lt;/A&amp;gt;.' property='og:description'>
+<meta content='/qwiklabs_logo_900x887.png' property='og:logo' size='900x887'>
+<meta content='/qwiklabs_logo_994x187.png' property='og:logo' size='994x187'>
+<meta content='#3681E4' property='msapplication-TileColor'>
+<meta content='/favicon-144.png' property='msapplication-TileImage'>
+<link href='/favicon-32.png' rel='shortcut icon'>
+<link color='#3681E4' href='/favicon-svg.svg' rel='mask-icon'>
+<link href='/favicon-180.png' rel='apple-touch-icon-precomposed'>
+<link rel="stylesheet" media="screen" href="https://fonts.googleapis.com/css?family=Oswald:400|Roboto+Mono:400,700|Roboto:300,400,500,700|Google+Sans:300,400,500,700|Google+Sans+Display:400|Material+Icons|Google+Material+Icons" />
+
+<link rel="stylesheet" media="screen" href="https://cdn.qwiklabs.com/assets/application_old/locales/es-7c4d85e3db7c28c14f71b18551da7ddc227e8f9b85777ece770fcbd96d9ef753.css" />
+<!--[if lt IE 9]>
+<script src='http://html5shim.googlecode.com/svn/trunk/html5.js' type='text/javascript'></script>
+<![endif]-->
+<!--[endif]>  <![endif]-->
+<script>
+//<![CDATA[
+window.gon={};gon.current_user={"firstname":"Carlo Andr\u00e9","lastname":"Castro Galindo","fullname":"Carlo Andr\u00e9 Castro Galindo","company":"Coursera","email":"carlocastrogalindo@gmail.com","origin":"googlecoursera-run, lti-coursera","subscriptions":1,"id":"eb3f0602d940d94d2eaeef36f2aa2e77","qlCreatedAt":"2020-02-28 17:36:48 UTC","optIn":false};gon.segment="j4Im8pqIko0Lxq4wVVZWMPMM0EroHUvb";gon.deployment="run";
+//]]>
+</script>
+<script type='application/ld+json'>
+{
+  "@context": "http://schema.org",
+  "@type": "WebSite",
+  "url": "https://www.qwiklabs.com/",
+  "potentialAction": {
+    "@type": "SearchAction",
+    "target": "https://www.qwiklabs.com/catalog?keywords={search_term_string}",
+    "query-input": "required name=search_term_string"
+  }
+}
+</script>
+<script id='ze-snippet' src='https://static.zdassets.com/ekr/snippet.js?key=511e4158-0aec-4e3c-b2e6-4daa1769f51e'></script>
+
+
+
+<link rel="stylesheet" media="all" href="https://cdn.qwiklabs.com/assets/application-4c3d1e8bc7757ea71809ef44e35c5d8018fb66ce6a4a777389558445ba2ce8a2.css" />
+<script>
+  EVENT_SOURCE_BASE_URL = "https://run.qwiklabs.com/nchan-sub?id=";
+</script>
+<script src="https://cdn.qwiklabs.com/polyfills/webcomponents-loader.js"></script>
+<script src="https://cdn.qwiklabs.com/assets/hallofmirrors/hallofmirrors__es_419-53722a8c29aa90d0fbab9b3c73008da3dadf74f9c7e6e4d2cb1df2c62c3fb110.js"></script>
+<script src="https://www.youtube.com/iframe_api"></script>
+<script src="https://cdn.qwiklabs.com/assets/vendor-45d462772c30000424907184f70c7157e95fb6227698d1671c5051818a6f60d8.js"></script>
+<script src="https://cdn.qwiklabs.com/assets/application-7c67c1d428839917a0992758b33da63184c69efa420e5939804ea34d54147a97.js"></script>
+</head>
+<body class='focuses focuses-show lab-show l-full no-nav'>
+<div class='header-container light-theme'>
+<div class='header'>
+<a class='mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect header__button header__button--nav header__nav-panel-button js-nav-toggle'>
+<i class='material-icons'>menu</i>
+</a>
+<div class='header__title'>
+<a class="mdl-button mdl-js-button mdl-button--icon mdl-js-ripple-effect header__button header__button--nav" href="https://www.qwiklabs.com/quests/33?locale=es"><ql-icon>arrow_back</ql-icon></a>
+
+<h1 class='headline-5'>
+Cloud Monitoring: Qwik Start
+</h1>
+</div>
+<div class='header__actions'>
+<a class='mdl-button mdl-js-button mdl-button--icon mdl-js-ripple-effect header__button header__button--action header__button--search js-header-search-bar-button'>
+<i class='material-icons'>search</i>
+</a>
+<a class="mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect" id="toggle-lab-control-panel" href="javascript:;"><i class='material-icons'>description</i>
+</a><div class='mdl-tooltip js-tooltip' data-mdl-for='toggle-lab-control-panel'>
+Activar o desactivar panel del lab
+</div>
+<a class="mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect js-favorite-button favorite-button" id="CatalogItem-10599-favorite-button" data-type="CatalogItem" data-id="10599" data-name="Cloud Monitoring: Qwik Start" href="/favorite.json?item_id=10599&amp;item_type=CatalogItem&amp;locale=es"><i class='material-icons'>favorite_border</i>
+</a><div class='mdl-tooltip js-tooltip' for='CatalogItem-10599-favorite-button'>
+Agregar a favoritos
+</div>
+
+
+<ql-help context="lab" productdata="{&quot;userId&quot;:2485272}" data-analytics-action="opened_help" data-analytics-label="lab"></ql-help>
+<a class='header-my-account-button mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect js-my-account-button'>
+<img class="avatar " alt="avatar image" src="https://secure.gravatar.com/avatar/be719396bbcc1e8bcb204a54e1920c54.png?s=80&amp;d=mm" />
+</a>
+<div class='header-my-account-menu js-my-account-menu'>
+<div class='card elevation-2 no-padding'>
+<div class='my-account-menu__top'>
+<img class="avatar " alt="avatar image" src="https://secure.gravatar.com/avatar/be719396bbcc1e8bcb204a54e1920c54.png?s=80&amp;d=mm" />
+<div class='my-account-menu__info'>
+<h4 class='subtitle-headline-1'>
+Carlo André Castro Galindo
+</h4>
+<p class='body-2 text--gray'>
+<span>carlocastrogalindo@gmail.com</span>
+</p>
+<a class="button" href="/my_account/profile?locale=es">Mi cuenta</a>
+</div>
+</div>
+<div class='my-account-menu__bottom'>
+<a class="text--green subtitle-headline-2" href="/my_account/credits?locale=es">Suscripción mensual
+</a><a data-analytics-action="clicked_sign_out" class="button button--hairline" rel="nofollow" data-method="delete" href="/users/sign_out?locale=es">Salir</a>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+<div class='header__search-bar js-header-search-bar'>
+<form id="catalog-search-mobile" onsubmit="ql.catalogSearchFilter(); return false;" action="/searches/elasticsearch" accept-charset="UTF-8" method="post"><input name="utf8" type="hidden" value="&#x2713;" /><input type="hidden" name="authenticity_token" value="kN28MGLTvdGygZnrnCvsHuROv4zFiJ05SCdno9eWr+9k6FzToRZ0eIY/ZZezj81/c/H0CJxuFOGjZ7pg6362tw==" />
+<input type="text" name="keywords" id="keywords" placeholder="Buscar" maxlength="255" aria-label="catalog search bar" />
+</form>
+
+<a class='mdl-button mdl-js-button mdl-button--icon mdl-js-ripple-effect header__button'>
+<i class='material-icons'>close</i>
+</a>
+</div>
+</div>
+
+<nav class='nav-bar'>
+<a class="nav-bar__item js-navigation-button" href="/?locale=es"><ql-icon class='nav-bar__item__icon'>
+home
+</ql-icon>
+<span class='nav-bar__item__label'>
+Página principal
+</span>
+</a>
+<a class="nav-bar__item js-navigation-button  active" aria-current="page" href="/catalog?locale=es"><ql-icon class='nav-bar__item__icon'>
+school
+</ql-icon>
+<span class='nav-bar__item__label'>
+Catálogo
+</span>
+</a>
+<a class="nav-bar__item js-navigation-button" href="/my_learning?locale=es"><ql-icon class='nav-bar__item__icon'>
+event_note
+</ql-icon>
+<span class='nav-bar__item__label'>
+Mi aprendizaje
+</span>
+</a>
+</nav>
+
+<nav class='nav-panel js-nav-panel'>
+<div class='nav-panel__logo'>
+<div class='logo logo--blue'></div>
+</div>
+<a title="Página principal" tabindex="-1" class="nav-panel__item js-navigation-button" href="/?locale=es"><ql-icon class='nav-panel__item__icon'>
+home
+</ql-icon>
+<div class='nav-panel__item__label'>
+Página principal
+</div>
+</a>
+<a title="Catálogo" tabindex="-1" class="nav-panel__item js-navigation-button active" aria-current="page" href="/catalog?locale=es"><ql-icon class='nav-panel__item__icon'>
+school
+</ql-icon>
+<div class='nav-panel__item__label'>
+Catálogo
+</div>
+</a>
+<a title="Mi aprendizaje" tabindex="-1" class="nav-panel__item js-navigation-button" href="/my_learning?locale=es"><ql-icon class='nav-panel__item__icon'>
+event_note
+</ql-icon>
+<div class='nav-panel__item__label'>
+Mi aprendizaje
+</div>
+</a>
+<div class='nav-panel__spacer'></div>
+<a title="Profile" tabindex="-1" class="nav-panel__item js-navigation-button" href="/my_account/profile?locale=es"><ql-icon class='nav-panel__item__icon'>
+account_circle
+</ql-icon>
+<div class='nav-panel__item__label'>
+Profile
+</div>
+</a>
+<a title="Credits &amp; Subscriptions" tabindex="-1" class="nav-panel__item js-navigation-button" href="/my_account/credits?locale=es"><ql-icon class='nav-panel__item__icon'>
+money
+</ql-icon>
+<div class='nav-panel__item__label'>
+Credits &amp; Subscriptions
+</div>
+</a>
+<a title="Security" tabindex="-1" class="nav-panel__item js-navigation-button" href="/my_account/security?locale=es"><ql-icon class='nav-panel__item__icon'>
+security
+</ql-icon>
+<div class='nav-panel__item__label'>
+Security
+</div>
+</a>
+<div class='nav-panel__spacer'></div>
+<a class="nav-panel__item" tabindex="-1" href="#"><ql-help>
+<div class='nav-panel__help-item'>
+<ql-icon class='nav-panel__item__icon'>help</ql-icon>
+<div class='nav-panel__item__label'>Help</div>
+</div>
+</ql-help>
+</a><div class='nav-panel__small-links'>
+<a tabindex="-1" href="/privacy_policy?locale=es">Privacidad</a>
+<a tabindex="-1" href="/terms_of_service?locale=es">Condiciones</a>
+</div>
+</nav>
+<div class='nav-panel__overlay js-nav-toggle'></div>
+
+<main class='js-main'>
+<span class='hidden' id='flash-sibling-before'></span>
+
+<div class='l-main-wrapper' id='main-wrapper'>
+
+
+
+
+
+
+
+<div class='js-lab-state' data-analytics-payload='{&quot;label&quot;:&quot;Cloud Monitoring: Qwik Start&quot;,&quot;lab_name&quot;:&quot;Cloud Monitoring: Qwik Start&quot;,&quot;classroom_name&quot;:null,&quot;deployment&quot;:&quot;run&quot;}' data-focus-id='10599' data-lab-billing-limit='0.0' data-lab-duration='3000' data-parent='catalog' data-payment-required></div>
+<ql-lab-control-panel class='js-lab-control-panel l-lab-control-panel' connectionDetails='[]' connectionFiles='[]' labControlButton='{&quot;disabled&quot;:false,&quot;pending&quot;:false,&quot;running&quot;:false}' labTimer='{&quot;ticking&quot;:false,&quot;secondsRemaining&quot;:3000}' studentResources='[]'></ql-lab-control-panel>
+<div class='l-lab-main-body'>
+<div class='js-lab-content lab-content'>
+<div class='alert alert--fake js-alert'>
+<p class='alert__message js-alert-message'></p>
+<a class='alert__close js-alert-close'>
+<i class='fa fa-times'></i>
+</a>
+<iframe class='l-ie-iframe-fix'></iframe>
+</div>
+<div class='lab-content__markdown-wrapper'>
+<div class='lab-preamble'>
+<h1 class='lab-preamble__title'>
+Cloud Monitoring: Qwik Start
+</h1>
+<div class='lab-preamble__details subtitle-headline-1'>
+<span>50 minutos</span>
+<span>1 crédito</span>
+<div class='lab__rating'>
+<a href="/focuses/10599/reviews?locale=es&amp;parent=catalog"><div class='rateit' data-rateit-readonly='true' data-rateit-value='4.441'></div>
+
+</a><a data-target='#lab-review-modal' data-toggle='modal'>
+Calificar lab
+</a>
+</div>
+</div>
+</div>
+
+<div class='lab-content__inner-wrapper'>
+<div class='js-markdown-instructions lab-content__markdown markdown-lab-instructions' id='markdown-lab-instructions'>
+
+
+
+<h2 id="step1">GSP089</h2>
+<p><img alt="Labs de autoaprendizaje de Google Cloud" src="https://cdn.qwiklabs.com/GMOHykaqmlTHiqEeQXTySaMXYPHeIvaqa2qHEzw6Occ%3D"></p>
+
+<h2 id="step2">Descripción general</h2>
+<p>Cloud Monitoring proporciona visibilidad del rendimiento, del tiempo de actividad y del estado general de las aplicaciones basadas en la nube. Recopila métricas, eventos y metadatos de Google Cloud, Amazon Web Services, sondeos de tiempo de actividad alojados, instrumentación de aplicaciones y diversos componentes de aplicaciones comunes, como Cassandra, Nginx, Apache Web Server, Elasticsearch y muchas más. Cloud Monitoring transfiere esos datos y genera estadísticas mediante paneles, gráficos y alertas. Las alertas de Cloud Monitoring lo ayudan a colaborar a través de la integración con Slack, PagerDuty, HipChat, Campfire y otras plataformas.</p>
+<p>En este lab práctico, se muestra cómo supervisar una instancia de máquina virtual (VM) de Google Compute Engine con Cloud Monitoring. También instalará agentes de Monitoring y Logging para su VM, que recopila más información desde la instancia, lo que podría incluir métricas y registros de aplicaciones de terceros.</p>
+<h2 id="step3">Configuración y requisitos</h2>
+<h4>Antes de hacer clic en el botón Comenzar lab</h4>
+<p>Lea estas instrucciones. Los labs tienen un tiempo límite; no puede ponerlos en pausa. El cronómetro, que comienza a funcionar cuando hace clic en Comenzar lab, indica por cuánto tiempo estarán los recursos en la nube a su disposición.</p>
+<p>Este lab práctico de Qwiklabs le permitirá llevar a cabo las actividades correspondientes en un entorno de nube real, no en uno de simulación o demostración. Para ello, recibe nuevas credenciales temporales que utilizará para acceder a Google Cloud Platform durante el transcurso del lab.</p>
+<h4>Lo que necesita</h4>
+<p>Para completar este lab, necesitará lo siguiente:</p>
+<ul>
+<li>Acceso a un navegador de Internet estándar. Se recomienda el navegador Chrome</li>
+<li>Tiempo para completar el lab</li>
+</ul>
+<p><strong><em>Nota</em></strong>: Si ya tiene un proyecto o una cuenta personal de GCP, no los use para este lab.</p>
+
+<h4>Cómo iniciar su lab y acceder a Console</h4>
+<ol>
+<li>
+<p>Haga clic en el botón <strong>Comenzar lab</strong>. Si debe pagar por el lab, se abrirá una ventana emergente para que seleccione su forma de pago.
+En la parte izquierda, verá un panel con las credenciales temporales que debe usar para este lab.</p>
+<p><img alt="Abrir Google Console" src="https://cdn.qwiklabs.com/%2FtHp4GI5VSDyTtdqi3qDFtevuY014F88%2BFow%2FadnRgE%3D"></p>
+</li>
+<li>
+<p>Copie el nombre de usuario y, luego, haga clic en <strong>Abrir Google Console</strong>.
+El lab inicia los recursos y abre otra pestaña que muestra la página <strong>Seleccione una cuenta</strong>.</p>
+<p><strong><em>Sugerencia</em></strong>: Abra las pestañas en ventanas separadas, una junto a la otra.</p>
+</li>
+<li>
+<p>En la página Seleccione una cuenta, haga clic en <strong>Usar otra cuenta</strong>.</p>
+<p><img alt="Elegir una cuenta" src="https://cdn.qwiklabs.com/eQ6xPnPn13GjiJP3RWlHWwiMjhooHxTNvzfg1AL2WPw%3D"></p>
+</li>
+<li>
+<p>Se abrirá la página de acceso. Pegue el nombre de usuario que copió del panel Detalles de conexión. Luego, copie y pegue la contraseña.</p>
+<p><strong><em>Importante</em></strong>: Debe usar las credenciales del panel Detalles de conexión. No use sus credenciales de Qwiklabs. Si tiene una cuenta propia de GCP, no la use para este lab (evite incurrir en cargos).</p>
+</li>
+<li>
+<p>Avance por las siguientes páginas haciendo clic en ellas:</p>
+<ul>
+<li>Acepte los Términos y Condiciones.</li>
+<li>No agregue opciones de recuperación o autenticación de dos factores (esta es una cuenta temporal).</li>
+<li>No se registre para obtener pruebas gratuitas.</li>
+</ul>
+</li>
+</ol>
+<p>Después de un momento, se abrirá GCP Console en esta pestaña.</p>
+<aside>
+<b>Nota:</b> Para ver el menú con una lista de productos y servicios de GCP, haga clic en <b>Menú de navegación</b>, en la esquina superior izquierda, junto a "Google Cloud Platform".
+<img alt="Menú de Cloud Console" src="https://cdn.qwiklabs.com/9vT7xPlxoNP%2FPsK0J8j0ZPFB4HnnpaIJVCDByaBrSHg%3D">
+</aside>
+
+<h2 id="step4">Cómo crear una instancia de Compute Engine</h2>
+<ol>
+<li>En el panel de Cloud Console, vaya a <strong>Menú de navegación</strong> &gt; <strong>Compute Engine</strong> &gt; <strong>Instancias de VM</strong> y, luego, haga clic en <strong>Crear</strong>.</li>
+</ol>
+<p><img alt="nav_compute.png" src="https://cdn.qwiklabs.com/48XM2fQQVCp7ObiNAyXTPs7VFh%2BuW7M2gyc3pPGK62E%3D"></p>
+<ol start="2">
+<li>
+<p>Complete los campos como se muestra a continuación y deje todos los demás con sus valores predeterminados:</p>
+<p><strong>Nombre</strong>: lamp-1-vm</p>
+<p><strong>Región</strong>: us-central1 (Iowa) o asia-south1 (Bombay)</p>
+<p><strong>Zona</strong>: us-central1-a o asia south1-a</p>
+<p><strong>Tipo de máquina</strong>: n1-standard-2</p>
+<p><strong>Firewall</strong>: Seleccione "Permitir tráfico HTTP"</p>
+</li>
+<li>
+<p>Haga clic en <strong>Crear</strong>.</p>
+</li>
+</ol>
+<p><img alt="Stackdriver_QS_vm.png" src="https://cdn.qwiklabs.com/h%2FKKsrehia9UP3lT6v7BJzCxZ4kf9TCEm%2Be4kyxUe84%3D"></p>
+<p>Luego de unos minutos, cuando se haya iniciado la instancia, verá una marca de verificación verde.</p>
+<p>Haga clic en <strong>Revisar mi progreso</strong> a continuación. La marca de verificación verde indica que está avanzando.</p>
+<ql-activity-tracking step="1">
+    Crear una instancia de Compute Engine (zona: us-central1-a)
+</ql-activity-tracking>
+<h2 id="step5">Cómo agregar el servidor HTTP Apache2 a su instancia</h2>
+<ol>
+<li>En Console, haga clic en <strong>SSH</strong> para abrir una terminal en su instancia.</li>
+</ol>
+<p><img alt="SSH.png" src="https://cdn.qwiklabs.com/157XnA6MKqd0jjbTNhOenyTQWI31YJZVWQUn30E8wTY%3D"></p>
+<ol start="2">
+<li>
+<p>Ejecute los siguientes comandos en la ventana de SSH para configurar el servidor HTTP Apache2:</p>
+</li>
+</ol>
+<pre><code>sudo apt-get update&#x000A;</code></pre>
+<pre><code>sudo apt-get install apache2 php7.0&#x000A;</code></pre>
+<p>Cuando se le pregunte si desea continuar, ingrese <strong>Y</strong>.</p>
+<aside class="special"><p><strong>Nota:</strong> Si no puede instalar php7.0, use php5.</p>
+</aside>
+<pre><code>sudo service apache2 restart&#x000A;</code></pre>
+<p>Haga clic en <strong>Revisar mi progreso</strong> a continuación. La marca de verificación verde indica que está avanzando.</p>
+<ql-activity-tracking step="2">
+    Agregar el servidor HTTP Apache2 a su instancia
+</ql-activity-tracking>
+<ol start="3">
+<li>Regrese a la página Instancias de VM en Console. Haga clic en la IP externa de la instancia <code>lamp-1-vm</code> para ver la página predeterminada de Apache2 de esta instancia.</li>
+</ol>
+<p><img alt="ext_IP_address.png" src="https://cdn.qwiklabs.com/IZlq%2Fs%2Fjkwv08kKY5OMQouAGmM2e%2BZD83AOMfY1LVqM%3D"></p>
+<p><img alt="d1b14dc18bc7a72d.png" src="https://cdn.qwiklabs.com/UYEHvdQG6fv%2FFFuZk6xiz4oSzaVznBOY%2BrvHOFPnpt8%3D"></p>
+<p>Haga clic en <strong>Revisar mi progreso</strong> a continuación. La marca de verificación verde indica que está avanzando.</p>
+<ql-activity-tracking step="3">
+    Obtener una respuesta exitosa mediante la IP externa de la instancia de VM
+</ql-activity-tracking>
+<h3>Cree un espacio de trabajo en Monitoring</h3>
+<p>Ahora usted configurará un espacio de trabajo Monitoring que está vinculado a su proyecto Qwiklabs GCP. Los siguientes pasos crean una nueva cuenta que tiene una versión de prueba gratuita de Monitoring.</p>
+<p>1. En la consola de Google Cloud Platform, haga clic en el <strong>Menú de navegación</strong>&gt; <strong>Monitoring</strong>.</p>
+<p>2. Espere a que se aprovisione su espacio de trabajo.</p>
+<p>Cuando se abre el panel de Monitoring, significa que su espacio de trabajo de Monitoring está listo.</p>
+<p><img alt="monitoring_overview.png" src="https://cdn.qwiklabs.com/LJwBqdRLAHCGvak2aWAYfwTO94fPnvGxlW%2Fk6KRVOHM%3D"></p>
+
+<h3>Instale los agentes de Monitoring y Logging</h3>
+<p>Los agentes recopilan datos y luego envían o transmiten la información a Cloud Monitoring en Console.</p>
+<p>El <em>agente de Cloud Monitoring</em> es un daemon basado en collectd que recopila métricas de sistemas y aplicaciones de instancias de máquinas virtuales y las envía a Monitoring. De forma predeterminada, el agente de Monitoring recopila métricas de discos, CPU, redes y procesos. Mediante la configuración del agente de Monitoring, las aplicaciones de terceros pueden obtener la lista completa de las métricas del agente. Obtenga más información.</p>
+<p>El <em>agente de Cloud Logging</em> transmite los registros de sus instancias de VM y de paquetes de software de terceros seleccionados a Cloud Logging. La práctica recomendada es ejecutar el agente de Cloud Logging en todas sus instancias de VM. Obtenga más información.</p>
+<p>Para instalar los agentes en la VM, siga estos pasos:</p>
+<ol>
+<li>En la ventana Descripción general de Monitoring, haga clic en <strong>INSTALAR AGENTES</strong>, en el mosaico <strong>Instalar agentes</strong>.</li>
+</ol>
+<p><img alt="install_agents.png" src="https://cdn.qwiklabs.com/i6WE%2FhZDlMJPvl3ENl6gojIwIH5NpsO%2FJPmQVi4tATA%3D"></p>
+<p>Se abrirá la ventana Agentes de Monitoring, donde se proporcionan las secuencias de comandos de instalación para los agentes de Monitoring y Logging.</p>
+<ol start="2">
+<li>Ejecute la secuencia de comandos de instalación del agente de Monitoring en la terminal SSH de su instancia de VM para instalar el agente de Cloud Monitoring.</li>
+</ol>
+<p><img alt="monitoring-agent-install.png" src="https://cdn.qwiklabs.com/otppQOdeSvrGDLUC4eyw5G15b4EE5uWDLqUNvdGWWBU%3D"></p>
+<ol start="3">
+<li>Ejecute la secuencia de comandos de instalación del agente de Logging en la terminal SSH de su instancia de VM para instalar el agente de Cloud Logging.</li>
+</ol>
+<p><img alt="logging-agent-install.png" src="https://cdn.qwiklabs.com/nXmqfk7yq98yljAcQWdbA3N5X9QWmsfZaNbVQTxkwdU%3D"></p>
+<h2 id="step6">Cómo crear una verificación de tiempo de actividad</h2>
+<p>Las verificaciones de tiempo de actividad comprueban que siempre se pueda acceder a un recurso. A modo de práctica, cree una verificación de tiempo de actividad para comprobar si su VM está en funcionamiento.</p>
+<ol>
+<li>En Console, en el menú de la izquierda, haga clic en <strong>Verificaciones de tiempo de actividad</strong> y, luego, en <strong>Crear una verificación de tiempo de actividad</strong>.</li>
+</ol>
+<p><img alt="create_uptime_check.png" src="https://cdn.qwiklabs.com/mdt35y5ElNzYoCkdrVkodx81TWTuTWAbBYfoj0Ps5r4%3D"></p>
+<ol start="2">
+<li>Configure los siguientes campos:</li>
+</ol>
+<p><strong>Título</strong>: Lamp Uptime Check</p>
+<p><strong>Check type</strong>: HTTP</p>
+<p><strong>Resource Type</strong>: Instance</p>
+<p><strong>Applies to</strong>: Single, lamp-1-vm</p>
+<p><strong>Path</strong>: Deje el valor predeterminado</p>
+<p><strong>Revisar cada:</strong> 1 min</p>
+<p><img alt="783246b4ceb3af54.png" src="https://cdn.qwiklabs.com/nUzuLABHMWMATVt6KBYX0qiMA2aLwgSupusp2oK31Gs%3D"></p>
+<ol start="3">
+<li>
+<p>Haga clic en <strong>Probar</strong> para comprobar que su verificación de tiempo de actividad se pueda conectar al recurso.</p>
+</li>
+<li>
+<p>Si ve una marca de verificación verde, significa que todo se puede conectar. Haga clic en <strong>Guardar</strong>.</p>
+</li>
+<li>
+<p>Haga clic en <strong>No, gracias</strong> a la pregunta sobre crear una política de alertas para esta verificación.</p>
+</li>
+</ol>
+<p>La verificación de tiempo de actividad que configuró tarda unos minutos en activarse. Siga realizando el lab y verificará los resultados más tarde. Mientras espera, cree una política de alertas para un recurso diferente.</p>
+<h2 id="step7">Cómo crear una política de alertas</h2>
+<p>Use Cloud Monitoring para crear una o más políticas de alertas.</p>
+<ol>
+<li>
+<p>En el menú de la izquierda, haga clic en <strong>Alertas</strong> y, luego, en <strong>Crear política</strong>.</p>
+</li>
+<li>
+<p>Asigne a la política de alertas el nombre "Alerta de tráfico entrante".</p>
+</li>
+</ol>
+<p>Luego, configurará las condiciones, las notificaciones y la documentación.</p>
+<ol>
+<li>
+<strong>Conditions</strong>: Haga clic en <strong>Add Condition</strong>.</li>
+</ol>
+<p>En el panel que se abre, configure lo siguiente y deje los demás campos en su valor predeterminado.</p>
+<p><strong>Destino</strong>:
+Comience a escribir "GCE" en los campos de métrica y tipo de recurso, y luego seleccione lo siguiente:</p>
+<ul>
+<li>
+<p><strong>Tipo de recurso</strong>: Instancia de VM de GCE (gce_instance)</p>
+</li>
+<li>
+<p><strong>Métrica</strong>: Escriba "red" y, luego, seleccione Tráfico de red (gce_instance+1.). Asegúrese de elegir el recurso de tráfico de red con <code>agent.googleapis.com/interface/traffic</code>:</p>
+<p><img alt="alert-target.png" src="https://cdn.qwiklabs.com/l2K91yBTLpR5asD9rXP%2FZJieVeYI9yxjso4UlOvt1ps%3D"></p>
+</li>
+</ul>
+<p><strong>Configuración</strong></p>
+<ul>
+<li>
+<p><strong>Condición</strong>: supere</p>
+</li>
+<li>
+<p><strong>Umbral</strong>: 500</p>
+</li>
+<li>
+<p><strong>Durante</strong>: 1 minuto</p>
+<p><img alt="alert-condition.png" src="https://cdn.qwiklabs.com/IMlbSx56lUSSGwsz26XBBp8PtGhvWTGhCtHDAyFQmPk%3D"></p>
+</li>
+</ul>
+<p>Haga clic en <strong>Agregar</strong>.</p>
+<ol start="2">
+<li>
+<strong>Notificaciones</strong>: Haga clic en <strong>Agregar canal de notificaciones</strong>.</li>
+</ol>
+<p>Seleccione <strong>Dirección de correo electrónico</strong> y, luego, ingrese su dirección de correo electrónico personal en el campo <strong>Correo electrónico</strong>.</p>
+<p><img alt="email.png" src="https://cdn.qwiklabs.com/5bJ93siu12bF2M87sL2McI3jgC9tWOBYkHhOhWgqkzQ%3D"></p>
+<ol start="3">
+<li>
+<p><strong>Documentación</strong>: Agregue un mensaje en la documentación, que se incluirá en la alerta por correo electrónico.</p>
+<p><img alt="documentation.png" src="https://cdn.qwiklabs.com/NzG%2FobEp3eFEDdFYboAGO95vj0sF93kjFAjfy%2BPgOQs%3D"></p>
+</li>
+</ol>
+<p>Haga clic en <strong>Guardar</strong>, en la parte inferior del diálogo Crea una política de alertas nueva.</p>
+<p>Acaba de crear una alerta. Mientras espera que el sistema active la alerta, cree un panel y un gráfico, y luego salga de Cloud Logging.</p>
+<p>Haga clic en <strong>Revisar mi progreso</strong> a continuación. La marca de verificación verde indica que está avanzando.</p>
+<ql-activity-tracking step="4">
+    Crear una verificación de tiempo de actividad y una política de alertas
+</ql-activity-tracking>
+<h2 id="step8">Cómo crear un panel y un gráfico</h2>
+<p>Puede mostrar las métricas que recopiló Cloud Monitoring en sus propios paneles y gráficos. En esta sección, creará los gráficos de las métricas del lab y un panel personalizado.</p>
+<ol>
+<li>
+<p>En el menú de la izquierda, seleccione <strong>Paneles</strong> y, luego, <strong>Crear panel</strong>.</p>
+</li>
+<li>
+<p>Asígnele al panel el nombre "Cloud monitoring LAMP Qwik Start Dashboard" y, luego, haga clic en <strong>Confirmar</strong>.</p>
+</li>
+</ol>
+<h3>Agregue el primer gráfico</h3>
+<ol>
+<li>
+<p>En la parte superior derecha de la pantalla, haga clic en <strong>Agregar gráfico</strong>.</p>
+</li>
+<li>
+<p>Asígnele al gráfico el nombre "CPU Load".</p>
+</li>
+<li>
+<p>Haga clic en el campo <strong>Buscar tipo de recurso y métrica</strong> y comience a escribir "CPU load". Luego, seleccione CPU Load (1m).</p>
+</li>
+<li>
+<p>Para el tipo de recurso, seleccione "Instancia de VM en GCE".</p>
+</li>
+</ol>
+<p><img alt="a92b8e31e569d19d.png" src="https://cdn.qwiklabs.com/tBsIRGuAmtNLQTWiKVXJiL%2FADaaO1gndhRfjoyDsXJQ%3D"></p>
+<ol start="5">
+<li>
+<p>Haga clic en <strong>Guardar</strong>.</p>
+</li>
+</ol>
+<h3>Agregue el segundo gráfico</h3>
+<ol>
+<li>
+<p>Seleccione <strong>Agregar gráfico</strong> en la esquina superior derecha.</p>
+</li>
+<li>
+<p>Asígnele a este gráfico el nombre "Recieved Packets".</p>
+</li>
+<li>
+<p>En el campo Métrica:</p>
+</li>
+</ol>
+<ul>
+<li>
+<p>Haga clic en la <strong>X</strong> que aparece junto a la métrica CPU Load (1) para quitarla.</p>
+</li>
+<li>
+<p>Comience a escribir "Network" y, luego, elija "Received Packets".</p>
+</li>
+</ul>
+<ol start="4">
+<li>
+<p>Deje los otros campos con sus valores predeterminados. Puede ver los datos del gráfico en la sección Vista previa.</p>
+</li>
+<li>
+<p>Haga clic en <strong>Guardar</strong>.</p>
+</li>
+</ol>
+<h2 id="step9">Cómo ver sus registros</h2>
+<p>Cloud Monitoring y Cloud Logging están estrechamente integrados. Revise los registros de su lab.</p>
+<ol>
+<li>
+<p>Seleccione <strong>Menú de navegación</strong> &gt; <strong>Registros</strong> &gt; <strong>Visor de registros</strong>.</p>
+</li>
+<li>
+<p>Elija los registros que desee ver. En este caso, seleccionará los de la instancia lamp-1-vm que creó al comienzo de este lab:</p>
+</li>
+</ol>
+<ul>
+<li>En el menú desplegable Recurso (el primero), seleccione <strong>Instancia de VM en GCE</strong> &gt; <strong>lamp-1-vm</strong>.</li>
+<li>En el menú desplegable Registro (el segundo), seleccione <strong>syslog</strong> y haga clic en <strong>Aceptar</strong>.</li>
+<li>Deje los otros campos con sus valores predeterminados.</li>
+<li>Haga clic en el ícono <strong>Iniciar transmisión de registros</strong>.
+<img alt="streaming_logs.png" src="https://cdn.qwiklabs.com/6IraJ8XzEEqzROQFwM9Hf9bCUPAliP%2BvfW6iwzrvp5w%3D">
+</li>
+</ul>
+<p>Verá los registros de su instancia de VM:</p>
+<p><img alt="3abc0bd1765ae743.png" src="https://cdn.qwiklabs.com/34rkXIFn4VAsHTTAhD7WrHu20qUx6Cb0v6xAj4DA9S4%3D"></p>
+<h3>Compruebe lo que sucede cuando inicia y detiene la instancia de VM.</h3>
+<p>Para ver cómo quedan reflejados los cambios de la instancia de VM en Cloud Monitoring y Cloud Logging, realice cambios en su instancia en una ventana del navegador y, luego, vea lo que sucede en las ventanas de Cloud Monitoring primero y en las de Cloud Logging después.</p>
+<ol>
+<li>Abra Compute Engine en una nueva ventana del navegador. Seleccione <strong>Menú de navegación</strong> &gt; <strong>Compute Engine</strong> y haga clic con el botón derecho en <strong>Instancias de VM</strong> &gt; <strong>Abrir vínculo en una ventana nueva</strong>.</li>
+<li>Mueva la ventana del navegador de Visor de registros junto a la de Compute Engine. Así, será más fácil ver cómo quedan reflejados los cambios de la VM en los registros.</li>
+</ol>
+<p><img alt="both-consoles.png" src="https://cdn.qwiklabs.com/I4Di2JN6Giwa4%2BlmPDSTWLTL0yLLbOy3h3E2j%2FCIhS4%3D"></p>
+<ol start="3">
+<li>En la ventana de Compute Engine, seleccione la instancia lamp-1-vm, haga clic en <strong>Detener</strong>, en la parte superior de la pantalla, y luego haga clic en Confirmar para detener la instancia.</li>
+</ol>
+<p><img alt="stop-vm.png" src="https://cdn.qwiklabs.com/Cc091icpheV9nzMvh1ZKwdETxIk4UztCuM9COeYfFJo%3D"></p>
+<p>Es posible que la instancia tarde unos minutos en detenerse.</p>
+<ol start="4">
+<li>
+<p>En la pestaña Visor de registros, mire cuándo se detiene la VM.</p>
+</li>
+<li>
+<p>En la ventana de detalles de la instancia de VM, haga clic en <strong>Iniciar</strong> en la parte superior de la pantalla y, luego, confirme que desea iniciarla.
+La instancia tardará unos minutos en iniciarse. Mire los mensajes de registro para supervisar el inicio.</p>
+</li>
+</ol>
+<h2 id="step10">Cómo comprobar los resultados de la verificación de tiempo de actividad y las alertas activadas</h2>
+<h3>Compruebe los resultados de la verificación de tiempo de actividad en Cloud Monitoring</h3>
+<ol>
+<li>En la ventana de Cloud Logging, seleccione <strong>Menú de navegación</strong> &gt; <strong>Monitoring</strong> &gt; <strong>Verificaciones de tiempo de actividad</strong>. Esta vista ofrece una lista de todas las verificaciones de tiempo de actividad activas y de las diferentes ubicaciones.</li>
+</ol>
+<p>En la lista, verá Lamp Uptime Check. Debido a que acaba de reiniciar la instancia, las regiones presentarán un estado de error. Las regiones pueden demorar hasta 5 minutos en activarse. Vuelva a cargar la ventana del navegador las veces que sea necesario hasta que estén activas las regiones.</p>
+<ol start="2">
+<li>Haga clic en el nombre de la verificación de tiempo de actividad, Lamp Uptime Check.</li>
+</ol>
+<p>Debido a que acaba de reiniciar la instancia, las regiones pueden demorar algunos minutos en activarse. Vuelva a cargar la ventana del navegador las veces que sea necesario.</p>
+<h3>Verifique si se activaron las alertas</h3>
+<ol>
+<li>
+<p>En el menú de la izquierda, haga clic en <strong>Alertas</strong>.</p>
+</li>
+<li>
+<p>En esa ventana Alertas, verá una lista de incidentes y eventos.</p>
+</li>
+<li>
+<p>Verifique su cuenta de correo electrónico. Debería ver las alertas de Cloud Monitoring.</p>
+</li>
+</ol>
+<h2 id="step11">Ponga a prueba sus conocimientos</h2>
+<p>Para poner a prueba sus conocimientos sobre Google Cloud, realice este cuestionario (es posible que haya más de una opción correcta).</p>
+<p><ql-multiple-select-probe answerindices="[0, 1]" optiontitles='[
+"Amazon Web Services",
+"Google Cloud",
+"Azure"
+]' shuffle="" stem="Cloud monitoring supports which of the following cloud platforms?">
+</ql-multiple-select-probe></p>
+<p><strong>Nota:</strong> Desactive las notificaciones de correo electrónico de su política de alertas. Es posible que los recursos del lab estén activos durante un tiempo después de su finalización, por lo que podría recibir más notificaciones por correo electrónico.</p>
+<h2 id="step12">¡Felicitaciones!</h2>
+<p>Configuró y supervisó correctamente una VM con Cloud Monitoring.</p>
+<p><img alt="4588136b652766c0.png" src="https://cdn.qwiklabs.com/v9Q2F9GfjA%2Ff5nwcDjkXPkJaN1L51MLqa%2BhmudOLIaM%3D"> <img alt="5edc9b3763bbb596.png" src="https://cdn.qwiklabs.com/6EiXINl%2FCnCMQyRdF%2Fs34InkRozTg%2FhSEqCQ4CD4nf4%3D">
+<img alt="CloudEngineeringExaPrep_125.pmg" src="https://cdn.qwiklabs.com/jVIZEu1uWCkufNtCmqyElRifK5o%2FNRrtt5Vo9iZxHz8%3D">
+<img alt="CloudDevelopment_125.png" src="https://cdn.qwiklabs.com/jpM8y0j3jDJyIIgc%2BJitIHzicqeNn%2BgCjyb%2Bir6YE9c%3D"></p>
+<h3>Finalice su Quest</h3>
+<p>Este lab de autoaprendizaje forma parte de las Quests <a href="https://google.qwiklabs.com/quests/35">Google Cloud's Operations Suite</a>, <a href="https://google.qwiklabs.com/quests/33">Baseline: Infrastructure</a>, <a href="https://google.qwiklabs.com/quests/66">Cloud Engineering</a> y <a href="https://google.qwiklabs.com/quests/67">Cloud Development</a> de Qwiklabs. Una Quest es una serie de labs relacionados que forman una ruta de aprendizaje.  Si completa esta Quest, obtendrá la insignia que se muestra arriba como reconocimiento de su logro. Puede hacer públicas sus insignias y agregar un vínculo a ellas en su currículum en línea o en sus cuentas de redes sociales. Inscríbase en una Quest y obtenga un crédito inmediato de finalización si realizó este lab.  <a href="https://google.qwiklabs.com/catalog">Consulte otras Quests de Qwiklabs disponibles</a>.</p>
+<h3>Realice su próximo lab</h3>
+<p>Este lab también forma parte de una serie de labs denominada Qwik Starts. Estos labs están diseñados para ofrecerle una visión general de las numerosas funciones disponibles en Google Cloud. Busque "Qwik Starts" en el <a href="https://google.qwiklabs.com/catalog">catálogo de labs</a> para elegir el siguiente lab en el que participará.</p>
+<h3>Google Cloud Training &amp; Certification</h3>
+<p>Aproveche al máximo las tecnologías de Google Cloud. <a href="https://cloud.google.com/training/courses">Nuestras clases</a> incluyen habilidades técnicas y recomendaciones para ayudarlo a ponerse en marcha rápidamente y a seguir aprendiendo. Para que pueda realizar nuestros cursos cuando más le convenga, ofrecemos distintos tipos de capacitación de nivel básico a avanzado: según demanda, presenciales y virtuales. Las <a href="https://cloud.google.com/certification/">certificaciones</a> lo ayudan a validar y demostrar sus habilidades y experiencia en las tecnologías de Google Cloud.</p>
+
+<h5>Prueba más reciente del lab: 6 de abril de 2020</h5>
+<h5>Última actualización del manual: 12 de marzo de 2020</h5>
+<p>Copyright 2020 Google LLC. All rights reserved. Google y el logotipo de Google son marcas de Google LLC. Los demás nombres de productos y empresas pueden ser marcas de las respectivas empresas a las que estén asociados.</p>
+
+
+
+</div>
+<div class='js-lab-content-outline lab-content__outline'>
+<a href='#step1'>GSP089</a><a href='#step2'>Descripción general</a><a href='#step3'>Configuración y requisitos</a><a href='#step4'>Cómo crear una instancia de Compute Engine</a><a href='#step5'>Cómo agregar el servidor HTTP Apache2 a su instancia</a><a href='#step6'>Cómo crear una verificación de tiempo de actividad</a><a href='#step7'>Cómo crear una política de alertas</a><a href='#step8'>Cómo crear un panel y un gráfico</a><a href='#step9'>Cómo ver sus registros</a><a href='#step10'>Cómo comprobar los resultados de la verificación de tiempo de actividad y las alertas activadas</a><a href='#step11'>Ponga a prueba sus conocimientos</a><a href='#step12'>¡Felicitaciones!</a>
+</div>
+</div>
+
+</div>
+
+<div class='lab-content__markdown-wrapper'>
+<div class='lab-content__markdown'>
+<div class='lab-content__recommendation'>
+<!-- # TODO: Change classes so that this doesn't stack vertically -->
+<section class='upcoming-cards'>
+<h2 class='headline-3'>Continuar Quest</h2>
+<div class='content-card-grid'>
+<div class='card-content-wrapper js-content-card' data-id='700' data-level='Introductory' data-name='Cloud Storage: Qwik Start - CLI/SDK' data-type='Lab'>
+<a class="card card--content elevation-0 content-lab" href="/focuses/569?locale=es&amp;parent=catalog"><div class='card__image'>
+<div class='card__image__inner' style='background-image: url(https://cdn.qwiklabs.com/assets/fractal0-8ca42d5686105a4c14126a9aa4e917b00cbebee8ad55d56a66712c5dbafa0b52.jpg)'></div>
+</div>
+<div class='card__body'>
+<div class='overline card--content__type'>
+Lab práctico
+</div>
+<h3 class='card--content__title'>
+Cloud Storage: Qwik Start - CLI/SDK
+</h3>
+<p class='card--content__description body-1'>
+En este lab práctico, aprenderá a ejecutar tareas básicas en Cloud Storage mediante la herramienta de línea de comandos gsutil. Para comenzar, mire este video breve: Google Cloud Storage: Massive Scalability Plus More.
+</p>
+</div>
+<div class='card__footer'>
+<div class='card__footer__left'>
+<span>Introductory</span>
+</div>
+<div class='card__footer__right'>
+<div class='rateit' data-rateit-readonly='true' data-rateit-value='4.4481'></div>
+</div>
+</div>
+</a></div>
+
+<div class='card-content-wrapper js-content-card' data-id='2574' data-level='Expert' data-name='Cloud Engineering: Challenge Lab' data-type='Lab'>
+<a class="card card--content elevation-0 content-lab" href="/focuses/10603?locale=es&amp;parent=catalog"><div class='card__image'>
+<div class='card__image__inner' style='background-image: url(https://cdn.qwiklabs.com/assets/fractal5-0b9c1091ae0b232c6183f561cba00288eb66afa9f51e45ce9d4bbf8bf6d40a1a.jpg)'></div>
+</div>
+<div class='card__body'>
+<div class='overline card--content__type'>
+Lab práctico
+</div>
+<h3 class='card--content__title'>
+Cloud Engineering: Challenge Lab
+</h3>
+<p class='card--content__description body-1'>
+This challenge lab tests your skills and knowledge from the labs in the Kubernetes in Google Cloud quest.  You should be familiar with the content of the labs before attempting this lab.
+</p>
+</div>
+<div class='card__footer'>
+<div class='card__footer__left'>
+<span>Expert</span>
+</div>
+<div class='card__footer__right'>
+<div class='rateit' data-rateit-readonly='true' data-rateit-value='3.2259'></div>
+</div>
+</div>
+</a></div>
+
+</div>
+</section>
+
+</div>
+</div>
+</div>
+
+</div>
+</div>
+<div class='lab-assessment__tab js-lab-assessment-tab'>
+<h5 class='small-label'>
+Puntuación
+</h5>
+<h3 class='js-lab-assessment-total-score'>
+&mdash;/100
+</h3>
+<iframe class='l-ie-iframe-fix'></iframe>
+</div>
+<div class='lab-assessment__panel js-lab-assessment-panel'>
+<!-- / If lab_instance has is started and assessment is generated, use -->
+<!-- / lab_instance.assessment, otherwise use lab.assessment_manual -->
+<div class='lab-assessment__step'>
+<p class='lab-assessment__step__title'>
+Create a Compute Engine instance 
+</p>
+<p class='button button--assessment js-show-run-step-button' step_no='1'>
+Ejecutar paso
+</p>
+<p class='lab-assessment__step__score'>
+<span class='js-assessment-step-score-1'>
+</span>
+/ 25
+</p>
+</div>
+
+<div class='lab-assessment__step'>
+<p class='lab-assessment__step__title'>
+Add Apache2 HTTP Server to your instance
+</p>
+<p class='button button--assessment js-show-run-step-button' step_no='2'>
+Ejecutar paso
+</p>
+<p class='lab-assessment__step__score'>
+<span class='js-assessment-step-score-2'>
+</span>
+/ 25
+</p>
+</div>
+
+<div class='lab-assessment__step'>
+<p class='lab-assessment__step__title'>
+Get a success response over External IP of VM instance
+</p>
+<p class='button button--assessment js-show-run-step-button' step_no='3'>
+Ejecutar paso
+</p>
+<p class='lab-assessment__step__score'>
+<span class='js-assessment-step-score-3'>
+</span>
+/ 25
+</p>
+</div>
+
+<div class='lab-assessment__step'>
+<p class='lab-assessment__step__title'>
+Create an uptime check and alerting policy.
+</p>
+<p class='button button--assessment js-show-run-step-button' step_no='4'>
+Ejecutar paso
+</p>
+<p class='lab-assessment__step__score'>
+<span class='js-assessment-step-score-4'>
+</span>
+/ 25
+</p>
+</div>
+
+<iframe class='l-ie-iframe-fix'></iframe>
+</div>
+<div class='lab-introduction js-lab-introduction is-hidden'>
+<div class='lab-introduction__inner'>
+<h1 class='headline-1'>Le damos la bienvenida a su primer lab.</h1>
+<ql-icon-button class='js-skip-button'>close</ql-icon-button>
+<div class='lab-introduction__video'>
+<iframe allow='autoplay; encrypted-media' allowfullscreen frameborder='0' id='lab-introduction' src='https://www.youtube.com/embed/TGUtGKD-B-Q?enablejsapi=1&amp;rel=0&amp;showinfo=0'></iframe>
+</div>
+<a class='js-skip-button button button--outline'>Omitir este video</a>
+</div>
+</div>
+
+
+
+</div>
+</main>
+<div class='modal fade' id='lab-details-modal'>
+<div class='modal-container'>
+<div class='mdl-shadow--24dp modal-content'>
+<div class='modal-body'>
+<p class='l-mbm'>
+En este lab, se muestra cómo supervisar una instancia de máquina virtual (VM) de Google Compute Engine con Cloud Monitoring. Mire estos videos breves: <a href="https://youtu.be/rGMimov8MPg">Monitor Health of All Your Cloud Apps with Google Cloud monitoring</a> y <a href="https://youtu.be/ZuUZQfCmA7Y">Monitor a VM Instance with Cloud monitoring, GCP Essentials</a>.
+</p>
+<p>
+Este lab se incluye en las siguientes Quests:
+<a href="/quests/33?locale=es">Baseline: Infrastructure</a>, <a href="/quests/66?locale=es">Cloud Engineering</a>, <a href="/quests/97?locale=es">Optimizing Your GCP Costs</a>, <a href="/quests/67?locale=es">Cloud Development</a>, <a href="/quests/35?locale=es">Google Cloud&#39;s Operations Suite</a>.
+Si completa este lab, recibirá crédito por él cuando se inscriba en una de estas Quests.
+</p>
+<p class='small-label l-mbs'>
+<strong>
+Duración:
+</strong>
+0 min de configuración
+&middot;
+Acceso por 50 min
+&middot;
+50 min para completar
+</p>
+<p class='small-label l-mbs'>
+<span><strong>Niveles: </strong>introductory</span>
+</p>
+<p class='small-label'>
+<strong>
+Vínculo permanente:
+</strong>
+<a href="https://www.qwiklabs.com/catalog_lab/2572">https://www.qwiklabs.com/catalog_lab/2572</a>
+</p>
+</div>
+<div class='modal-actions'>
+<a class='mdl-button mdl-button--primary mdl-js-button mdl-js-ripple-effect' data-dismiss='modal'>
+Got It
+</a>
+</div>
+
+
+</div>
+</div>
+<iframe class='l-ie-iframe-fix'></iframe>
+</div>
+<div class='modal fade' id='lab-review-modal'>
+<div class='modal-container'>
+<div class='mdl-shadow--24dp modal-content'>
+<form class="simple_form js-lab-review-form" id="edit_lab_review_5335526" action="/lab_reviews/5335526?locale=es" accept-charset="UTF-8" data-remote="true" method="post"><input name="utf8" type="hidden" value="&#x2713;" /><input type="hidden" name="_method" value="patch" /><div class='modal-body'>
+<p class='label'>
+¿Qué tan satisfecho está con este lab?*
+</p>
+<div class='rateit js-rateit' data-rateit-max='5' data-rateit-min='0' data-rateit-resetable='false' data-rateit-step='1' data-rateit-value='5'></div>
+<div class='l-mtm'>
+
+<div class="control-group hidden lab_review_user_id"><div class="controls"><input class="hidden" type="hidden" value="2485272" name="lab_review[user_id]" id="lab_review_user_id" /></div></div>
+<div class="control-group hidden lab_review_classroom_id"><div class="controls"><input class="hidden" type="hidden" name="lab_review[classroom_id]" id="lab_review_classroom_id" /></div></div>
+<div class="control-group hidden lab_review_lab_id"><div class="controls"><input class="hidden" type="hidden" value="2572" name="lab_review[lab_id]" id="lab_review_lab_id" /></div></div>
+<div class="control-group hidden lab_review_focus_id"><div class="controls"><input class="hidden" type="hidden" name="lab_review[focus_id]" id="lab_review_focus_id" /></div></div>
+<div class="control-group hidden lab_review_rating"><div class="controls"><input class="hidden js-rating-input" type="hidden" value="2" name="lab_review[rating]" id="lab_review_rating" /></div></div>
+<div class="control-group text optional lab_review_comment"><label class="text optional control-label" for="lab_review_comment">Comentario</label><div class="controls"><textarea class="text optional" name="lab_review[comment]" id="lab_review_comment">
+</textarea></div></div>
+</div>
+</div>
+<div class='modal-actions'>
+<a class='mdl-button mdl-button--primary mdl-js-button mdl-js-ripple-effect' data-dismiss='modal'>
+Cancel
+</a>
+<input type="submit" name="commit" value="Enviar" disabled="disabled" class="btn mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--primary" id="submit" data-disabled="false" data-disable-with="Enviar" />
+</div>
+</form>
+
+</div>
+</div>
+<iframe class='l-ie-iframe-fix'></iframe>
+</div>
+<div class='modal fade' id='lab-access-modal'>
+<div class='modal-container'>
+<div class='mdl-shadow--24dp modal-content'>
+<a class='lab-access-modal-close' data-analytics-action='dismissed_lab_payment_modal' data-dismiss='modal'>
+<i class='material-icons'>close</i>
+</a>
+<form class="js-lab-access-form" action="/lab_onetime_coupons/activate?locale=es&amp;parent=catalog" accept-charset="UTF-8" data-remote="true" method="post"><input name="utf8" type="hidden" value="&#x2713;" />
+<div class='modal-body'>
+<div class='lab-access-modal'>
+<input type="hidden" name="id" id="id" value="10599" />
+<input type="hidden" name="user_id" id="user_id" value="2485272" />
+<input type="hidden" name="launch_with_credits" id="launch_with_credits" value="0" class="js-launch-with-credits-input" />
+<input type="hidden" name="launch_with_subs" id="launch_with_subs" value="0" class="js-launch-with-subscription-input" />
+<div class='lab-access-modal__method'>
+<p>
+Este lab cuesta
+1 crédito.
+</p>
+<p>
+Tiene un paquete con suscripción válida. ¿Desea cargar este lab a su suscripción?
+</p>
+<a class='button js-launch-with-subscription-button js-lab-access-modal-button' data-analytics-action='clicked_launch_with_subscription_button'>
+Usar suscripción
+</a>
+</div>
+<div class='lab-access-modal__method'>
+<p>
+Ingrese el código de acceso del lab:
+</p>
+<div class='lab-access-modal__code js-access-code'>
+<input type="text" name="uuid_1" id="uuid_1" value="" maxlength="4" placeholder="1234" />
+<input type="text" name="uuid_2" id="uuid_2" value="" maxlength="4" placeholder="1234" />
+<input type="text" name="uuid_3" id="uuid_3" value="" maxlength="4" placeholder="1234" />
+<input type="text" name="uuid_4" id="uuid_4" value="" maxlength="4" placeholder="1234" />
+</div>
+<a class='button js-launch-with-access-code-button js-lab-access-modal-button' data-analytics-action='clicked_launch_with_access_code_button'>
+Iniciar con el código de acceso
+</a>
+</div>
+</div>
+</div>
+</form>
+
+
+
+</div>
+</div>
+<iframe class='l-ie-iframe-fix'></iframe>
+</div>
+
+<script>
+  $( function() {
+    ql.initMaterialInputs();
+    initChosen();
+    initSearch();
+    initTabs();
+    ql.list.init();
+    ql.favoriting.init();
+    ql.header.myAccount.init();
+    initTooltips();
+    ql.autocomplete.init();
+    ql.modals.init();
+    ql.toggleButtons.init();
+    ql.analytics.init();
+    initLabContent( );
+  ql.labOutline.links.init();
+  ql.labOutline.layout.init();
+  initLabReviewModal();
+  initLabAccessModal();
+  ql.labAssessment.init();
+  ql.labIntroduction.init( true );
+  ql.labData.init();
+  initLabTranslations( {"are_you_sure":"¿Se completó el proceso? Si finaliza el lab, perderá todo su trabajo. Es posible que no pueda reiniciar el lab si existe un límite de cuota. ¿Está seguro de que desea finalizar el lab?","in_progress":"*En curso*","ending":"*Finalizando*","starting":"*Iniciando. Espere*","end_concurrent_labs":"Lo sentimos; solo puede ejecutar un lab a la vez. Para iniciar este lab, confirme que desea finalizar todos sus labs activos.","copied":"Copiado","no_resource":"Se produjo un error durante la recuperación del recurso.","no_support":"No hay asistencia disponible","mac_press":"Presione ⌘ + C para copiar","thanks_review":"Gracias por calificar este lab.","windows_press":"Presione Ctrl + C para copiar","days":"días"} );
+  ql.labRun.init();
+  ql.initHeader();
+  ql.navigation.init();
+  ql.navPanel.init();
+  ql.navigation.init();
+  
+  });
+</script>
+<style>
+  .mdl-layout__container {
+    position: static
+  }
+</style>
+</body>
+</html>
